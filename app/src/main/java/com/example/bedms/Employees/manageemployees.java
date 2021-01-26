@@ -15,18 +15,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Auth.Register;
 import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,11 +51,13 @@ public class manageemployees extends AppCompatActivity {
         setContentView(R.layout.activity_manageemployees);
 
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.get(Calendar.HOUR_OF_DAY);
         mEmail = findViewById(R.id.eEmail);
         mFullName = findViewById(R.id.eName);
         mDob = findViewById(R.id.eDob);
         mRole = findViewById(R.id.spinner);
-        mAdd =findViewById(R.id.addEmp);
+        mAdd = findViewById(R.id.addEmp);
 
         //Creating the ArrayAdapter instance having the country list
         eAdapter  = new ArrayAdapter(this,android.R.layout.simple_spinner_item,employeeData);
@@ -94,12 +99,32 @@ public class manageemployees extends AppCompatActivity {
                 employee.put("Registered", false);
                 db.collection("employees").document(email)
                 .set(employee);
-                String str = mFullName.getText().toString();
+              //  String str = mFullName.getText().toString();
                 String str2 = mEmail.getText().toString();
-                Intent intent = new Intent(getApplicationContext(), Register.class);
-                intent.putExtra("Welcome1",str);
-                intent.putExtra("Welcome2", str2);
-                startActivity(intent);
+              //  Intent intent = new Intent(getApplicationContext(), Register.class);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+
+                // add three fiels to intent using putExtra function
+                intent.putExtra(Intent.EXTRA_EMAIL,
+                        new String[] { email });
+                // set type of intent
+                intent.setType("message/rfc822");
+
+                FirebaseUser fuser = fAuth.getCurrentUser();
+                fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(manageemployees.this, "Email sent to employee ", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
+                    }
+                });
+               // intent.putExtra("Welcome1",str);
+              //  intent.putExtra("Welcome2", str2);
+             //   startActivity(intent);
             }
         });
     }
