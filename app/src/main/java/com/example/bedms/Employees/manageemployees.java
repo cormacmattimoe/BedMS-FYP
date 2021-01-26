@@ -29,7 +29,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,8 +50,6 @@ public class manageemployees extends AppCompatActivity {
         setContentView(R.layout.activity_manageemployees);
 
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.get(Calendar.HOUR_OF_DAY);
         mEmail = findViewById(R.id.eEmail);
         mFullName = findViewById(R.id.eName);
         mDob = findViewById(R.id.eDob);
