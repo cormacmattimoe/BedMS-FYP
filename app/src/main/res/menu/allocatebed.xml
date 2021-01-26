@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/manageBeds"
+        android:icon="@drawable/ic_baseline_location_searching_24"
+        android:title="Manage Beds"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/viewBeds"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_preview_24"
+        android:title="View Beds" />
+</menu>

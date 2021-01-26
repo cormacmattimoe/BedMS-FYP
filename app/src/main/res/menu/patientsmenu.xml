@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/addPatient"
+        android:icon="@drawable/ic_baseline_king_bed_24"
+        android:title="Add Patient"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/managePatients"
+        android:icon="@drawable/ic_baseline_location_searching_24"
+        android:title="Manage Patient"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/viewPatients"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_preview_24"
+        android:title="View Patients" />
+</menu>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="140dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/dobTv"
+            android:layout_width="140dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="210dp"
+            android:layout_marginLeft="210dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

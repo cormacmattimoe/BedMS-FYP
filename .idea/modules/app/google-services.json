@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "680574529070",
+    "firebase_url": "https://bedms-b3c0a.firebaseio.com",
+    "project_id": "bedms-b3c0a",
+    "storage_bucket": "bedms-b3c0a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680574529070:android:030c955589b4fa292d39bf",
+        "android_client_info": {
+          "package_name": "com.example.bedms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680574529070-rngk8skkcncsr7b82qcptb8i0gs49mva.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bedms",
+            "certificate_hash": "65b1cfa247eaa06b27d3941ff2b83049d03cf1f4"
+          }
+        },
+        {
+          "client_id": "680574529070-lmki1vbnom8k0b2pgoagtkcvdelupi44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFYPP7lp1mWYBtxNzdVzFy7RSoZCQ1kCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680574529070-lmki1vbnom8k0b2pgoagtkcvdelupi44.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

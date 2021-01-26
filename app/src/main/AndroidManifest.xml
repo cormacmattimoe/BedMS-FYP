@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.bedms">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:windowSoftInputMode="adjustResize"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Doctor.dischargepatient"></activity>
+        <activity android:name=".Patient.inventoryofpatientsadmin" />
+        <activity android:name=".Patient.patientlistadmindetails" />
+        <activity android:name=".Patient.patientdetails" />
+        <activity android:name=".Porter.porterhub" />
+        <activity android:name=".CleaningStaff.cleaningstaffhub" />
+        <activity android:name=".Nurse.nursehub" />
+        <activity android:name=".Patient.inventoryofpatients" />
+        <activity android:name=".bedDetails" />
+        <activity android:name=".Employees.Inventoryofemployees" />
+        <activity android:name=".Doctor.doctorhub" />
+        <activity android:name=".Employees.hospitalmanager" />
+        <activity android:name=".testingSplash" />
+        <activity android:name=".Admin.CreateNewPatient" />
+        <activity android:name=".Doctor.SearchPatient" />
+        <activity android:name=".Doctor.AdmitPatient" />
+        <activity android:name=".Bed.Inventoryofbedsallocate" />
+        <activity android:name=".Bed.Inventoryofbeds" />
+        <activity android:name=".Bed.AllocateBedToWard" />
+        <activity android:name=".Bed.managebeds" />
+        <activity android:name=".Bed.centraladminhub" />
+        <activity android:name=".Auth.login" />
+        <activity android:name=".Employees.manageemployees" />
+        <activity android:name=".Auth.Register" />
+        <activity android:name=".Auth.welcome">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Auth.MainActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

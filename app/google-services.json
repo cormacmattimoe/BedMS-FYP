@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "22372715037",
+    "firebase_url": "https://bms-22.firebaseio.com",
+    "project_id": "bms-22",
+    "storage_bucket": "bms-22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22372715037:android:9eab3eac8b78251ca2d4f4",
+        "android_client_info": {
+          "package_name": "com.example.bedms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22372715037-5lc67du4sfa2hhfn9tvs6tjh0gdtdpsh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM8VM8S1LqVj1NW7B6APSy88qHjT4ZN74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22372715037-5lc67du4sfa2hhfn9tvs6tjh0gdtdpsh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
