@@ -103,7 +103,7 @@ public class manageemployees extends AppCompatActivity {
 
                 // add three fiels to intent using putExtra function
                 intent.putExtra(Intent.EXTRA_EMAIL,
-                        new String[] { email });
+                        new String[] { str2 });
                 // set type of intent
                 intent.setType("message/rfc822");
 
