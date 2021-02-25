@@ -6,6 +6,10 @@
         <item> Porter </item>
         <item>Cleaning staff </item>
     </string-array>
+    <string-array name="printselection">
+        <item>Single</item>
+        <item>Multiple</item>
+    </string-array>
     <string name="title_activity_nav_drawer">NavDrawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -17,4 +21,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="patients_waiting_in_a_e_for_porter"><![CDATA[Patients Waiting in A&E for Porter]]></string>
+    <string name="open" />
+    <string name="close" />
 </resources>

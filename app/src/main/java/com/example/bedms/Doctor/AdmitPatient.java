@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
+import com.example.bedms.Bed.AllocateBedToWard;
+import com.example.bedms.Bed.managebeds;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
@@ -43,7 +45,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
     TextView pIllness;
     Spinner spinnyBeds, spinWards;
     String bedNameSelected, wardNameSelected;
-    String patientId;
+    String paaId;
     String bedId;
     BottomNavigationView bottomnav;
     Button btnAdmit;
@@ -96,7 +98,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         final String str, str2, str3;
         str = intent.getStringExtra("Name");
         str2 = intent.getStringExtra("Dob");
-        patientId = intent.getStringExtra("PatientId");
+        paaId = intent.getStringExtra("PatientId");
         pName.setText(str);
         pDOB.setText(str2);
 
@@ -104,8 +106,15 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         btnAdmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent = getIntent();
+                final String str, str2, str3;
+                str = intent.getStringExtra("Name");
+                str2 = intent.getStringExtra("Dob");
+                paaId = intent.getStringExtra("PatientId");
                 bedNameSelected = spinnyBeds.getSelectedItem().toString();
-                patientCheckin(patientId, bedNameSelected);
+                patientCheckin(paaId, bedNameSelected);
+                startActivity(new Intent(getApplicationContext(), doctorhub.class));
 
             }
         });
@@ -167,21 +176,21 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         //4. Remove them from waiting to see doc list
         //5. Assign bed to patient - patient on way.
         final String currentUser = mAuth.getCurrentUser().getEmail();
-        db.collection("patient").document(patientId).get()
+        db.collection("patient").document(paaId).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(final DocumentSnapshot documentSnapshot) {
                         // patientId = documentSnapshot.getId();
                         // Now Update bed number in Patient and status and Doctor
-                        db.collection("patient").document(patientId).update(
-                                "Status", "waiting for a porter", "Doctor", currentUser, "Bed Number", bed);
+                        db.collection("patient").document(paaId).update(
+                                "Status", "waiting for porter", "Doctor", currentUser, "BedName", bed);
 
                         UpdatePatientHistory ph = new UpdatePatientHistory();
-                        ph.updatePatientHistory(patientId, "Admitted waiting for porter");
+                        ph.updatePatientHistory(paaId, "Admitted - waiting for porter");
 
 
                         UpdatePatientHistory uph = new UpdatePatientHistory();
-                        uph.updatePatientHistory(patientId, "Admitted to bed");
+                        uph.updatePatientHistory(paaId, "Bed reserved for patient");
 
                         db.collection("bed")
                                 .whereEqualTo("BedName", bedNameSelected)
@@ -196,23 +205,37 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
                                             for (QueryDocumentSnapshot document : task.getResult()) {
                                                 bedId = document.getId();
                                             }
-                                            db.collection("bed").whereEqualTo("BedName", "bedNameSelected").get();
-                                            db.collection("bed").document(bed).update("PatientID", patientId);
-                                            db.collection("bed").document(bedId).update("Status", "Bed Occuppied");
+
                                         }
                                     }
                                 });
 
-                        db.collection("bed").document(bedId).update("PatientID", patientId);
-                        db.collection("bed").document(bedId).update("Status", "Bed Occuppied");
-                        db.collection("patient").document(patientId).update("Status", "waiting for porter");
-
+                    }
+                });
+        db.collection("bed")
+                .whereEqualTo("BedName", bedNameSelected)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Bed tempBed = null;
+                            int counter = 0;
+                            task.getResult();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                bedId = document.getId();
+                                UpdateBedHistory ubh = new UpdateBedHistory();
+                                db.collection("patient").document(paaId).update("Status", "waiting for porter");
+                                db.collection("patient").document(paaId).update("WardName", wardNameSelected);
+                                db.collection("bed").document(bedId).update("PatientID", paaId);
+                                db.collection("bed").document(bedId).update("Status", "Bed allocated - patient on way");
+                                ubh.updateBedHistory(bedId, "Bed allocated - patient on way");
+                                startActivity(new Intent(getApplicationContext(), AdmitPatient.class));
+                            }
+                        }
                     }
                 });
 
-
-        UpdateBedHistory ubh = new UpdateBedHistory();
-        ubh.updateBedHistory(bedId, "Patient on way");
 
     }
 

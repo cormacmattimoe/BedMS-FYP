@@ -11,7 +11,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/nameTv"
+            android:id="@+id/statusRw"
             android:layout_width="140dp"
             android:layout_height="35dp"
             android:layout_marginStart="50dp"

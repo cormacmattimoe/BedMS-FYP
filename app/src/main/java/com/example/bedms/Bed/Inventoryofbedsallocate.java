@@ -69,34 +69,14 @@ public class Inventoryofbedsallocate extends AppCompatActivity implements Adapte
 
         rcvViewBeds.setAdapter(mAdapter);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
 
-        bottomnav = findViewById(R.id.viewNav);
-        //bottomnav.setOnNavigationItemSelectedListener(navListener);
-        bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.manageBeds:
-                        Intent a = new Intent(Inventoryofbedsallocate.this, managebeds.class);
-                        startActivity(a);
-                        break;
-                    case R.id.allocateBeds:
-                        Intent b = new Intent(Inventoryofbedsallocate.this, AllocateBedToWard.class);
-                        startActivity(b);
-                        break;
-                }
-                return false;
-            }
-        });
+
 
 
     }
 
     public ArrayList<Bed> retrieveAllBedsFromDb() {
         db.collection("bed")
-                .whereEqualTo("Ward", "")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -106,8 +86,12 @@ public class Inventoryofbedsallocate extends AppCompatActivity implements Adapte
                             int counter = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String tempBedName = document.getString("BedName");
+                                String tempBedWard = document.getString("Ward");
+                                String tempBedStatus = document.getString("Status");
                                 tempBed = new Bed();
                                 tempBed.setBedName(tempBedName);
+                                tempBed.setBedWard(tempBedWard);
+                                tempBed.setBedStatus(tempBedStatus);
                                 allViewBeds.add(counter, tempBed);
                                 counter = counter + 1;
                                 mAdapter.notifyItemInserted(allViewBeds.size() - 1);
@@ -144,14 +128,13 @@ public class Inventoryofbedsallocate extends AppCompatActivity implements Adapte
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.hospital_menu, menu);
         return true;
     }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected (MenuItem item){
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:

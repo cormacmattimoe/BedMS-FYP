@@ -93,6 +93,7 @@ public class inventoryofpatients extends AppCompatActivity {
       */
         public ArrayList<Patient> retrieveAllPatients() {
                 db.collection("patient")
+                        .whereEqualTo("Status", "waiting to see doctor")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override

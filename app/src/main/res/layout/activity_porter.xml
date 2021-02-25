@@ -10,30 +10,17 @@
         android:id="@+id/t2"
         android:layout_width="370dp"
         android:layout_height="102dp"
-        android:text="Patients Waiting For Porter"
+        android:text="@string/patients_waiting_in_a_e_for_porter"
         android:textColor="#FFFFFF"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.048" />
 
-    <TextView
-        android:id="@+id/title22"
-        android:layout_width="273dp"
-        android:layout_height="34dp"
-        android:text=""
-        android:textColor="#FFEB3B"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.199" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvBedsTobeCleaned"
+        android:id="@+id/rcvBedsCleaning"
         android:layout_width="411dp"
         android:layout_height="350dp"
         app:layout_constraintBottom_toBottomOf="parent"

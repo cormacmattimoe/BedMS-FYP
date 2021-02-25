@@ -1,5 +1,6 @@
 package com.example.bedms.Admin;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,7 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +27,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +42,10 @@ public class CreateNewPatient extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     BottomNavigationView bottomnav;
     String patientId;
+    DatePickerDialog.OnDateSetListener mDateSetListner1, mDateSetListner2;
+    TextView et_date1;
+    static final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
 
 
     @Override
@@ -51,7 +62,42 @@ public class CreateNewPatient extends AppCompatActivity {
         pNokRel = findViewById(R.id.nokRel);
         pIllness = findViewById(R.id.pIllnessEd);
         btnbAddPatient = findViewById(R.id.createPatient);
+        et_date1 = (TextView) findViewById(R.id.et_date1);
 
+        et_date1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(
+                        CreateNewPatient.this,
+                        android.R.style.Theme_DeviceDefault_Light_Dialog,
+                        mDateSetListner1,
+                        year, month, day);
+                dialog.show();
+            }
+        });
+        mDateSetListner1 = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1;
+                String dob = dayOfMonth + "/" + month + "/" + year;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/yyyy");
+                Date tmpDate = null;
+                try {
+                    tmpDate = simpleDateFormat.parse(dob);
+                    SimpleDateFormat simpleDateFormatNew = new SimpleDateFormat("dd/MM/yyyy");
+                    String finalDate = simpleDateFormatNew.format(tmpDate);
+                    et_date1.setText(finalDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                //et_date1.setText(dob);
+
+            }
+        };
 
         bottomnav = findViewById(R.id.viewNav);
         //bottomnav.setOnNavigationItemSelectedListener(navListener);
@@ -144,6 +190,7 @@ public class CreateNewPatient extends AppCompatActivity {
 
 
     public void admitPatient() {
+
         String name = pName.getText().toString();
         String dob = pDob.getText().toString();
         String address = pAddress.getText().toString();
@@ -163,7 +210,8 @@ public class CreateNewPatient extends AppCompatActivity {
         patient.put("NokRelationship", nokRel);
         patient.put("Illness", illness);
         patient.put("Status", "waiting to see doctor");
-        patient.put("BedNumber", "");
+        patient.put("BedName", "");
+        patient.put("WardName", "");
         patient.put("Doctor", "");
 
 
@@ -180,18 +228,13 @@ public class CreateNewPatient extends AppCompatActivity {
         db.collection("patient").document(patId)
                 .set(patient);
             db.collection("patient").document(patId);
-                       // Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                      //  Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                      //  patientId = documentReference.getId();
-                      //  patient.put("Patient Id" , patientId);
+
+
             db.collection("patient").document(patId).getId();
             UpdatePatientHistory uph = new UpdatePatientHistory();
-            uph.updatePatientHistory(patId, "Admission");
+            uph.updatePatientHistory(patId, "Patient checked into hospital");
 
 
-
-        db.collection("waitingToSeeDoctor").document(patId)
-                .set(patient);
     }
 
     @Override

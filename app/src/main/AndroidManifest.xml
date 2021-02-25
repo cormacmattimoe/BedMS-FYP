@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.bedms">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <uses-feature android:name="android.hardware.Camera" />
+    <uses-feature android:name="android.hardware.Camera.autofocus" />
+
+    <meta-data
+        android:name="com.google.android.gms.vision.DEPENDENCIES"
+        android:value="barcode" />
 
     <application
         android:allowBackup="true"
@@ -10,16 +21,30 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:windowSoftInputMode="adjustResize"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Doctor.dischargepatient"></activity>
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustResize">
+        <activity
+            android:name=".readQrCode"
+            android:screenOrientation="userPortrait"
+            tools:replace="screenOrientation" />
+        <activity android:name=".qrMainScreen" />
+        <activity android:name=".Admin.qrcodetesting" />
+        <activity android:name=".Admin.printbedlabels" />
+        <activity android:name=".CleaningStaff.QrCoding" />
+        <activity android:name=".drawer" />
+        <activity android:name=".HospitalManager.hospitalmanagerhub" />
+        <activity android:name=".Doctor.dischargepatient" />
+        <activity android:name=".Doctor.inventoryofpatientsinbeds" />
         <activity android:name=".Patient.inventoryofpatientsadmin" />
         <activity android:name=".Patient.patientlistadmindetails" />
+        <activity android:name=".Patient.patientlistporterdetails" />
+        <activity android:name=".Patient.patientlistinbeddetails" />
         <activity android:name=".Patient.patientdetails" />
         <activity android:name=".Porter.porterhub" />
         <activity android:name=".CleaningStaff.cleaningstaffhub" />
         <activity android:name=".Nurse.nursehub" />
         <activity android:name=".Patient.inventoryofpatients" />
+        <activity android:name=".CleaningStaff.bedDetailsclean" />
         <activity android:name=".bedDetails" />
         <activity android:name=".Employees.Inventoryofemployees" />
         <activity android:name=".Doctor.doctorhub" />

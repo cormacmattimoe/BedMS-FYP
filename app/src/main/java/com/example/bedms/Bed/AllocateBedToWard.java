@@ -151,7 +151,7 @@ public class AllocateBedToWard extends AppCompatActivity implements AdapterView.
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, "onComplete with string: " + document.getId());
 
-                        String bedNames = document.getString("Bed Name");
+                        String bedNames = document.getString("BedName");
                         Log.d(TAG, "onComplete with wardy: " + bedList);
                         bedList.add(bedNames);
                     }

@@ -7,21 +7,23 @@ public class Patient {
     private String pPhoneNumber;
     private String pNextofkin;
     private String pIllness;
-    private String bedNumber;
+    private String bedName;
+    private String wardName;
     private String doctor;
     public String status;
 
     public Patient() {
     }
 
-    public Patient(String pName, String pDOB, String pAddress, String pPhoneNumber, String pNextofkin, String pIllness, String bedNumber, String doctor, String status) {
+    public Patient(String pName, String pDOB, String pAddress, String pPhoneNumber, String pNextofkin, String pIllness, String bedName,String wardName, String doctor, String status) {
         this.pName = pName;
         this.pDOB = pDOB;
         this.pAddress = pAddress;
         this.pPhoneNumber = pPhoneNumber;
         this.pNextofkin = pNextofkin;
         this.pIllness = pIllness;
-        this.bedNumber = bedNumber;
+        this.bedName = bedName;
+        this.wardName = wardName;
         this.doctor = doctor;
         this.status = status;
     }
@@ -74,12 +76,20 @@ public class Patient {
         this.pIllness = pIllness;
     }
 
-    public String getBedNumber() {
-        return bedNumber;
+    public String getBedName() {
+        return bedName;
     }
 
-    public void setBedNumber(String bedNumber) {
-        this.bedNumber = bedNumber;
+    public void setBedName(String bedName) {
+        this.bedName = bedName;
+    }
+
+    public String getWardName() {
+        return wardName;
+    }
+
+    public void setWardName(String wardName) {
+        this.wardName = wardName;
     }
 
     public String getDoctor() {

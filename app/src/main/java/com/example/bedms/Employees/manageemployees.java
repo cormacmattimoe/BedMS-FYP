@@ -1,7 +1,9 @@
 package com.example.bedms.Employees;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Bed.Inventoryofbedsallocate;
+import com.example.bedms.Bed.managebeds;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -98,31 +102,15 @@ public class manageemployees extends AppCompatActivity {
                 .set(employee);
               //  String str = mFullName.getText().toString();
                 String str2 = mEmail.getText().toString();
-              //  Intent intent = new Intent(getApplicationContext(), Register.class);
-                Intent intent = new Intent(Intent.ACTION_SEND);
+                Log.i("Send email", "");
 
-                // add three fiels to intent using putExtra function
-                intent.putExtra(Intent.EXTRA_EMAIL,
-                        new String[] { str2 });
-                // set type of intent
-                intent.setType("message/rfc822");
-
-                FirebaseUser fuser = fAuth.getCurrentUser();
-                fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(manageemployees.this, "Email sent to employee ", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
-                    }
-                });
-               // intent.putExtra("Welcome1",str);
-              //  intent.putExtra("Welcome2", str2);
-             //   startActivity(intent);
+                Intent sendEmail = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"+ str2)); // enter an email id here
+                sendEmail.putExtra(Intent.EXTRA_SUBJECT, "Approval Message : Register"); //subject of the email
+                sendEmail.putExtra(Intent.EXTRA_TEXT, "Hi, you are now able to Register in app."); //body of the email
+                startActivity(Intent.createChooser(sendEmail, "Choose an email client from..."));
+                return;
             }
+
         });
     }
     public List<String> getRole() {

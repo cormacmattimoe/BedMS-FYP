@@ -31,7 +31,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.MyViewHo
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            tvViewName = (TextView) itemView.findViewById(R.id.nameTv);
+            tvViewName = (TextView) itemView.findViewById(R.id.statusRw);
             tvViewDob = (TextView) itemView.findViewById(R.id.dobTv);
 
 

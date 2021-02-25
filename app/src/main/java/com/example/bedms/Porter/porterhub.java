@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bedms.Auth.login;
 import com.example.bedms.Model.Patient;
-import com.example.bedms.Model.PatientAdapter;
+import com.example.bedms.Model.PorterPatientAdapter;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,7 +35,7 @@ public class porterhub extends AppCompatActivity {
             BottomNavigationView bottomnav;
             RecyclerView rcvPatientsWaiting;
             ArrayList<Patient> patientList = new ArrayList<Patient>();
-            PatientAdapter paAdapter;
+            PorterPatientAdapter papAdapter;
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             private static final String TAG = "Patient List";
@@ -46,35 +46,32 @@ protected void onCreate(Bundle savedInstanceState) {
     setContentView(R.layout.activity_porter);
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     setTitle("Porters Home");
-    title = findViewById(R.id.title22);
 
-    Intent intent = getIntent();
-    String str;
-    str = intent.getStringExtra("Welcome");
-    title.setText(str);
-    rcvPatientsWaiting = findViewById(R.id.rcvBedsTobeCleaned);
+    rcvPatientsWaiting = findViewById(R.id.rcvBedsCleaning);
 
 
     LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
     rcvPatientsWaiting.setLayoutManager(mLayoutManager);
 
 
-    paAdapter = new PatientAdapter(patientList);
+    papAdapter = new PorterPatientAdapter(patientList);
     //Add the divider line
-    paAdapter.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+    papAdapter.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+    rcvPatientsWaiting.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     rcvPatientsWaiting.setHasFixedSize(true);
 
 
-    rcvPatientsWaiting.setAdapter(paAdapter);
+    rcvPatientsWaiting.setAdapter(papAdapter);
     patientList.clear(); // clear list
-    paAdapter.notifyDataSetChanged();
+    papAdapter.notifyDataSetChanged();
     retrievePatientsWaiting();
 
 
 }
 
     public ArrayList<Patient> retrievePatientsWaiting(){
-        db.collection("waitingForPorter")
+        db.collection("patient")
+                .whereEqualTo("Status", "waiting for porter")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -91,7 +88,7 @@ protected void onCreate(Bundle savedInstanceState) {
                                     tempPatient.setpDOB(Dob);
                                     patientList.add(tempPatient);
                                     counter = counter + 1;
-                                    paAdapter.notifyItemInserted(patientList.size() - 1);
+                                    papAdapter.notifyItemInserted(patientList.size() - 1);
                                 }
                             }
 

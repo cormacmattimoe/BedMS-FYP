@@ -16,9 +16,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.bedms.Auth.login;
+import com.example.bedms.Doctor.doctorhub;
+import com.example.bedms.Doctor.inventoryofpatientsinbeds;
 import com.example.bedms.Model.Bed;
-import com.example.bedms.Model.BedAdapter;
+import com.example.bedms.Model.BedAdapterCleaning;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,7 +39,7 @@ public class cleaningstaffhub extends AppCompatActivity {
             BottomNavigationView bottomnav;
             RecyclerView rcvBedsForCleaning;
             ArrayList<Bed> bedList = new ArrayList<Bed>();
-            BedAdapter bAdapter;
+            BedAdapterCleaning bAdaptClean;
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             private static final String TAG = "Beds for cleaning";
@@ -53,29 +56,48 @@ protected void onCreate(Bundle savedInstanceState) {
    // String str;
     //str = intent.getStringExtra("Welcome");
     //title.setText(str);
-    rcvBedsForCleaning = findViewById(R.id.rcvBedsTobeCleaned);
+
+
+
+
+    bottomnav = findViewById(R.id.viewNav);
+    bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.scanBed:
+                 //   Intent a = new Intent(cleaningstaffhub.this, printbedlabels.class);
+                  //  startActivity(a);
+                    break;
+            }
+            return false;
+        }
+    });
+
+    rcvBedsForCleaning = findViewById(R.id.rcvBedsCleaning);
 
 
     LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
     rcvBedsForCleaning.setLayoutManager(mLayoutManager);
 
 
-    bAdapter = new BedAdapter(bedList);
+    bAdaptClean = new BedAdapterCleaning(bedList);
     //Add the divider line
-    bAdapter.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+    bAdaptClean.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
     rcvBedsForCleaning.setHasFixedSize(true);
 
 
-    rcvBedsForCleaning.setAdapter(bAdapter);
+    rcvBedsForCleaning.setAdapter(bAdaptClean);
     bedList.clear(); // clear list
-    bAdapter.notifyDataSetChanged();
+    bAdaptClean.notifyDataSetChanged();
     retrieveBedsForCleaning();
 
 
 }
 
     public ArrayList<Bed> retrieveBedsForCleaning(){
-        db.collection("waitingForCleaning")
+        db.collection("bed")
+                .whereEqualTo("Status", "waiting for cleaning")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -87,11 +109,16 @@ protected void onCreate(Bundle savedInstanceState) {
                                     Log.d(TAG, "getName: " + document.getString("tag"));
                                     tempBed = new Bed();
                                 //    String bedName = document.getString("Bed Name");
-                                    String bedName = document.getId();
+                                    String bedName = document.getString("BedName");
+                                    String ward = document.getString("Ward");
+                                    String status = document.getString("Status");
                                     tempBed.setBedName(bedName);
+                                    tempBed.setBedWard(ward);
+                                    tempBed.setBedStatus(status);
+
                                     bedList.add(tempBed);
                                     counter = counter + 1;
-                                    bAdapter.notifyItemInserted(bedList.size() - 1);
+                                    bAdaptClean.notifyItemInserted(bedList.size() - 1);
 
                                 UpdateBedHistory ubh = new UpdateBedHistory();
                                 ubh.updateBedHistory(bedName, "Beds to be cleaned");

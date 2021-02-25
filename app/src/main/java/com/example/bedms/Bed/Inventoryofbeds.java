@@ -187,8 +187,12 @@ public List<String> getwards() {
                             int counter = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String tempBedName = document.getString("BedName");
+                                String tempBedWard = document.getString("Ward");
+                                String tempBedStatus = document.getString("Status");
                                 tempBed = new Bed();
                                 tempBed.setBedName(tempBedName);
+                                tempBed.setBedWard(tempBedWard);
+                                tempBed.setBedStatus(tempBedStatus);
                                 allViewBeds.add(counter, tempBed);
                                 counter = counter + 1;
                                 mAdapter.notifyItemInserted(allViewBeds.size()-1);
@@ -232,7 +236,7 @@ public List<String> getwards() {
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.hospital_menu, menu);
         return true;
     }
     @Override

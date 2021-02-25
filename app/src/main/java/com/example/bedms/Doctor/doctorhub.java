@@ -52,7 +52,7 @@ protected void onCreate(Bundle savedInstanceState) {
     String str;
     str = intent.getStringExtra("Welcome");
     title.setText(str);
-    rcvPatients = findViewById(R.id.rcvBedsTobeCleaned);
+    rcvPatients = findViewById(R.id.rcvBedsCleaning);
 
 
     LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -83,8 +83,8 @@ protected void onCreate(Bundle savedInstanceState) {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.findPatient:
-                    Intent a = new Intent(doctorhub.this, SearchPatient.class);
+                case R.id.viewPatientsInBed:
+                    Intent a = new Intent(doctorhub.this, inventoryofpatientsinbeds.class);
                     startActivity(a);
                     break;
             }
@@ -150,11 +150,10 @@ public boolean onOptionsItemSelected (MenuItem item) {
             return true;
 
         case R.id.item2:
-            Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
-            FirebaseAuth.getInstance().signOut();
+            FirebaseAuth.getInstance().signOut(); //logout user
+            startActivity(new Intent(getApplicationContext(), login.class));
             finish();
-            Intent r = new Intent(doctorhub.this, login.class);
-            startActivity(r);
+
         default:
             return super.onOptionsItemSelected(item);
     }

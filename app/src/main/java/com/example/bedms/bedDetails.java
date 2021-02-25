@@ -42,14 +42,17 @@ public class bedDetails extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        String str,str2,str3;
-        str = intent.getStringExtra("Name");
-        tvType.setText(str);
+        String bedName;
+        bedName = intent.getStringExtra("Name");
+        tvType.setText(bedName);
         // showObstructionDetails();
+        Intent i = getIntent();
+        bedName = i.getStringExtra("BedName");
+        tvType.setText(bedName);
 
 
         db.collection("bed")
-                .whereEqualTo("BedName", str)
+                .whereEqualTo("BedName", bedName)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

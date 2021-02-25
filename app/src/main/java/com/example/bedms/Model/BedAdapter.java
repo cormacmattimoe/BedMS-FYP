@@ -26,12 +26,16 @@ public class BedAdapter extends RecyclerView.Adapter<BedAdapter.MyViewHolder> {
     // Provide a reference to the views for each data item
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView tvViewName;
+        public TextView tvViewName, tvViewWard, tvViewStatus;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            tvViewName = (TextView) itemView.findViewById(R.id.nameTv);
+            tvViewName = (TextView) itemView.findViewById(R.id.bedRow);
+            tvViewWard = (TextView) itemView.findViewById(R.id.wardRw);
+            tvViewStatus = (TextView) itemView.findViewById(R.id.statusRw);
+
+
 
         }
 
@@ -72,8 +76,12 @@ public class BedAdapter extends RecyclerView.Adapter<BedAdapter.MyViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final String name = viewingAllBeds.get(position).getBedName();
+        final String ward = viewingAllBeds.get(position).getBedWard();
+        final String status = viewingAllBeds.get(position).getBedStatus();
 
         holder.tvViewName.setText(name);
+        holder.tvViewWard.setText(ward);
+        holder.tvViewStatus.setText(status);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

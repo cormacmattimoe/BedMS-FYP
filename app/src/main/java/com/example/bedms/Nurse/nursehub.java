@@ -52,7 +52,7 @@ protected void onCreate(Bundle savedInstanceState) {
     String str;
     str = intent.getStringExtra("Welcome");
     title.setText(str);
-    rcvPatientsWaiting = findViewById(R.id.rcvBedsTobeCleaned);
+    rcvPatientsWaiting = findViewById(R.id.rcvBedsCleaning);
 
 
     LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);

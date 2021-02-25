@@ -44,6 +44,7 @@ public class UpdatePatientHistory {
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
+
     }
 }
 

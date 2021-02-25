@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bedms.Model.Bed;
+import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,7 +25,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class Register extends AppCompatActivity {
     private static final String TAG = "Welcome";
@@ -31,6 +36,7 @@ public class Register extends AppCompatActivity {
     Button mRegisterBtn;
     TextView mLoginBtn;
     FirebaseAuth fAuth;
+    DocumentSnapshot doc = null;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ProgressBar progressBar;
     FirebaseFirestore fStore;
@@ -51,7 +57,6 @@ public class Register extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        progressBar = findViewById(R.id.progressBar);
 /*
         Intent intent = getIntent();
         String str;
@@ -66,9 +71,9 @@ public class Register extends AppCompatActivity {
 
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 final String email = mEmail.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
+                final String password = mPassword.getText().toString().trim();
                 final String fullName = mFullName.getText().toString();
 
                 if (TextUtils.isEmpty(password)) {
@@ -84,44 +89,55 @@ public class Register extends AppCompatActivity {
                     mPassword.setError("Password contains spaces and needs to be changed");
                     return;
                 }
-                progressBar.setVisibility(View.VISIBLE);
 
-                // register the user in firebase
-                fAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                db.collection("employees")
+                .whereEqualTo("Email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
 
-                            FirebaseUser fuser = fAuth.getCurrentUser();
-                            fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(Register.this, "Please check your emails to verify your account", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
-                                }
-                            });
+                            if (task.getResult() == null) {
+                                Toast.makeText(Register.this, "Error ! " + "Sorry you are not registered please contact admin", Toast.LENGTH_SHORT).show();
+                            } else {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                            fAuth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                FirebaseUser fuser = fAuth.getCurrentUser();
+                                                fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Toast.makeText(Register.this, "Please check your emails to verify your account", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
+                                                    }
+                                                });
 
-                            db.collection("employees").document(email)
-                                    .update("Registered", true);
-                            String str = mFullName.getText().toString();
-                           Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("Welcome", "Welcome" + " " + str);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(Register.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
+                                                db.collection("employees").document(email)
+                                                        .update("Registered", true);
+                                            } else {
+                                                Toast.makeText(Register.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        }
+
+                                    });
+                                }
+                            }
                         }
                     }
-
                 });
+    }
+});
 
-            }
-        });
+
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,3 +146,5 @@ public class Register extends AppCompatActivity {
         });
     }
 }
+
+

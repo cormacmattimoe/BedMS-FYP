@@ -50,7 +50,7 @@
         app:layout_constraintVertical_bias="0.374" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvBedsTobeCleaned"
+        android:id="@+id/rcvBedsCleaning"
         android:layout_width="409dp"
         android:layout_height="301dp"
         app:layout_constraintBottom_toBottomOf="parent"

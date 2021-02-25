@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class patientdetails extends AppCompatActivity {
     TextView tvName, tvDob, tvStatus, tvWard;
+    Chronometer ch;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Button dischargeBtn;
     String patientId;
@@ -45,7 +47,7 @@ public class patientdetails extends AppCompatActivity {
         tvDob = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
-
+        ch = findViewById(R.id.chrono);
 
         Intent intent = getIntent();
         final String str, str2, str3;
@@ -56,6 +58,8 @@ public class patientdetails extends AppCompatActivity {
         // showObstructionDetails();
 
 
+
+        ch.start();
 
 
         String nameSearch = tvName.getText().toString();

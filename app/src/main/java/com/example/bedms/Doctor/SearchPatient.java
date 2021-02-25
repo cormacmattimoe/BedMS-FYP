@@ -65,7 +65,7 @@ public class SearchPatient extends AppCompatActivity implements AdapterView.OnIt
         //searchTag = findViewById()
         btnSearch = findViewById(R.id.searchPatient);
         // getNextPatient();
-        rcvPatients = findViewById(R.id.rcvBedsTobeCleaned);
+        rcvPatients = findViewById(R.id.rcvBedsCleaning);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         rcvPatients.setLayoutManager(mLayoutManager);

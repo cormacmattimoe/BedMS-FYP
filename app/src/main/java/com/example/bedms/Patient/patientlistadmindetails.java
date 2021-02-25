@@ -94,7 +94,7 @@ public class patientlistadmindetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(patientlistadmindetails.this, doctorhub.class);
+                Intent i = new Intent(patientlistadmindetails.this, CreateNewPatient.class);
                 startActivity(i);
                 return true;
             case R.id.item2:

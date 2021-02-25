@@ -130,6 +130,7 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
                         bed.put("Ward", "");
                         bed.put("PatientID", "");
                         bed.put("BedName", bedType + i);
+                        bed.put("QrId", "");
                         System.out.println("This is the bed" + bed);
                         db.collection("bed")
                             .add(bed)

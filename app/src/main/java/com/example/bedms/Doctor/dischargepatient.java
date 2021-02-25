@@ -13,15 +13,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
+import com.example.bedms.Model.Bed;
+import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
 import com.example.bedms.UpdatePatientHistory;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -56,7 +63,8 @@ public class dischargepatient extends AppCompatActivity implements AdapterView.O
         final String str, str2, str3;
         str = intent.getStringExtra("Name");
         str2 = intent.getStringExtra("Dob");
-        bedId = intent.getStringExtra("BedId");
+        patientId = intent.getStringExtra("PatientId");
+       // bedId = intent.getStringExtra("BedId");
         pName.setText(str);
         pDOB.setText(str2);
 
@@ -64,20 +72,51 @@ public class dischargepatient extends AppCompatActivity implements AdapterView.O
         btnDischarge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.collection("bed")
+                        .whereEqualTo("PatientId", patientId)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    Bed tempBed = null;
+                                    int counter = 0;
+                                    task.getResult();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        bedId = document.getId();
+                                        UpdateBedHistory ubh = new UpdateBedHistory();
+                                        db.collection("bed").document(bedId).update("Status", "waiting for cleaning");
+                                        ubh.updateBedHistory(bedId, "Bed is ready for cleaning ");
+                                        startActivity(new Intent(getApplicationContext(), dischargepatient.class));
+                                    }
+                                }
+                            }
+                        });
+
+                db.collection("patient")
+                        .whereEqualTo("Name", str)
+                        .whereEqualTo("DOB", str2)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    Patient temPatient = null;
+                                    int counter = 0;
+                                    task.getResult();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        patientId = document.getId();
+                                        UpdatePatientHistory uph = new UpdatePatientHistory();
+                                        db.collection("patient").document(patientId).update("Status", "Discharged");
+                                        uph.updatePatientHistory(patientId, "Patient discharged");
+                                        startActivity(new Intent(getApplicationContext(), AdmitPatient.class));
+                                    }
+                                }
+                            }
+                        });
 
                 Toast.makeText(getApplicationContext(), "Patient discharged" , Toast.LENGTH_LONG).show();
                 startActivity(new Intent(getApplicationContext(), doctorhub.class));
-
-                db.collection("patient").document().update("Status", "patient discharged");
-
-                UpdatePatientHistory uph = new UpdatePatientHistory();
-                uph.updatePatientHistory("PatientId", "Patient has been discharged");
-
-                UpdateBedHistory ubh = new UpdateBedHistory();
-                ubh.updateBedHistory("BedName", "Bed ready for cleaning");
-
-                db.collection("waitingForCleaning")
-                        .add("BedName");
 
             }
         });

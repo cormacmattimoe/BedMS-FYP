@@ -8,6 +8,7 @@ public class Bed {
     private String patientID;
     private String bedStatus;
     private String bedWard;
+    private String bedId;
 
 
 
@@ -16,13 +17,24 @@ public class Bed {
     public Bed(){
 
     }
-    public Bed(String bedName, String bedType, String patientID, String bedStatus, String bedWard ){
+    public Bed(String bedName, String bedType, String patientID, String bedStatus, String bedWard, String bedId ){
         this.bedName = bedName;
         this.bedType = bedType;
         this.patientID = patientID;
         this.bedStatus = bedStatus;
         this.bedWard = bedWard;
+        this.bedId = bedId;
 
+    }
+
+
+
+    public String getBedId() {
+        return bedId;
+    }
+
+    public void setBedId(String bedId) {
+        this.bedId = bedId;
     }
 
     public String getBedName() {
@@ -35,6 +47,11 @@ public class Bed {
 
     public String getBedType() {
         return bedType;
+    }
+
+
+    public void setBedType(String bedType) {
+        this.bedType = bedType;
     }
 
     public String getPatientID() {

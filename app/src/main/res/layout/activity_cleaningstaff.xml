@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.048" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvBedsTobeCleaned"
+        android:id="@+id/rcvBedsCleaning"
         android:layout_width="414dp"
         android:layout_height="389dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,6 +29,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.982" />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/viewNav"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/cleaningmenu" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

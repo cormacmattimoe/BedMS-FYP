@@ -13,18 +13,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.CleaningStaff.cleaningstaffhub;
 import com.example.bedms.Doctor.doctorhub;
+import com.example.bedms.Nurse.nursehub;
+import com.example.bedms.Porter.porterhub;
 import com.example.bedms.R;
+import com.example.bedms.HospitalManager.hospitalmanagerhub;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class login extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button mLoginBtn;
     TextView mCreateBtn;
+    String employeeRole;
     FirebaseAuth fAuth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth.AuthStateListener mAuthStateListener;
     TextView title;
     ProgressBar progressBar;
 
@@ -39,53 +50,178 @@ public class login extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.bLogin);
         mCreateBtn = findViewById(R.id.createAc);
 
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+
+        //checking if already logged in
+        /*
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+
             @Override
-            public void onClick(View v) {
-                //Autheticate user to Firebase
-                String email = mEmail.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
-                if (TextUtils.isEmpty(email)) {
-                    mEmail.setError("Email is Required.");
-                    return;
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser mFirebaseUser = fAuth.getCurrentUser();
+
+                if(mFirebaseUser != null){
+                    Toast.makeText(login.this, "You are logged in", Toast.LENGTH_SHORT).show();
+                    db.collection("employees")
+                                 .whereEqualTo("Email", email)
+                                 .get()
+                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                     @Override
+                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                         if (task.isSuccessful()) {
+
+                                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                                 employeeRole = document.getString("Role");
+                                             }
+
+                                             switch (employeeRole) {
+                                                 case "Doctor":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent myIntent = new Intent(login.this, doctorhub.class);
+                                                     login.this.startActivity(myIntent);
+                                                     break;
+                                                 case "Porter":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent i = new Intent(login.this, porterhub.class);
+                                                     login.this.startActivity(i);
+                                                     break;
+                                                 case "Admin":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent z = new Intent(login.this, CreateNewPatient.class);
+                                                     login.this.startActivity(z);
+                                                     break;
+                                                 case "Cleaning Staff":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent j = new Intent(login.this, cleaningstaffhub.class);
+                                                     login.this.startActivity(j);
+                                                     break;
+                                                 case "Nurse":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent v = new Intent(login.this, nursehub.class);
+                                                     login.this.startActivity(v);
+                                                     break;
+                                                 case "Hospital Manager":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent n = new Intent(login.this, hospitalmanagerhub.class);
+                                                     login.this.startActivity(n);
+                                                     break;
+
+                                             }
+                                         }
+                                     }
+                                 });
+
                 }
 
-                if (TextUtils.isEmpty(password)) {
-                    mPassword.setError("Password is Required.");
-                    return;
+                else{
+                    Toast.makeText(LoginActivity.this, "Please Login", Toast.LENGTH_SHORT).show();
                 }
-
-                if (password.length() < 6) {
-                    mPassword.setError("Password must be more than 6 Characters");
-                    return;
-                }
-                if (password.contains(" ")) {
-                    mPassword.setError("Password contains spaces and needs to be changed");
-                    return;
-                }
-                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            //check role case statement
-
-                            Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), doctorhub.class));
-                        }else {
-                            Toast.makeText(login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),login.class));
-
-                        }
-                    }
-                });
             }
-        });
+        };
+
+
+
+         */
+
+
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             //Autheticate user to Firebase
+             final String email = mEmail.getText().toString().trim();
+             String password = mPassword.getText().toString().trim();
+             if (TextUtils.isEmpty(email)) {
+                 mEmail.setError("Email is Required.");
+                 return;
+             }
+
+             if (TextUtils.isEmpty(password)) {
+                 mPassword.setError("Password is Required.");
+                 return;
+             }
+
+             if (password.length() < 6) {
+                 mPassword.setError("Password must be more than 6 Characters");
+                 return;
+             }
+             if (password.contains(" ")) {
+                 mPassword.setError("Password contains spaces and needs to be changed");
+                 return;
+             }
+             fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                 @Override
+                 public void onComplete(@NonNull Task<AuthResult> task) {
+                     if(task.isSuccessful()) {
+                         db.collection("employees")
+                                 .whereEqualTo("Email", email)
+                                 .get()
+                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                     @Override
+                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                         if (task.isSuccessful()) {
+
+                                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                                 employeeRole = document.getString("Role");
+                                             }
+
+                                             switch (employeeRole) {
+                                                 case "Doctor":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent myIntent = new Intent(login.this, doctorhub.class);
+                                                     login.this.startActivity(myIntent);
+                                                     break;
+                                                 case "Porter":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent i = new Intent(login.this, porterhub.class);
+                                                     login.this.startActivity(i);
+                                                     break;
+                                                 case "Admin":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent z = new Intent(login.this, CreateNewPatient.class);
+                                                     login.this.startActivity(z);
+                                                     break;
+                                                 case "Cleaning Staff":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent j = new Intent(login.this, cleaningstaffhub.class);
+                                                     login.this.startActivity(j);
+                                                     break;
+                                                 case "Nurse":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent v = new Intent(login.this, nursehub.class);
+                                                     login.this.startActivity(v);
+                                                     break;
+                                                 case "Hospital Manager":
+                                                     Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                     Intent n = new Intent(login.this, hospitalmanagerhub.class);
+                                                     login.this.startActivity(n);
+                                                     break;
+
+                                             }
+                                         }
+                                     }
+                                 });
+                     }
+                     else {
+                         Toast.makeText(login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                         startActivity(new Intent(getApplicationContext(),login.class));
+
+                     }
+                 }
+             });
+         }
+     });
+
+
+
+
+
+
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
+
 
     }
 }
