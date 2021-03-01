@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Auth.login;
 import com.example.bedms.Model.Bed;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class bedDetails extends AppCompatActivity {
+public class bedDetailsPorter extends AppCompatActivity {
     private static final String TAG = "updateobs";
     TextView tvType, tvPatientId, tvStatus, tvWard;
     BottomNavigationView bottomnav;
@@ -32,7 +33,7 @@ public class bedDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bed_details);
+        setContentView(R.layout.activity_beddetailsporter);
         setTitle("Bed Details");
         tvType = findViewById(R.id.tvName);
         tvPatientId = findViewById(R.id.tvPatientId);
@@ -79,7 +80,7 @@ public class bedDetails extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.hospital_menu, menu);
         return true;
     }
 
@@ -89,14 +90,14 @@ public class bedDetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(bedDetails.this, CreateNewPatient.class);
+                Intent i = new Intent(bedDetailsPorter.this, qrMainScreen.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent r = new Intent(bedDetails.this, CreateNewPatient.class);
+                Intent r = new Intent(bedDetailsPorter.this, login.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);

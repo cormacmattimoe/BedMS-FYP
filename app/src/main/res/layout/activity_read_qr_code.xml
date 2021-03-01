@@ -7,30 +7,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="messageContent"/>
-
-    <TextView
-        android:id="@+id/textFormat"
-        android:text="messageFormat"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content" />
-
     <Button
         android:id="@+id/scanBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="10dp"
         android:backgroundTint="#0F9D58"
-        android:layout_gravity="center"
-        android:text="Scan"/>
+        android:text="Scan" />
 
 </LinearLayout>
 

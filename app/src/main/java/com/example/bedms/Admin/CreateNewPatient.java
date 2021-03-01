@@ -189,6 +189,7 @@ public class CreateNewPatient extends AppCompatActivity {
 
 
 
+
     public void admitPatient() {
 
         String name = pName.getText().toString();
@@ -236,6 +237,7 @@ public class CreateNewPatient extends AppCompatActivity {
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){

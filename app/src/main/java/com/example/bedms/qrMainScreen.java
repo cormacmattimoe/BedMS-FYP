@@ -6,21 +6,27 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.bedms.Admin.qrcodetesting;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.CaptureActivity;
 
-public class qrMainScreen extends AppCompatActivity {
+public class qrMainScreen extends AppCompatActivity implements View.OnClickListener {
     //vars
     public static final int CAMERA_PERMISSION_CODE = 100;
 
     //widgets
     private Button camera, generate, scan;
+    ImageView scanBtn;
 
 
     @Override
@@ -29,7 +35,8 @@ public class qrMainScreen extends AppCompatActivity {
         setContentView(R.layout.activity_qr_main_screen);
         camera = findViewById(R.id.camera);
         generate = findViewById(R.id.generate);
-        scan = findViewById(R.id.scanButton);
+        scanBtn = findViewById(R.id.imageBtn);
+        scanBtn.setOnClickListener(this);
 
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,13 +48,6 @@ public class qrMainScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(qrMainScreen.this, qrcodetesting.class);
-                startActivity(intent);
-            }
-        });
-        scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(qrMainScreen.this, readQrCode.class);
                 startActivity(intent);
             }
         });
@@ -76,5 +76,45 @@ public class qrMainScreen extends AppCompatActivity {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
+
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        // if the intentResult is null then
+        // toast a message as "cancelled"
+        if (intentResult != null) {
+            if (intentResult.getContents() == null) {
+                Toast.makeText(getBaseContext(), "Cancelled", Toast.LENGTH_SHORT).show();
+            } else {
+                // if the intentResult is not null we'll set
+                // the content and format of scan message
+                // messageText.setText(intentResult.getContents());
+                String bedName = intentResult.getContents();
+
+                // Intent intent = getIntent();
+                //  String str;
+                // str = intent.getStringExtra(bedName);
+                //  messageText.setText(str);
+                //   messageFormat.setText(intentResult.getFormatName());
+                Intent i = new Intent(qrMainScreen.this, bedDetailsPorter.class);
+                i.putExtra("BedName", bedName);
+                startActivity(i);
+                finish();
+            }
+        } else {
+            //  super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+        intentIntegrator.setPrompt("Scan a QR Code");
+        intentIntegrator.setOrientationLocked(false);
+        intentIntegrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
+        intentIntegrator.initiateScan();
+    }
+
 }

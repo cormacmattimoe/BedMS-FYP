@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bedms.R;
 import com.example.bedms.qrMainScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -30,11 +33,14 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import org.json.JSONException;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class qrcodetesting extends AppCompatActivity {
     public final static int QRCodeWidth = 500;
@@ -107,6 +113,50 @@ public class qrcodetesting extends AppCompatActivity {
             }
         });
     }
+    /*
+    public void uploadImageToStorage(){
+
+
+        System.out.println("Made it to upload image method");
+        if(mPharmaciesAvailableStrArray.contains(autoTextPharmacy.getText().toString())) {
+            //Insert loading here
+            //greyedOutBackground.setVisibility(View.VISIBLE);
+//            mProgressBar.setVisibility(View.VISIBLE);
+            final StorageReference storageRef = mStorageRef.child("prescriptionImages/" + UUID.randomUUID() + ".jpg");
+
+            //Toast.makeText(getContext(), mContentURI.toString(), Toast.LENGTH_SHORT).show();
+            storageRef.putFile(mContentURI)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //Toast.makeText(getContext(), "Successful post to firebase" + uri.toString(), Toast.LENGTH_SHORT).show();
+
+                                    try {
+                                        postAPrescription(uri.toString());
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Upload has failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }else{
+            autoTextPharmacy.setError("Invalid Pharmacy");
+        }
+    }
+
+     */
+
+
     public void retrieveBedId() {
         bednameSearch = bedName.getText().toString();
         db.collection("bed")

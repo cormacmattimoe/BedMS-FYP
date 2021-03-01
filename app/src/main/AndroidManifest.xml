@@ -5,8 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.Camera" />
     <uses-feature android:name="android.hardware.Camera.autofocus" />
@@ -23,12 +23,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
+        <activity android:name=".scannning"></activity>
         <activity
             android:name=".readQrCode"
-            android:screenOrientation="userPortrait"
+            android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
+        <activity
+            android:name=".AnyOrientationCaptureActivity"
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".qrMainScreen" />
         <activity android:name=".Admin.qrcodetesting" />
+        <activity android:name=".bedDetailsPorter" />
         <activity android:name=".Admin.printbedlabels" />
         <activity android:name=".CleaningStaff.QrCoding" />
         <activity android:name=".drawer" />

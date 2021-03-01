@@ -28,8 +28,6 @@ public class readQrCode extends AppCompatActivity implements View.OnClickListene
         // referencing and initializing
         // the button and textviews
         scanBtn = findViewById(R.id.scanBtn);
-        messageText = findViewById(R.id.textContent);
-        messageFormat = findViewById(R.id.textFormat);
 
         // adding listener to the button
         scanBtn.setOnClickListener(this);

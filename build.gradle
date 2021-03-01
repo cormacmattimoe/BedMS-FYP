@@ -20,6 +20,10 @@ allprojects {
         google()
         jcenter()
     }
+
+    ext.androidBuildTools = '28.0.3'
+    ext.androidTargetSdk = 27
+    ext.zxingCore = 'com.google.zxing:core:3.3.2'
 }
 
 task clean(type: Delete) {

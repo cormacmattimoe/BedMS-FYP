@@ -8,8 +8,8 @@
 
     <Button
         android:id="@+id/loginBtn"
-        android:layout_width="278dp"
-        android:layout_height="57dp"
+        android:layout_width="316dp"
+        android:layout_height="55dp"
         android:background="@drawable/rounded_button"
         android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,16 +21,16 @@
 
     <Button
         android:id="@+id/reg"
-        android:layout_width="278dp"
-        android:layout_height="29dp"
+        android:layout_width="399dp"
+        android:layout_height="45dp"
         android:background="@drawable/rounded_button"
         android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.541"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.598" />
+        app:layout_constraintVertical_bias="0.603" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -45,26 +45,26 @@
 
     <Button
         android:id="@+id/hosMan"
-        android:layout_width="233dp"
-        android:layout_height="60dp"
+        android:layout_width="174dp"
+        android:layout_height="79dp"
         android:text="Hospital Manager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.846" />
+        app:layout_constraintVertical_bias="0.861" />
 
     <Button
         android:id="@+id/cleanStaff"
-        android:layout_width="233dp"
-        android:layout_height="60dp"
+        android:layout_width="174dp"
+        android:layout_height="84dp"
         android:text="Cleaning Staff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintHorizontal_bias="0.877"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.846" />
+        app:layout_constraintVertical_bias="0.868" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
