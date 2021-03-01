@@ -24,6 +24,7 @@ import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.BedAdapterCleaning;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
+import com.example.bedms.qrMainScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -66,8 +67,8 @@ protected void onCreate(Bundle savedInstanceState) {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.scanBed:
-                 //   Intent a = new Intent(cleaningstaffhub.this, printbedlabels.class);
-                  //  startActivity(a);
+                    Intent a = new Intent(cleaningstaffhub.this, qrMainScreen.class);
+                    startActivity(a);
                     break;
             }
             return false;

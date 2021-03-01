@@ -59,7 +59,7 @@ public class welcome extends AppCompatActivity {
         mCleaning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), qrMainScreen.class));
+                startActivity(new Intent(getApplicationContext(), cleaningstaffhub.class));
             }
         });
 

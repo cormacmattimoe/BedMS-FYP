@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.bedms.Admin.qrcodetesting;
+import com.example.bedms.CleaningStaff.bedDetailsCleaner;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureActivity;
@@ -98,7 +99,7 @@ public class qrMainScreen extends AppCompatActivity implements View.OnClickListe
                 // str = intent.getStringExtra(bedName);
                 //  messageText.setText(str);
                 //   messageFormat.setText(intentResult.getFormatName());
-                Intent i = new Intent(qrMainScreen.this, bedDetailsPorter.class);
+                Intent i = new Intent(qrMainScreen.this, bedDetailsCleaner.class);
                 i.putExtra("BedName", bedName);
                 startActivity(i);
                 finish();

@@ -37,6 +37,7 @@
         <activity android:name=".qrMainScreen" />
         <activity android:name=".Admin.qrcodetesting" />
         <activity android:name=".bedDetailsPorter" />
+        <activity android:name=".CleaningStaff.bedDetailsCleaner" />
         <activity android:name=".Admin.printbedlabels" />
         <activity android:name=".CleaningStaff.QrCoding" />
         <activity android:name=".drawer" />
