@@ -7,30 +7,41 @@
     android:background="@drawable/bedapp">
 
     <Button
+        android:id="@+id/cleaningBtn"
+        android:layout_width="245dp"
+        android:layout_height="47dp"
+        android:text="Cleaning Staff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.902" />
+
+    <Button
         android:id="@+id/loginBtn"
-        android:layout_width="316dp"
-        android:layout_height="55dp"
+        android:layout_width="269dp"
+        android:layout_height="32dp"
         android:background="@drawable/rounded_button"
         android:text="Login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.469" />
+
+    <Button
+        android:id="@+id/reg"
+        android:layout_width="269dp"
+        android:layout_height="32dp"
+        android:background="@drawable/rounded_button"
+        android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.459" />
-
-    <Button
-        android:id="@+id/reg"
-        android:layout_width="399dp"
-        android:layout_height="45dp"
-        android:background="@drawable/rounded_button"
-        android:text="Register"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.603" />
+        app:layout_constraintVertical_bias="0.606" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -44,27 +55,15 @@
         app:srcCompat="@drawable/bms" />
 
     <Button
-        android:id="@+id/hosMan"
-        android:layout_width="174dp"
-        android:layout_height="79dp"
+        android:id="@+id/hosManager"
+        android:layout_width="245dp"
+        android:layout_height="47dp"
         android:text="Hospital Manager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.861" />
-
-    <Button
-        android:id="@+id/cleanStaff"
-        android:layout_width="174dp"
-        android:layout_height="84dp"
-        android:text="Cleaning Staff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.877"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.868" />
+        app:layout_constraintVertical_bias="0.796" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

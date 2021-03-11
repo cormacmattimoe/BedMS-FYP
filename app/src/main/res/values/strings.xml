@@ -24,4 +24,8 @@
     <string name="patients_waiting_in_a_e_for_porter"><![CDATA[Patients Waiting in A&E for Porter]]></string>
     <string name="open" />
     <string name="close" />
+    <color name="cat1">#4AC948</color>
+    <color name="cat2">#1D7CF2</color>
+    <color name="cat3">#FF7F50</color>
+    <color name="cat4">#A78ADC</color>
 </resources>

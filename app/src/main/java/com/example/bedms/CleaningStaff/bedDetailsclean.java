@@ -42,7 +42,7 @@ public class bedDetailsclean extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_beddetailsporter);
+        setContentView(R.layout.activity_beddetailsclean);
         setTitle("Bed Details");
         tvName = findViewById(R.id.tvName);
         tvStatus = findViewById(R.id.tvStatus);

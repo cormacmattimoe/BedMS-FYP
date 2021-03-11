@@ -23,7 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
-        <activity android:name=".scannning"></activity>
+        <activity android:name=".InputDateForBedStatus"></activity>
+        <activity android:name=".bedStatusAsOffDate" />
+        <activity android:name=".Testingcharts" />
+        <activity android:name=".scannning" />
         <activity
             android:name=".readQrCode"
             android:screenOrientation="fullSensor"
@@ -33,7 +36,7 @@
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".qrMainScreen" />
         <activity android:name=".Admin.qrcodetesting" />
         <activity android:name=".bedDetailsPorter" />

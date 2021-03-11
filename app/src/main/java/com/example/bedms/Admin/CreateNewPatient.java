@@ -54,7 +54,7 @@ public class CreateNewPatient extends AppCompatActivity {
         setContentView(R.layout.activity_createnewpatient);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         pName = findViewById(R.id.pNameEd);
-        pDob = findViewById(R.id.pDOBEd);
+        pDob = findViewById(R.id.edDatePicker);
         pAddress = findViewById(R.id.pAddressEd);
         pPhone = findViewById(R.id.pPhoneNumberEd);
         pNextofkin = findViewById(R.id.pNextOfKinEd);

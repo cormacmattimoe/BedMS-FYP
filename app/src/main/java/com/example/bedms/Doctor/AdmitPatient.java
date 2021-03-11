@@ -18,8 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
-import com.example.bedms.Bed.AllocateBedToWard;
-import com.example.bedms.Bed.managebeds;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
@@ -64,7 +62,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admitpatient);
         pName = findViewById(R.id.pNameEd);
-        pDOB = findViewById(R.id.pDOBEd);
+        pDOB = findViewById(R.id.edDatePicker);
         pIllness = findViewById(R.id.illnesEd);
         btnAdmit = findViewById(R.id.btnAdmit);
         spinnyBeds = findViewById(R.id.spinBeds);

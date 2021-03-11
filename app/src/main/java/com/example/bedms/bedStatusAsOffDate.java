@@ -1,4 +1,4 @@
-package com.example.bedms.HospitalManager;
+package com.example.bedms;
 
 
 import android.content.Intent;
@@ -42,7 +42,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class hospitalmanagerhub extends AppCompatActivity {
+public class bedStatusAsOffDate extends AppCompatActivity {
 
     private static String TAG = "MainActivity";
 
@@ -63,7 +63,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hospitalmanagerhub);
+        setContentView(R.layout.activity_bedstatusasofdate);
         Log.d(TAG, "onCreate: starting to create chart");
         setTitle("Bed Status");
         totalbeds = findViewById(R.id.tvTotalBeds);
@@ -265,11 +265,11 @@ public class hospitalmanagerhub extends AppCompatActivity {
             case 1:
                 status = "Bed Occupied";
                 break;
-                // buildBarChartWithPie(status, categorySelected);
+            // buildBarChartWithPie(status, categorySelected);
             case 2:
                 status = "Bed allocated - patient on way";
                 break;
-                // buildBarChartWithPie(status, categorySelected);
+            // buildBarChartWithPie(status, categorySelected);
             case 3:
                 status = "Bed ready for cleaning";
                 break;
@@ -420,7 +420,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Intent i = new Intent(hospitalmanagerhub.this, hospitalmanagerhub.class);
+                Intent i = new Intent(bedStatusAsOffDate.this, bedStatusAsOffDate.class);
                 startActivity(i);
                 return true;
             default:

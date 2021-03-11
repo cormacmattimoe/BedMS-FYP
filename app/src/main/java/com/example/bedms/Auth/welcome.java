@@ -8,8 +8,10 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.CleaningStaff.cleaningstaffhub;
+import com.example.bedms.InputDateForBedStatus;
 import com.example.bedms.R;
 import com.example.bedms.HospitalManager.hospitalmanagerhub;
+import com.example.bedms.bedStatusAsOffDate;
 import com.example.bedms.qrMainScreen;
 
 public class welcome extends AppCompatActivity {
@@ -22,8 +24,8 @@ public class welcome extends AppCompatActivity {
         setContentView(R.layout.welcomescreen);
       //  mAdmin = findViewById(R.id.admin);
       //  mPorter = findViewById(R.id.porter);
-        mCleaning = findViewById(R.id.cleanStaff);
-        mHospitalManager = findViewById(R.id.hosMan);
+        mCleaning = findViewById(R.id.cleaningBtn);
+        mHospitalManager = findViewById(R.id.hosManager);
         mRegister = findViewById(R.id.reg);
         mLogin = findViewById(R.id.loginBtn);
         /*
@@ -37,7 +39,7 @@ public class welcome extends AppCompatActivity {
         mHospitalManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), hospitalmanagerhub.class));
+                startActivity(new Intent(getApplicationContext(), InputDateForBedStatus.class));
             }
         });
                 /*
@@ -55,13 +57,14 @@ public class welcome extends AppCompatActivity {
             }
         });
 
-         */
+*/
         mCleaning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), cleaningstaffhub.class));
             }
         });
+
 
 
         mRegister.setOnClickListener(new View.OnClickListener() {
