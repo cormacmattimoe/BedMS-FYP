@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Auth.login;
+import com.example.bedms.Auth.welcome;
 import com.example.bedms.Bed.Inventoryofbeds;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.R;
@@ -36,6 +38,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -139,9 +142,10 @@ public class hospitalmanagerhub extends AppCompatActivity {
                             Bed tempBed = null;
                             int bedCount = 0;
                             int open = 0;
-                            int occcupied = 0;
+                            int occupied = 0;
                             int waitingPatient = 0;
                             int waitingCleaning = 0;
+                            int other = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String status = document.getString("Status");
                                 switch (status) {
@@ -149,7 +153,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
                                         open = open + 1;
                                         break;
                                     case "Bed Occupied":
-                                        occcupied = occcupied + 1;
+                                        occupied = occupied + 1;
                                         break;
                                     case "Bed allocated - patient on way":
                                         waitingPatient = waitingPatient + 1;
@@ -158,7 +162,8 @@ public class hospitalmanagerhub extends AppCompatActivity {
                                         waitingCleaning = waitingCleaning + 1;
                                         break;
                                     default:
-                                        //   "blank":
+                                        other = other + 1;
+                                        break;
 
                                 }
                                 bedCount++;
@@ -167,7 +172,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
                             }
 
                             getTotals.add(0, open);
-                            getTotals.add(1, occcupied);
+                            getTotals.add(1, occupied);
                             getTotals.add(2, waitingPatient);
                             getTotals.add(3, waitingCleaning);
                             buildPieChart(getTotals);
@@ -229,6 +234,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
         colors.add(getResources().getColor(R.color.cat2));
         colors.add(getResources().getColor(R.color.cat3));
         colors.add(getResources().getColor(R.color.cat4));
+        colors.add(getResources().getColor(R.color.cat5));
 
 
         pieDataSet.setColors(colors);
@@ -367,7 +373,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
 
 
                             XAxis xAxis = chart.getXAxis();
-                            xAxis.setPosition(XAxis.XAxisPosition.TOP);
+                            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
                             ValueFormatter fm = new ValueFormatter() {
 
@@ -409,6 +415,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -420,9 +427,17 @@ public class hospitalmanagerhub extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
+                Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(hospitalmanagerhub.this, hospitalmanagerhub.class);
                 startActivity(i);
                 return true;
+
+            case R.id.item2:
+                Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                Intent r = new Intent(hospitalmanagerhub.this, login.class);
+                startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);
         }

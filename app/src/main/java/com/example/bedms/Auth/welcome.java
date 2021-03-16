@@ -13,6 +13,7 @@ import com.example.bedms.R;
 import com.example.bedms.HospitalManager.hospitalmanagerhub;
 import com.example.bedms.bedStatusAsOffDate;
 import com.example.bedms.qrMainScreen;
+import com.example.bedms.testingCalendar;
 
 public class welcome extends AppCompatActivity {
     Button mAdmin, mHospitalManager,mTestdoctor,mPorter,mCleaning, mRegister, mLogin;
@@ -39,7 +40,7 @@ public class welcome extends AppCompatActivity {
         mHospitalManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), InputDateForBedStatus.class));
+                startActivity(new Intent(getApplicationContext(), hospitalmanagerhub.class));
             }
         });
                 /*

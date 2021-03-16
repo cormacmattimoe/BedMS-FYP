@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
-        <activity android:name=".InputDateForBedStatus"></activity>
+        <activity android:name=".ChangeDataBase"></activity>
+        <activity android:name=".testingCalendar" />
+        <activity android:name=".InputDateForBedStatus" />
         <activity android:name=".bedStatusAsOffDate" />
         <activity android:name=".Testingcharts" />
         <activity android:name=".scannning" />
