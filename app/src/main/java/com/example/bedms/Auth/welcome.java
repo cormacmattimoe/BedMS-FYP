@@ -7,13 +7,13 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bedms.BedStatusForDate;
+import com.example.bedms.CalculateWaitTime;
+import com.example.bedms.CalculateWaitTime2;
 import com.example.bedms.CleaningStaff.cleaningstaffhub;
-import com.example.bedms.InputDateForBedStatus;
+import com.example.bedms.OccupancyPerMonth;
 import com.example.bedms.R;
 import com.example.bedms.HospitalManager.hospitalmanagerhub;
-import com.example.bedms.bedStatusAsOffDate;
-import com.example.bedms.qrMainScreen;
-import com.example.bedms.testingCalendar;
 
 public class welcome extends AppCompatActivity {
     Button mAdmin, mHospitalManager,mTestdoctor,mPorter,mCleaning, mRegister, mLogin;
@@ -40,7 +40,7 @@ public class welcome extends AppCompatActivity {
         mHospitalManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), hospitalmanagerhub.class));
+                startActivity(new Intent(getApplicationContext(), CalculateWaitTime2.class));
             }
         });
                 /*

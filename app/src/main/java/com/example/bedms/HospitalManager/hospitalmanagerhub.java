@@ -17,7 +17,9 @@ import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.Auth.login;
 import com.example.bedms.Auth.welcome;
 import com.example.bedms.Bed.Inventoryofbeds;
+import com.example.bedms.BedStatusForDate;
 import com.example.bedms.Model.Bed;
+import com.example.bedms.OccupancyPerMonth;
 import com.example.bedms.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -53,8 +55,9 @@ public class hospitalmanagerhub extends AppCompatActivity {
     private String[] wardsName = {"St Johns", "St Magz", "St Pauls", "St Joes", "St Marys"};
     PieChart pieChart;
     BarChart chart;
-    TextView totalbeds;
+    TextView totalbeds, occupanyRate;
     int totalNumberBedsInWard;
+    float occRate;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<Integer> getTotals = new ArrayList<Integer>();
 
@@ -68,10 +71,13 @@ public class hospitalmanagerhub extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospitalmanagerhub);
         Log.d(TAG, "onCreate: starting to create chart");
-        setTitle("Bed Status");
+        String titleVariable = "";
+        setTitle("Bed Status" + titleVariable);
         totalbeds = findViewById(R.id.tvTotalBeds);
+        occupanyRate = findViewById(R.id.tvOccPercent);
         pieChart = (PieChart) findViewById(R.id.idPieChart);
         chart = findViewById(R.id.barchart);
+
 
         chart.setHighlightFullBarEnabled(true);
         chart.getDescription().setEnabled(false);
@@ -169,6 +175,11 @@ public class hospitalmanagerhub extends AppCompatActivity {
                                 bedCount++;
                                 totalNumberBedsInWard = bedCount;
                                 totalbeds.setText(Integer.toString(totalNumberBedsInWard));
+                               float occ = (float) occupied;
+                               float bed = (float) bedCount;
+                               float aloc = (float) waitingPatient;
+                               occRate = (((occ+aloc) /bed)) * (100f);
+                               occupanyRate.setText(String.valueOf(occRate));
                             }
 
                             getTotals.add(0, open);
@@ -201,7 +212,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
 
     public void buildPieChart(ArrayList<Integer> getTotals) {
 
-        System.out.println("These are totals" + getTotals);
+        System.out.println("These are totals hos manager" + getTotals);
         int open = getTotals.get(0);
         int occcupied = getTotals.get(1);
         int waitingPatient = getTotals.get(2);
@@ -234,7 +245,6 @@ public class hospitalmanagerhub extends AppCompatActivity {
         colors.add(getResources().getColor(R.color.cat2));
         colors.add(getResources().getColor(R.color.cat3));
         colors.add(getResources().getColor(R.color.cat4));
-        colors.add(getResources().getColor(R.color.cat5));
 
 
         pieDataSet.setColors(colors);
@@ -419,7 +429,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.hospital_menu, menu);
+        getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
         return true;
     }
     @Override
@@ -427,13 +437,19 @@ public class hospitalmanagerhub extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(hospitalmanagerhub.this, hospitalmanagerhub.class);
                 startActivity(i);
                 return true;
-
             case R.id.item2:
-                Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
+                Intent z = new Intent(hospitalmanagerhub.this, BedStatusForDate.class);
+                startActivity(z);
+                return true;
+            case R.id.item3:
+                Intent S = new Intent(hospitalmanagerhub.this, OccupancyPerMonth.class);
+                startActivity(S);
+                return true;
+
+            case R.id.item4:
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent r = new Intent(hospitalmanagerhub.this, login.class);
