@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
+import com.example.bedms.HospitalManager.hospitalmanagerhub;
 import com.example.bedms.Model.Bed;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -54,6 +55,7 @@ public class BedStatusChartsForDate extends AppCompatActivity {
     BarChart chart;
     TextView totalbeds, occupanyRate;
     String dateFromDateSelected;
+    String titleDate;
     int totalNumberBedsInWard;
     float occRate;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -62,12 +64,6 @@ public class BedStatusChartsForDate extends AppCompatActivity {
     ArrayList<String> allocatedByWard = new ArrayList<String>();
     ArrayList<String> occupiedByWard = new ArrayList<String>();
     ArrayList<String> cleaningByWard = new ArrayList<String>();
-    TextView edDate;
-    DatePickerDialog.OnDateSetListener mDateSetListener1, mDateSetListner2;
-    Button statusBtn;
-    Date dateSelectedtesting;
-    Date testingDate = Calendar.getInstance().getTime();
-    Date eventDate;
     int bedCount = 0;
     int open, ope = 0;
     int occupied, occ = 0;
@@ -75,8 +71,6 @@ public class BedStatusChartsForDate extends AppCompatActivity {
     int waitingCleaning, wai = 0;
     int bedNotYetCreated, byc = 0;
     String testEventDate;
-    Date dateSelectedDate;
-    String dateSelectedString;
     String event;
     Date eventDateFromDb;
     Date dateSelectedFromScreen;
@@ -87,8 +81,6 @@ public class BedStatusChartsForDate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bedstatuschartdate);
         Log.d(TAG, "onCreate: starting to create chart");
-        String titleVariable = "";
-        setTitle("Bed Status" + titleVariable);
         totalbeds = findViewById(R.id.tvTotalBeds);
         occupanyRate = findViewById(R.id.tvOccPercent);
         pieChart = (PieChart) findViewById(R.id.idPieChart);
@@ -108,66 +100,49 @@ public class BedStatusChartsForDate extends AppCompatActivity {
         pieChart.setDrawEntryLabels(true);
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setEntryLabelTextSize(12);
-        //More options just check out the documentation!
 
-
+        getTotalsOfBeds();
         Intent intent = getIntent();
 
         dateFromDateSelected = intent.getStringExtra("Date");
+        titleDate = intent.getStringExtra("titleDate");
         System.out.println("These are date after intent " + dateFromDateSelected);
+        setTitle("Bed Status as of:  " + titleDate);
 
-
-       getTotalsOfBeds();
-
+        System.out.println("This get totals after method call " + getTotals);
 
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                Log.d(TAG, "onValueSelected: Value select from chart.");
-                Log.d(TAG, "onValueSelected: " + e.toString());
-
-
             }
 
             @Override
             public void onNothingSelected() {
-
             }
         });
-
 
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                Log.d(TAG, "onValueSelected: Value select from chart.");
-                Log.d(TAG, "onValueSelected: " + e.toString());
-                Log.d(TAG, "onValueSelected: " + h.toString());
-                // Depending of what has been clicked I will show the beds that are with that status across the wards
-                // Eg. Cleaning - show the beds that are waiting to be cleaned.
                 int categorySelected = (int) h.getX();
                 buildBarChart(categorySelected);
-
-
             }
 
             @Override
             public void onNothingSelected() {
-
             }
         });
 
     }
-
-    public ArrayList<Integer> getTotalsOfBeds() {
+    public void getTotalsOfBeds() {
         db.collection("bed")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-
-
-                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                System.out.println("Bed Id " + document.getId());
                                 db.collection("bed")
                                         .document(document.getId())
                                         .collection("bedHistory4")
@@ -178,7 +153,6 @@ public class BedStatusChartsForDate extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
-                                                    System.out.println("Bed Id " + document.getId());
                                                     event = "";
                                                     for (QueryDocumentSnapshot history : task.getResult()) {
                                                         testEventDate = history.getString("dateAndTime");
@@ -196,10 +170,10 @@ public class BedStatusChartsForDate extends AppCompatActivity {
                                                         if (eventDateFromDb.compareTo(dateSelectedFromScreen) <= 0) {
                                                             event = history.getString("eventType");
                                                         }
-                                                    }
-                                                    bedCount++;
 
-                                                    switch (event) {
+                                                        bedCount++;
+
+                                                        switch (event) {
                                                         case "Added bed":
                                                         case "Bed allocated to ward":
                                                         case "Bed is now open":
@@ -309,44 +283,51 @@ public class BedStatusChartsForDate extends AppCompatActivity {
                                                             break;
                                                         default:
                                                             bedNotYetCreated = bedNotYetCreated + 1;
-                                                            System.out.println("This bed is the bed not created yet  " + document.getId());
                                                             break;
-
+                                                        }
                                                     }
+
+                                                    bedCount = bedCount - bedNotYetCreated;
+                                                    totalNumberBedsInWard = 23;
+                                                    totalbeds.setText(Integer.toString(totalNumberBedsInWard));
+                                                    float occ = (float) occupied;
+                                                    float bed = (float) bedCount;
+                                                    float aloc = (float) allocated;
+
+                                                    // Replace hard coding with aloc
+                                                    System.out.println("Outside this is the array of wards for open beds  " + openByWard);
+                                                    System.out.println("Outside Total Number of beds " + bedCount);
+                                                    System.out.println("Outside Total of open " + open);
+                                                    System.out.println("Outside Total of allocated " + allocated);
+                                                    System.out.println("Outside Total of occupied " + occupied);
+                                                    System.out.println("Outside Total of cleaning " + waitingCleaning);
+                                                    System.out.println("Outside Total of beds not been created yet on this date  " + bedNotYetCreated);
+                                                    System.out.println("Outside Total of all status' of beds =  " + (open + occupied + allocated + waitingCleaning));
+                                                    occRate = (((4f+2f)/ 23f) * (100f));
+                                                    occupanyRate.setText(String.valueOf(occRate));
+                                                    getTotals.add(0, open);
+                                                    getTotals.add(1, allocated);
+                                                    getTotals.add(2, occupied);
+                                                    getTotals.add(3, waitingCleaning);
                                                 }
-                                                System.out.println("Inside this is the array of wards for open beds  " + openByWard);
+                                                buildPieChart();
+                                                /*System.out.println("Inside this is the array of wards for open beds  " + openByWard);
                                                 System.out.println("Inside Total Number of beds " + bedCount);
                                                 System.out.println("Inside Total of open " + open);
                                                 System.out.println("Inside Total of allocated " + allocated);
                                                 System.out.println("Inside Total of occupied " + occupied);
                                                 System.out.println("Inside Total of cleaning " + waitingCleaning);
                                                 System.out.println("Inside Total of beds not been created yet on this date  " + bedNotYetCreated);
-                                                System.out.println("Inside Total of all status' of beds =  " + (open + occupied + allocated + waitingCleaning));
+                                                System.out.println("Inside Total of all status' of beds =  " + (open + occupied + allocated + waitingCleaning));*/
 
                                             }
 
                                         });
                             }
-
-                            bedCount = bedCount - bedNotYetCreated;
-                            totalNumberBedsInWard = 23;
-                            totalbeds.setText(Integer.toString(totalNumberBedsInWard));
-                            float occ = (float) occupied;
-                            float bed = (float) bedCount;
-                            float aloc = (float) allocated;
-
-                            // Replace hard coding with aloc
-                            occRate = ((4f+2f/23f) * 100f);
-                            occupanyRate.setText(String.valueOf(occRate));
-                            getTotals.add(0, 16);
-                            getTotals.add(1, 4);
-                            getTotals.add(2, 2);
-                            getTotals.add(3, 1);
-                            buildPieChart(getTotals);
                         }
                     }
                 });
-        return getTotals;
+        //return getTotals;
 
     }
 
@@ -366,7 +347,7 @@ public class BedStatusChartsForDate extends AppCompatActivity {
 
     //Pie chart
 
-    public void buildPieChart(final ArrayList<Integer> getTotals) {
+    public void buildPieChart() {
         System.out.println("These are totals at build pie chart" + getTotals);
         int open = getTotals.get(0);
         int allocated = getTotals.get(1);
@@ -427,6 +408,8 @@ public class BedStatusChartsForDate extends AppCompatActivity {
     //Bar Chart
 
     public ArrayList<BarEntry> buildBarChart(final int categorySelected) {
+
+
         String status;
         switch (categorySelected) {
             case 0:
@@ -579,9 +562,6 @@ public class BedStatusChartsForDate extends AppCompatActivity {
 
     }
 
-
-
-
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -593,7 +573,7 @@ public class BedStatusChartsForDate extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Intent i = new Intent(BedStatusChartsForDate.this, BedStatusChartsForDate.class);
+                Intent i = new Intent(BedStatusChartsForDate.this, hospitalmanagerhub.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
@@ -601,11 +581,15 @@ public class BedStatusChartsForDate extends AppCompatActivity {
                 startActivity(z);
                 return true;
             case R.id.item3:
-                Intent S = new Intent(BedStatusChartsForDate.this, BedStatusChartsForDate.class);
+                Intent S = new Intent(BedStatusChartsForDate.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
-
             case R.id.item4:
+                Intent g = new Intent(BedStatusChartsForDate.this, CalculateWaitTime.class);
+                startActivity(g);
+                return true;
+
+            case R.id.item5:
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent r = new Intent(BedStatusChartsForDate.this, login.class);
@@ -614,6 +598,5 @@ public class BedStatusChartsForDate extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }
 

@@ -26,7 +26,7 @@
         android:layout_marginRight="-225dp"
         android:layout_toRightOf="@id/textView17"
         android:text="TextView"
-        android:textColor="#28ED6E"
+        android:textColor="#378352"
         android:textSize="18dp" />
 
     <com.github.mikephil.charting.charts.LineChart

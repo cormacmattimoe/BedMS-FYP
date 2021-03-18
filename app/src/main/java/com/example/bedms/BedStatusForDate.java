@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class BedStatusForDate extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener mDateSetListener1;
     Button statusBtn;
     String dateSelectedString;
-
+    String titleDate;
 
 
 
@@ -48,9 +49,12 @@ public class BedStatusForDate extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inputdate);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         edDate = (TextView) findViewById(R.id.edDatePicker);
         statusBtn = findViewById(R.id.btnStatus);
+
+        setTitle("Bed Status for.. ");
 
         edDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +81,7 @@ public class BedStatusForDate extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 dateSelectedString = (dayOfMonth + "-" + "0" + (month + 1) + "-" + year + " " + "00" + ":" + "00" + ":" + "00");
+                titleDate = (dayOfMonth + "-" + "0" + (month + 1) + "-" + year);
                 System.out.println("Date selected string " + dateSelectedString);
                 edDate.setText(dateSelectedString);
             }
@@ -89,7 +94,7 @@ public class BedStatusForDate extends AppCompatActivity {
             public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), BedStatusChartsForDate.class);
                     intent.putExtra("Date", dateSelectedString);
-
+                    intent.putExtra("titleDate", titleDate);
                     v.getContext().startActivity(intent);
 
 
@@ -116,11 +121,15 @@ public class BedStatusForDate extends AppCompatActivity {
                 startActivity(z);
                 return true;
             case R.id.item3:
-                Intent S = new Intent(BedStatusForDate.this, hospitalmanagerhub.class);
+                Intent S = new Intent(BedStatusForDate.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
-
             case R.id.item4:
+                Intent g = new Intent(BedStatusForDate.this, CalculateWaitTime.class);
+                startActivity(g);
+                return true;
+
+            case R.id.item5:
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent r = new Intent(BedStatusForDate.this, login.class);

@@ -47,6 +47,8 @@
         <activity android:name=".Admin.printbedlabels" />
         <activity android:name=".CleaningStaff.QrCoding" />
         <activity android:name=".BedStatusChartsForDate" />
+        <activity android:name=".CalculateWaitTime" />
+        <activity android:name=".StatsShown" />
         <activity android:name=".drawer" />
         <activity android:name=".HospitalManager.hospitalmanagerhub" />
         <activity android:name=".Doctor.dischargepatient" />

@@ -1,12 +1,23 @@
 package com.example.bedms;
 
+import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bedms.Auth.login;
+import com.example.bedms.HospitalManager.hospitalmanagerhub;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -14,31 +25,62 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-import javax.xml.datatype.Duration;
+
+public class CalculateWaitTime extends AppCompatActivity {
+
+     Button btnOk;
+     FirebaseFirestore db = FirebaseFirestore.getInstance();
+     ArrayList<Integer> getTotalsLocal = new ArrayList<Integer>();
+     int totalNumberOfEvents = 0;
+     TextView tvEvents, tvMins, tvShortest, tvLongest, tvlongId, tvShortId, tvAverage;
+     int totalWaitMins = 0;
+     String longestWaitID;
+     String shortestWaitID;
+     float averageWait = 0;
+     float totalNumberOfEventsf;
+     float totalWaitMinsf;
+     int shortestTimeInMins = 5000;
+     int longestTimeInMins = 0;
+     int differenceInMins = 0;
+     boolean timer = false;
+     Date startTime;
+     Date endTime;
+     String eventDateString = "";
+     int[] arrayOfStats = new int[6];
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_calculate_wait_time2);
+            btnOk = findViewById(R.id.btnok);
+            tvEvents = findViewById(R.id.tvEvents);
+            tvMins = findViewById(R.id.tvMins);
+            tvShortest = findViewById(R.id.tvShort);
+            tvLongest = findViewById(R.id.tvLong);
+            tvShortId = findViewById(R.id.tvLongIdd);
+            tvlongId = findViewById(R.id.tvShorttid);
+            tvAverage = findViewById(R.id.tvAverage);
+
+            setTitle("Key Stats for...");
 
 
-public class CalculateWaitTime {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ArrayList<Integer> getTotalsLocal = new ArrayList<Integer>();
-    int totalNumberOfEvents = 0;
-    int totalWaitMins = 0;
-    String longestWaitID = "";
-    String shortestWaitID = "";
-    float averageWait = 0;
-    int shortestTimeInMins = 5000;
-    int longestTimeInMins = 0;
-    int differenceInMins = 0;
-    boolean timer = false;
-    Date startTime;
-    Date endTime;
-    String eventDateString = "";
+            btnOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-    public CalculateWaitTime() {
+                    calculateTime("Bed ready for cleaning");
 
-    }
+
+
+
+                }
+            });
+        }
+
 
 //this will work for bed delays - cleaning for now.
 // remove the getTotalsOfBeds below.....
@@ -49,9 +91,7 @@ public class CalculateWaitTime {
     // display on a screen made up of 4 squares
     //when click on shortest or longest - then you see the Bed ID.
 
-    public void calculateTime(final String event) {
-
-
+    public  int[] calculateTime(final String event) {
         db.collection("bed")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -71,15 +111,14 @@ public class CalculateWaitTime {
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
                                                     System.out.println("Bed Id " + document.getId());
-
-
                                                     for (QueryDocumentSnapshot history : task.getResult()) {
                                                         //several fields are not visible in here - why?  Timer, shortestWaitID, longestWaitID.  This is the issue we have with GetTotals
                                                         //its because of the second loop being fronted by Public VOID onComplete!!!
 
                                                         System.out.println("This is the bed history id " + ": " + history.getId());
-                                                        if (event == history.getString("eventType")) {
-                                                            System.out.println("This is the event" + ": " + history.getString("eventType"));
+                                                        System.out.println("This is the event" + ": " + history.getString("eventType"));
+
+                                                        if (event.equals(history.getString("eventType"))) {
                                                             timer = true;
                                                             totalNumberOfEvents = totalNumberOfEvents + 1;
                                                             eventDateString = history.getString("dateAndTime");
@@ -100,7 +139,9 @@ public class CalculateWaitTime {
                                                                 e.printStackTrace();
                                                             }
                                                             long difference = endTime.getTime() - startTime.getTime();
-                                                            differenceInMins = (int) difference;
+                                                            long minutes = TimeUnit.MILLISECONDS.toMinutes(difference);
+                                                            differenceInMins = (int) minutes;
+                                                            System.out.println("This is the wait time in mins " + ": " + differenceInMins);
                                                             totalWaitMins = totalWaitMins + differenceInMins;
                                                             timer = false;
                                                             if (differenceInMins < shortestTimeInMins) {
@@ -118,10 +159,11 @@ public class CalculateWaitTime {
                                                         endTime = cal.getTime();
                                                         System.out.println("This is end time " + ": " + endTime);
                                                         long difference = endTime.getTime() - startTime.getTime();
-                                                        differenceInMins = (int) difference;
-                                                        ;
+                                                        long minutes = TimeUnit.MILLISECONDS.toMinutes(difference);
+                                                        differenceInMins = (int) minutes;
                                                         System.out.println("This is difference " + ": " + differenceInMins);
                                                         totalWaitMins = totalWaitMins + differenceInMins;
+                                                        System.out.println("This is the wait time in mins " + ": " + differenceInMins);
                                                         timer = false;
                                                         if (differenceInMins < shortestTimeInMins) {
                                                             shortestTimeInMins = differenceInMins;
@@ -131,6 +173,9 @@ public class CalculateWaitTime {
                                                             longestWaitID = document.getId();
                                                         }
                                                     }
+                                                    totalNumberOfEventsf = (int) totalNumberOfEvents;
+                                                    totalWaitMinsf = (int) totalWaitMins;
+                                                    averageWait = (totalWaitMinsf / totalNumberOfEventsf);
 
 
                                                     System.out.println("Total Number of events = " + totalNumberOfEvents);
@@ -139,17 +184,76 @@ public class CalculateWaitTime {
                                                     System.out.println("Total of longest time = " + longestTimeInMins);
                                                     System.out.println("Total of longest time ID = " + longestWaitID);
                                                     System.out.println("Total of number of minutes = " + totalWaitMins);
-                                                    System.out.println("Average wait =  " + 90);
+                                                    System.out.println("Average wait =  " + averageWait);
+
+
                                                 }
+
                                             }
                                         });
                             }
+                            tvEvents.setText(String.valueOf(totalNumberOfEvents));
+                            tvMins.setText(String.valueOf(totalWaitMins));
+                            tvShortest.setText(String.valueOf(shortestTimeInMins));
+                            tvLongest.setText(String.valueOf(longestTimeInMins));
+                            tvShortId.setText(String.valueOf(shortestWaitID));
+                            tvlongId.setText(String.valueOf(longestWaitID));
+                            tvAverage.setText(String.valueOf(averageWait));
+
+                            arrayOfStats[0] = totalNumberOfEvents;
+                            arrayOfStats[1] = totalWaitMins;
+                            arrayOfStats[2] = shortestTimeInMins;
+                            arrayOfStats[3] = longestTimeInMins;
+                            //  arrayOfStats[4] = Integer.parseInt(shortestWaitID);
+                            //arrayOfStats[5] = Integer.parseInt(longestWaitID);
+                            System.out.println("These are the array of stats " + Arrays.toString(arrayOfStats));
+
+
                         }
                     }
+
                 });
+        System.out.println("These are the array of shortest " + shortestTimeInMins);
+        return arrayOfStats;
     }
+
+
+     @Override
+     public boolean onCreateOptionsMenu (Menu menu){
+         // Inflate the menu; this adds items to the action bar if it is present.
+         getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
+         return true;
+     }
+     @Override
+     public boolean onOptionsItemSelected (MenuItem item){
+         int id = item.getItemId();
+         switch (id) {
+             case R.id.item1:
+                 Intent i = new Intent(CalculateWaitTime.this, hospitalmanagerhub.class);
+                 startActivity(i);
+                 return true;
+             case R.id.item2:
+                 Intent z = new Intent(CalculateWaitTime.this, BedStatusForDate.class);
+                 startActivity(z);
+                 return true;
+             case R.id.item3:
+                 Intent S = new Intent(CalculateWaitTime.this, OccupancyPerMonth.class);
+                 startActivity(S);
+                 return true;
+             case R.id.item4:
+                 Intent g = new Intent(CalculateWaitTime.this, CalculateWaitTime.class);
+                 startActivity(g);
+                 return true;
+
+             case R.id.item5:
+                 FirebaseAuth.getInstance().signOut();
+                 finish();
+                 Intent r = new Intent(CalculateWaitTime.this, login.class);
+                 startActivity(r);
+             default:
+                 return super.onOptionsItemSelected(item);
+         }
+     }
 }
-
-
 
 

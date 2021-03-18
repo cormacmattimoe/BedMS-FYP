@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,7 +18,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.bedms.Admin.qrcodetesting;
+import com.example.bedms.Auth.login;
 import com.example.bedms.CleaningStaff.bedDetailsCleaner;
+import com.example.bedms.CleaningStaff.cleaningstaffhub;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureActivity;
@@ -34,24 +39,10 @@ public class qrMainScreen extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_main_screen);
-        camera = findViewById(R.id.camera);
         generate = findViewById(R.id.generate);
         scanBtn = findViewById(R.id.imageBtn);
         scanBtn.setOnClickListener(this);
 
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
-            }
-        });
-        generate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(qrMainScreen.this, qrcodetesting.class);
-                startActivity(intent);
-            }
-        });
     }
 
     public void checkPermission(String permission, int requestCode){
@@ -116,6 +107,32 @@ public class qrMainScreen extends AppCompatActivity implements View.OnClickListe
         intentIntegrator.setOrientationLocked(false);
         intentIntegrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
         intentIntegrator.initiateScan();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.hospital_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.item1:
+                Intent i = new Intent(qrMainScreen.this, cleaningstaffhub.class);
+                startActivity(i);
+                return true;
+
+            case R.id.item2:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                Intent r = new Intent(qrMainScreen.this, login.class);
+                startActivity(r);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/side_nav_bar"
     tools:context=".BedStatusForDate">
 
     <Button
@@ -13,9 +14,9 @@
         android:text="Get Bed Status"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.315" />
 
     <EditText
         android:id="@+id/edDatePicker"
@@ -23,13 +24,15 @@
         android:layout_height="36dp"
         android:background="@drawable/rounded_edittext"
         android:ems="10"
-        android:hint="Please pick date "
+        android:hint="Please click here to pick a date "
         android:inputType="textPersonName"
-        android:textColorHint="#807D7D"
+        android:textColor="#202020"
+        android:textColorHint="#000000"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintHorizontal_bias="0.395"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.238" />
+        app:layout_constraintVertical_bias="0.205" />
 </androidx.constraintlayout.widget.ConstraintLayout>

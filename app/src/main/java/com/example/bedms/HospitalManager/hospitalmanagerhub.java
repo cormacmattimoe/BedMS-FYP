@@ -18,6 +18,7 @@ import com.example.bedms.Auth.login;
 import com.example.bedms.Auth.welcome;
 import com.example.bedms.Bed.Inventoryofbeds;
 import com.example.bedms.BedStatusForDate;
+import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.OccupancyPerMonth;
 import com.example.bedms.R;
@@ -45,6 +46,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class hospitalmanagerhub extends AppCompatActivity {
@@ -71,8 +73,8 @@ public class hospitalmanagerhub extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospitalmanagerhub);
         Log.d(TAG, "onCreate: starting to create chart");
-        String titleVariable = "";
-        setTitle("Bed Status" + titleVariable);
+        String titleVariable = "As Of Today";
+        setTitle("Bed Status " + titleVariable);
         totalbeds = findViewById(R.id.tvTotalBeds);
         occupanyRate = findViewById(R.id.tvOccPercent);
         pieChart = (PieChart) findViewById(R.id.idPieChart);
@@ -94,6 +96,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
         pieChart.setEntryLabelTextSize(12);
         //More options just check out the documentation!
         getTotalsOfBeds();
+        buildBarChart(0);
 
 
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -119,20 +122,11 @@ public class hospitalmanagerhub extends AppCompatActivity {
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                Log.d(TAG, "onValueSelected: Value select from chart.");
-                Log.d(TAG, "onValueSelected: " + e.toString());
-                Log.d(TAG, "onValueSelected: " + h.toString());
-                // Depending of what has been clicked I will show the beds that are with that status across the wards
-                // Eg. Cleaning - show the beds that are waiting to be cleaned.
                 int categorySelected = (int) h.getX();
                 buildBarChart(categorySelected);
-
-
             }
-
             @Override
             public void onNothingSelected() {
-
             }
         });
 
@@ -178,6 +172,8 @@ public class hospitalmanagerhub extends AppCompatActivity {
                                float occ = (float) occupied;
                                float bed = (float) bedCount;
                                float aloc = (float) waitingPatient;
+                               String str = String.format("%.02f", occRate);
+                               float occyRate = Float.parseFloat(str);
                                occRate = (((occ+aloc) /bed)) * (100f);
                                occupanyRate.setText(String.valueOf(occRate));
                             }
@@ -405,9 +401,39 @@ public class hospitalmanagerhub extends AppCompatActivity {
                                     return "" + xAxisLabel.get((int)value);
                                 }
                             };
+                            class MyValueFormatter extends ValueFormatter {
+
+                                private DecimalFormat mFormat;
+
+                                public MyValueFormatter() {
+                                    mFormat = new DecimalFormat("#");
+                                }
+
+                                @Override
+                                public String getFormattedValue(float value) {
+                                    return mFormat.format(value);
+                                }
+                            }
+                             class MyDecimalValueFormatter extends ValueFormatter {
+
+                                private DecimalFormat mf;
+
+                                public MyDecimalValueFormatter() {
+                                    mf = new DecimalFormat("#");
+                                }
+
+                                @Override
+                                public String getFormattedValue(float value) {
+                                    return mf.format(value);
+                                }
+                            }
+
+                            MyDecimalValueFormatter fs = new MyDecimalValueFormatter();
 
                             xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
                             xAxis.setValueFormatter(formatter);
+                            Data.setValueFormatter(fs);
+                            Data.setValueFormatter(new MyValueFormatter());
                             chart.setData(Data);
                             chart.invalidate();
                             // chart.refreshDrawableState();
@@ -448,8 +474,12 @@ public class hospitalmanagerhub extends AppCompatActivity {
                 Intent S = new Intent(hospitalmanagerhub.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
-
             case R.id.item4:
+                Intent g = new Intent(hospitalmanagerhub.this, CalculateWaitTime.class);
+                startActivity(g);
+                return true;
+
+            case R.id.item5:
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent r = new Intent(hospitalmanagerhub.this, login.class);

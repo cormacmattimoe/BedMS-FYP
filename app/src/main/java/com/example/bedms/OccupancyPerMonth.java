@@ -45,6 +45,8 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         chart = findViewById(R.id.chart1);
         tvOccrate = findViewById(R.id.tvOccRate);
 
+        tvOccrate.setText("17.6");
+
         setTitle("Bed Stats For Month");
 
         chart = findViewById(R.id.chart1);
@@ -267,6 +269,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -289,8 +292,12 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 Intent S = new Intent(OccupancyPerMonth.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
-
             case R.id.item4:
+                Intent g = new Intent(OccupancyPerMonth.this, CalculateWaitTime.class);
+                startActivity(g);
+                return true;
+
+            case R.id.item5:
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent r = new Intent(OccupancyPerMonth.this, login.class);

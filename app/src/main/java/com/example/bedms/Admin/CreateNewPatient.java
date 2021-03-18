@@ -62,6 +62,7 @@ public class CreateNewPatient extends AppCompatActivity {
         pNokRel = findViewById(R.id.nokRel);
         pIllness = findViewById(R.id.pIllnessEd);
         btnbAddPatient = findViewById(R.id.createPatient);
+        /*
         et_date1 = (TextView) findViewById(R.id.et_date1);
 
         et_date1.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +100,8 @@ public class CreateNewPatient extends AppCompatActivity {
 
             }
         };
+
+         */
 
         bottomnav = findViewById(R.id.viewNav);
         //bottomnav.setOnNavigationItemSelectedListener(navListener);

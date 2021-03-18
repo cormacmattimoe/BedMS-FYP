@@ -14,6 +14,7 @@ import com.example.bedms.CleaningStaff.cleaningstaffhub;
 import com.example.bedms.OccupancyPerMonth;
 import com.example.bedms.R;
 import com.example.bedms.HospitalManager.hospitalmanagerhub;
+import com.example.bedms.StatsShown;
 
 public class welcome extends AppCompatActivity {
     Button mAdmin, mHospitalManager,mTestdoctor,mPorter,mCleaning, mRegister, mLogin;
@@ -40,7 +41,7 @@ public class welcome extends AppCompatActivity {
         mHospitalManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CalculateWaitTime2.class));
+                startActivity(new Intent(getApplicationContext(), hospitalmanagerhub.class));
             }
         });
                 /*

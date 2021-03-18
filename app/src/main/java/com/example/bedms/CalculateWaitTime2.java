@@ -2,6 +2,7 @@ package com.example.bedms;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +13,7 @@ public class CalculateWaitTime2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.actvity_caltime);
+        setContentView(R.layout.activity_cal2);
         btnOk = findViewById(R.id.btnOk);
 
 
@@ -21,6 +22,10 @@ public class CalculateWaitTime2 extends AppCompatActivity {
             public void onClick(View v) {
                 CalculateWaitTime cwt = new CalculateWaitTime();
                 cwt.calculateTime("Bed ready for cleaning");
+
+
+
+
             }
         });
 
