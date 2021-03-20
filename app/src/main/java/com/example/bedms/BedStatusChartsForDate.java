@@ -111,6 +111,7 @@ public class BedStatusChartsForDate extends AppCompatActivity {
         //array bedsarray = getBeds(); // get all bedsIDs
         //populateBedHistory() //for each element in bedsarray
         //getTotalsOfBeds();
+        //Cormac - you need to stop putting db calls in here.  We shoudl have these as separate methods or classes
         Intent intent = getIntent();
 
         dateFromDateSelected = intent.getStringExtra("Date");
