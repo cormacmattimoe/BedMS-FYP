@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bedms.Auth.login;
 import com.example.bedms.CleaningStaff.bedDetailsclean;
@@ -92,10 +94,14 @@ public class BedStatusForDate extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), BedStatusChartsForDate.class);
-                    intent.putExtra("Date", dateSelectedString);
-                    intent.putExtra("titleDate", titleDate);
-                    v.getContext().startActivity(intent);
+                    if(dateSelectedString == null) {
+                        Toast.makeText(getApplicationContext(),"Please choose a date to continue", Toast.LENGTH_LONG).show();
+                    }else{
+                        Intent intent = new Intent(v.getContext(), BedStatusChartsForDate.class);
+                        intent.putExtra("Date", dateSelectedString);
+                        intent.putExtra("titleDate", titleDate);
+                        v.getContext().startActivity(intent);
+                    }
 
 
             }

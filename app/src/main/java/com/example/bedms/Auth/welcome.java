@@ -41,7 +41,7 @@ public class welcome extends AppCompatActivity {
         mHospitalManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), hospitalmanagerhub.class));
+                startActivity(new Intent(getApplicationContext(), BedStatusForDate.class));
             }
         });
                 /*
