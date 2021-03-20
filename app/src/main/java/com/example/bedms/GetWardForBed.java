@@ -16,6 +16,7 @@ public class GetWardForBed extends AppCompatActivity {
     public GetWardForBed(){
 
     }
+    //see ExampleTest
 
     public String GetWardForBed(String bedID) {
 
