@@ -12,6 +12,13 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void bedWard() {
-        assertEquals(4, 2 + 2);
+        assertEquals("St Joes", 2 + 2);
     }
+
+    GetWardForBed gwb = new GetWardForBed();
+
+    String answer = gwb.GetWardForBed("0s9DBoYTnK3rd1jvojEl");
+
+
+
 }

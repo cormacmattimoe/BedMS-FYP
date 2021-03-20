@@ -112,8 +112,8 @@ public class GetBedStatusAndWardForDate extends AppCompatActivity {
                             // now call routine to get the ward for bed using BedID
                             // and set variable in bedStatus for this bad
 
-                            //String ward = GetWardForBed(bedID);
-                            String ward = "St Johns";
+                            GetWardForBed gwb = new GetWardForBed();
+                            String ward = gwb.GetWardForBed(bedID);
                             // depending on ward, set bedStatus[5] as follows:
                             //                  1 = "St Johns":
                             //                  2 = "St Marys":
@@ -122,7 +122,6 @@ public class GetBedStatusAndWardForDate extends AppCompatActivity {
                             //                  5 = "St Joes":
                             //
                             //                  6 = other Ward (default)
-                            /*
                             switch (ward) {
                                 case "St Johns":
                                     bedStatus [5] = 1;
@@ -144,9 +143,8 @@ public class GetBedStatusAndWardForDate extends AppCompatActivity {
                             }  // end Switch for Ward
                         }
 
-                             */
+
                         }
-                    }
                 });
 
         return bedStatus;
