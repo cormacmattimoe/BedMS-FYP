@@ -100,7 +100,12 @@ public class BedStatusForDate extends AppCompatActivity {
                         Intent intent = new Intent(v.getContext(), BedStatusChartsForDate.class);
                         intent.putExtra("Date", dateSelectedString);
                         intent.putExtra("titleDate", titleDate);
+                        GetWardForBed gwb = new GetWardForBed();
+                        String ward = gwb.GetWard("0s9DBoYTnK3rd1jvojEl");
+                        System.out.print("this is the ward returned 2 = " + ward);
                         v.getContext().startActivity(intent);
+                        System.out.print("this is the ward returned 3 = " + ward);
+
                     }
 
 

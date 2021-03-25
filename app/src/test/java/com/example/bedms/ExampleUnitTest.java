@@ -17,7 +17,7 @@ public class ExampleUnitTest {
 
     GetWardForBed gwb = new GetWardForBed();
 
-    String answer = gwb.GetWardForBed("0s9DBoYTnK3rd1jvojEl");
+    String answer = gwb.GetWard("0s9DBoYTnK3rd1jvojEl");
 
 
 

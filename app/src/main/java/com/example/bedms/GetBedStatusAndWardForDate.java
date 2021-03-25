@@ -25,31 +25,30 @@ public class GetBedStatusAndWardForDate extends AppCompatActivity {
     public GetBedStatusAndWardForDate() {
     }
 
-    public int[] GetBedStatusAndWardForDate(final String dateSelected, final String bedID) {
+    public int[] GetBedStatusAndWard(final String dateSelected, final String bedID) {
 
-        final int[] bedStatus = new int[6];
-        bedStatus[0] = 0;  //open
-        bedStatus[1] = 0;  //allocated
-        bedStatus[2] = 0;  //occupied
-        bedStatus[3] = 0;  //cleaning
-        bedStatus[4] = 0;  //no history for that date - bed not yet created.
-        bedStatus[5] = 0;  // Ward of the bed - see meaning below.
+        final int[] bedStatus = new int[]{0,0};
 
-        // this module will take in the BedID and the dateSelected.  it will use the BedID to retrieve bedHistory.
-        // then for each history record - Check date is before dateSelected. If yes, store event-type. The last event stored will be the bed status as at date/
-        // return bedStatus array [] which has following meaning :
-        // open =                   [1,0,0,0,0,w]
-        // allocated =              [0,1,0,0,0,w]
-        // occupied =               [0,0,1,0,0,w]
-        // cleaning =               [0,1,0,0,0,w]
-        // notcreatedyet =          [0,0,0,0,1,w]       This will be set if event = "".
-        // Ward name =              [x,x,x,x,x,w]       Position[5] where w =
-        //                                                             1 = "St Johns":
-        //                                                             2 = "St Marys":
-        //                                                             3 = "St Pauls":
-        //                                                             4 = "St Magz":
-        //                                                             5 = "St Joes":
-        //                                                             6 = other Ward (default)
+        /*
+         //first element od bedStatus = Status  and is :  0 = open, [1]  = allocated, [2]   = occupied, [3]  = cleaning, [4] = no history for that date - bed not yet created.
+         //Second element is the ward the bed is in
+                         open =                   [0][w]
+                         allocated =              [1][w]
+                         occupied =               [2][w]
+                         cleaning =               [3][w]
+                         notcreatedyet =          [4][w]       This will be set if event = "".
+                         Ward name =                 [w]       Element [2] where w =
+                                                                     0 = "St Johns":
+                                                                     1 = "St Marys":
+                                                                     2 = "St Pauls":
+                                                                     3 = "St Magz":
+                                                                     4 = "St Joes":
+                                                                     5 = other Ward (default)
+         this module will take in the BedID and the dateSelected.  it will use the BedID to retrieve bedHistory.
+         then for each history record - Check date is before dateSelected. If yes, store event-type. The last event stored will be the bed status as at date/
+         return bedStatus array [] which has following meaning :
+
+        */
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("bed")
@@ -87,66 +86,66 @@ public class GetBedStatusAndWardForDate extends AppCompatActivity {
 
 
                             // now use the event to set the status in the bedStatus array.
+                            int statusCode = 0;
+                            int wardCode = 0;
                             switch (event) {
                                 case "Added bed":
                                 case "Bed allocated to ward":
                                 case "Bed is now open":
                                 case "Bed is cleaned – ready for next patient":
-                                    bedStatus[0] = 1;
+                                    statusCode = 0;
                                     break;
                                 case "Bed allocated - patient on way":
-                                    bedStatus[1] = 1;
+                                    statusCode = 1;
                                     break;
                                 case "Patient in bed in ward":
-                                    bedStatus[2] = 1;
+                                    statusCode = 2;
                                     break;
                                 case "Bed ready for cleaning":
-                                    bedStatus[3] = 1;
+                                    statusCode = 3;
                                     break;
                                 default:
-                                    bedStatus[4] = 1;
+                                    statusCode = 4;
                                     System.out.println("This bed is the bed not created yet" + bedID);
                                     break;
                             }   // end Switch for bedStatus
 
                             // now call routine to get the ward for bed using BedID
-                            // and set variable in bedStatus for this bad
+                            // and set variable in bedStatus for this bed
 
                             GetWardForBed gwb = new GetWardForBed();
-                            String ward = gwb.GetWardForBed(bedID);
+                            String ward = gwb.GetWard(bedID);
                             // depending on ward, set bedStatus[5] as follows:
-                            //                  1 = "St Johns":
-                            //                  2 = "St Marys":
-                            //                  3 = "St Pauls":
-                            //                  4 = "St Magz":
-                            //                  5 = "St Joes":
-                            //
-                            //                  6 = other Ward (default)
+                            //                  0 = "St Johns":
+                            //                  1 = "St Marys":
+                            //                  2 = "St Pauls":
+                            //                  3 = "St Magz":
+                            //                  4 = "St Joes":
+                            //                  5 = other Ward (default)
                             switch (ward) {
                                 case "St Johns":
-                                    bedStatus [5] = 1;
+                                    wardCode = 0;
                                     break;
                                 case "St Marys":
-                                    bedStatus [5] = 2;
+                                    wardCode = 1;
                                     break;
                                 case "St Pauls":
-                                    bedStatus [5] = 3;
+                                    wardCode = 2;
                                     break;
                                 case "St Magz":
-                                    bedStatus [5] = 4;
+                                    wardCode = 3;
                                     break;
                                 case "St Joes":
-                                    bedStatus [5] = 5;
+                                    wardCode = 4;
                                     break;
                                 default:
-                                    bedStatus [5] = 6;
+                                    wardCode = 5;
                             }  // end Switch for Ward
-                        }
-
-
-                        }
+                            bedStatus[0] = statusCode;
+                            bedStatus[1] = wardCode;
+                            }
+                    }
                 });
-
         return bedStatus;
     }
 }
