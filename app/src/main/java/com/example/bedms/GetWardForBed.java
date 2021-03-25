@@ -10,31 +10,29 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class GetWardForBed extends AppCompatActivity {
-
-    private String ward;
-
+    String ward;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     public GetWardForBed(){
 
     }
-    //see ExampleTest
 
-    public String GetWardForBed(String bedID) {
+    public String GetWard(final String bedID) {
+        System.out.println(" bebinning of GetWard " + bedID);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("bed")
                 .document(bedID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        System.out.println( " after db call" + bedID);
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                GetWardForBed.this.ward = document.getString("Ward");
+                            ward = document.getString("Ward");
                             }
-                        }
                     }
                 });
+        System.out.println("this is ward returned = " + ward);
         return ward;
     }
 }
