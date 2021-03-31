@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
+import com.example.bedms.UpdateBedHistory4;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -110,8 +111,8 @@ public class AllocateBedToWard extends AppCompatActivity implements AdapterView.
                             }
                             db.collection("bed").document(bedId)
                                     .update("Ward", ward);
-                            UpdateBedHistory ubh = new UpdateBedHistory();
-                            ubh.updateBedHistory(bedId, "Bed allocated to ward");
+                           // UpdateBedHistory4 ubh = new UpdateBedHistory4();
+                           // ubh.updateBedHistory4(bedId, "Bed allocated to ward", );
                             Toast.makeText(AllocateBedToWard.this, "Bed allocated successfully", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(getApplicationContext(), AllocateBedToWard.class));
                         }

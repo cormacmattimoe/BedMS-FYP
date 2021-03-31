@@ -29,4 +29,9 @@
     <color name="cat3">#FF7F50</color>
     <color name="cat4">#A78ADC</color>
     <color name="cat5">#838088</color>
+    <string-array name="Months">
+        <item> January </item>
+        <item> February </item>
+        <item> March  </item>
+    </string-array>
 </resources>

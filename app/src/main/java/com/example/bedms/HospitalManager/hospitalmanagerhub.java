@@ -175,7 +175,8 @@ public class hospitalmanagerhub extends AppCompatActivity {
                                String str = String.format("%.02f", occRate);
                                float occyRate = Float.parseFloat(str);
                                occRate = (((occ+aloc) /bed)) * (100f);
-                               occupanyRate.setText(String.valueOf(occRate));
+                               DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                               occupanyRate.setText(str);
                             }
 
                             getTotals.add(0, open);

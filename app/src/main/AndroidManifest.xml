@@ -30,6 +30,7 @@
         <activity android:name=".BedStatusForDate" />
         <activity android:name=".Testingcharts" />
         <activity android:name=".scannning" />
+        <activity android:name=".testingSplash" />
         <activity
             android:name=".readQrCode"
             android:screenOrientation="fullSensor"
@@ -91,6 +92,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

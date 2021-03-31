@@ -15,6 +15,7 @@ import com.example.bedms.OccupancyPerMonth;
 import com.example.bedms.R;
 import com.example.bedms.HospitalManager.hospitalmanagerhub;
 import com.example.bedms.StatsShown;
+import com.example.bedms.testingSplash;
 
 public class welcome extends AppCompatActivity {
     Button mAdmin, mHospitalManager,mTestdoctor,mPorter,mCleaning, mRegister, mLogin;

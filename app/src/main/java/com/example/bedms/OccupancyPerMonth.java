@@ -1,19 +1,28 @@
 package com.example.bedms;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.bedms.Auth.login;
 import com.example.bedms.HospitalManager.hospitalmanagerhub;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -26,34 +35,338 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.example.bedms.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OccupancyPerMonth extends AppCompatActivity implements
-        OnChartGestureListener, OnChartValueSelectedListener {
+        OnChartGestureListener, OnChartValueSelectedListener , AdapterView.OnItemSelectedListener  {
 
 
-    private LineChart chart;
-    private SeekBar seekBarX, seekBarY;
-    private TextView tvOccrate;
+    LineChart chart;
+    SeekBar seekBarX, seekBarY;
+    Spinner spinMonths;
+    String monthSelected;
+    ArrayAdapter<CharSequence> adapter;
+    String dateSelected;
+    BedStatusChartsForDate bscd;
+  //  int monthsList = new ArrayList<>();
+    TextView totalbeds, occupanyRate;
+    String dateFromDateSelected;
+    int days = 0;
+
+    float occRate;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Map<String,String> myMap = new HashMap<String,String>();
+
+    int categorySelected;
+    BedInfo bip;
+    String bi;
+    int bedCountatDate = 0;
+    int open;
+    int occupied;
+    int allocated;
+    int cleaning;
+    int bedNotYetCreated;
+    int totalNumberOfBeds;
+    int[][] allBedStatusbyWard = new int[5][6];
+    ArrayList<BedInfo> allBeds = new ArrayList<BedInfo>();
+    int[] bedStatus = new int[]{0, 0};
+    String ward;
+    BedInfo bedId;
+    int statusCode;
+    int wardCode;
+    String bedIdString;
+    String wardIdString;
+    int status;
+    Map<String, String> bedsAll = new HashMap<>();
+    BedInfo bifOut = new BedInfo();
+    Boolean firstTimeThrough = true;
+    int occupancyRate[];    //declaring array
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_occupancypermonth);
         chart = findViewById(R.id.chart1);
-        tvOccrate = findViewById(R.id.tvOccRate);
+        spinMonths = findViewById(R.id.spinMonths);
+        adapter = new ArrayAdapter<CharSequence>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.Months));
+        //Setting the ArrayAdapter data on the Spinner
+        adapter = ArrayAdapter.createFromResource(this,
+                R.array.Months, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spinMonths.setAdapter(adapter);
+        monthSelected = "";
 
-        tvOccrate.setText("17.6");
+        // monthsList = R.array.Months;
+    //    adapter  = new ArrayAdapter(this,android.R.layout.simple_spinner_item,monthsList);
+    //   adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    //    spinMonths.setAdapter(adapter);
 
-        setTitle("Bed Stats For Month");
 
-        chart = findViewById(R.id.chart1);
+        spinMonths.setOnItemSelectedListener(this);
+   //     spinMonths.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+        createLineChart();
+        firstTimeThrough = false;
+
+        spinMonths.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                monthSelected = spinMonths.getSelectedItem().toString();
+                createOccupancyTotalsForMonth(monthSelected);
+                createLineChart();
+                setTitle("Occupancy Rate for " + monthSelected);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        setTitle("Occupancy Rate for " + monthSelected);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public void createOccupancyTotalsForMonth(String monthSelected){
+
+        //1. For i is 1 - the days of the specific month
+        //  2. Call the getAllBedsIds()
+        //  3. It calls build totals
+        //  4. Store that in an array for the day
+        //5. Call createLineChart with the array for the month where x is the day of the month,
+        //    and y is the occupancy rate.
+       // Date format = ("dd-MM-yyyy HH:mm:ss");
+        occupancyRate = new int[31];
+       // for (int i = 1; i < 29 ; i++) {
+        int i = 1;
+            String day = String.valueOf(i);
+            if(i < 10) {
+                dateSelected = ("0" + day + "-02-2021 00:00:00");
+            }
+            else {
+                dateSelected = (day + "-02-2021 00:00:00");
+            }
+            getAllBedIDs();
+            occupancyRate[i] = (int) occRate;
+
+    }
+
+    public void getAllBedIDs() {
+        db.collection("bed")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                final BedInfo bifIn = new BedInfo();
+                                bedIdString = document.getId();
+                                wardIdString = document.getString("Ward");
+                                bifIn.setBedId(bedIdString);
+                                bifIn.setWard(wardIdString);
+                                System.out.println("this is bif " + bifIn.getBedId() + " " + bifIn.getWard());
+
+                                //Now get the history of the bed to get the status
+                                db.collection("bed")
+                                        .document(bedIdString)
+                                        .collection("bedHistory4")
+                                        .orderBy("dateAndTime")
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()){
+                                            String event = "";
+                                            String eventDateString = "";
+                                            Date eventDateFromDb = new Date();
+                                            Date dateSelectedFromScreen = new Date();
+                                            for (QueryDocumentSnapshot history : task.getResult()) {
+                                                eventDateString = history.getString("dateAndTime");
+                                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                                try {
+                                                    eventDateFromDb = format.parse(eventDateString);
+                                                    dateSelectedFromScreen = dateFormatter.parse(dateSelected);
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                System.out.println("This is date time returned " + ": " + eventDateFromDb);
+                                                System.out.println("This is date time string  " + ": " + dateSelectedFromScreen);
+
+                                                //Storing the eventType for transactions before or equal to the selectedDate
+                                                if (eventDateFromDb.compareTo(dateSelectedFromScreen) <= 0) {
+                                                    event = history.getString("eventType");
+                                                }
+                                            } // end For loop
+                                            // now use the event to set the status in the bedStatus array.
+                                            switch (event) {
+                                                case "Added bed":
+                                                case "Bed allocated to ward":
+                                                case "Bed is now open":
+                                                case "Bed is cleaned – ready for next patient":
+                                                    statusCode = 0;
+                                                    break;
+                                                case "Bed allocated - patient on way":
+                                                    statusCode = 1;
+                                                    break;
+                                                case "Patient in bed in ward":
+                                                    statusCode = 2;
+                                                    break;
+                                                case "Bed ready for cleaning":
+                                                    statusCode = 3;
+                                                    break;
+                                                default:
+                                                    statusCode = 4;
+                                                    System.out.println("This bed is the bed not created yet" + bedId);
+                                                    break;
+                                            }   // end Switch for bedStatus
+
+                                            switch (wardIdString) {
+                                                case "St Johns":
+                                                    wardCode = 0;
+                                                    break;
+                                                case "St Marys":
+                                                    wardCode = 1;
+                                                    break;
+                                                case "St Pauls":
+                                                    wardCode = 2;
+                                                    break;
+                                                case "St Magz":
+                                                    wardCode = 3;
+                                                    break;
+                                                case "St Joes":
+                                                    wardCode = 4;
+                                                    break;
+                                                default:
+                                                    wardCode = 5;
+                                            }  // end Switch for Ward
+                                            bedStatus[0] = statusCode;
+                                            bedStatus[1] = wardCode;
+                                            bifIn.setStatus(statusCode);
+                                            allBeds.add(bifIn);
+                                        }
+                                    }
+                                });
+
+                            }
+
+                            System.out.println("This is the number of beds in allBeds  " + allBeds.size());
+                            for (int j = 0; j < allBeds.size(); j++) {
+                                System.out.println("This is allBeds after getting from bif " + allBeds.get(j).getBedId() + " " + allBeds.get(j).getWard());
+                            }
+                        }
+                        buildTotals();
+
+                    }
+                });
+
+
+    }
+    public int totalCategory(int category, int[][] allBedStatusByWard) {
+        int totalCategory = 0;
+        for (int count = 0; count < 6; count++) {
+            totalCategory = totalCategory + allBedStatusByWard[category][count];
+        }
+        return totalCategory;
+    }
+    public void buildTotals(){
+        for (int i = 0; i < allBeds.size(); i++) {
+            wardIdString = allBeds.get(i).getWard();
+            bedStatus[0] = allBeds.get(i).getStatus();
+            statusCode = allBeds.get(i).getStatus();
+            switch (wardIdString) {
+                case "St Johns":
+                    wardCode = 0;
+                    break;
+                case "St Marys":
+                    wardCode = 1;
+                    break;
+                case "St Pauls":
+                    wardCode = 2;
+                    break;
+                case "St Magz":
+                    wardCode = 3;
+                    break;
+                case "St Joes":
+                    wardCode = 4;
+                    break;
+                default:
+                    wardCode = 5;
+            }  // end Switch for Ward
+            bedStatus[1] = wardCode;
+            System.out.println("This is the the bed id" + allBeds.get(i).getBedId() + " " + "Ward id = " + wardIdString + "Ward Code =  " + wardCode + "Status = " + statusCode);
+            allBedStatusbyWard[statusCode][wardCode] = allBedStatusbyWard[statusCode][wardCode] + 1;
+        }
+        open = totalCategory(0, allBedStatusbyWard);
+        allocated = totalCategory(1, allBedStatusbyWard);
+        occupied = totalCategory(2, allBedStatusbyWard);
+        cleaning = totalCategory(3, allBedStatusbyWard);
+        bedNotYetCreated = totalCategory(4, allBedStatusbyWard);
+        bedCountatDate = allBeds.size() - bedNotYetCreated;
+
+        float occ = (float) occupied;
+        float aloc = (float) allocated;
+        float bedC = (float) bedCountatDate;
+        occRate = (((occ + aloc) / bedC) * (100f));
+
+
+
+    }
+
+
+    public void createLineChart() {
+        ArrayList<Entry> yValues = new ArrayList<>();
+        days = 0;
+        switch(monthSelected){
+            case("January"):
+                days = 31;
+            case("February"):
+                days = 28;
+            case("March"):
+                days = 31;
+            default:
+                days = 30;
+        }
+        if(firstTimeThrough)
+            {
+                for (int i = 1; i < days; i++) {
+                    yValues.add(new Entry(i, 0));
+                }
+            }else{
+                for (int i = 1; i < days ; i++) {
+                    yValues.add(new Entry(i, occupancyRate[i]));
+                }
+                 }
         chart.setOnChartValueSelectedListener(this);
-
-
-
 
         // enable scaling and dragging
         chart.setDragEnabled(true);
@@ -63,159 +376,27 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         chart.setPinchZoom(false);
 
 
-        ArrayList <Entry> yValues = new ArrayList<>();
 
 
 
-        yValues.add(new Entry(0,0));
-        yValues.add(new Entry(1,1));
-        yValues.add(new Entry(2,10));
-        yValues.add(new Entry(3,10));
-        yValues.add(new Entry(4,10));
-        yValues.add(new Entry(5,10));
-        yValues.add(new Entry(6,10));
-        yValues.add(new Entry(7,10));
-        yValues.add(new Entry(8,10));
-        yValues.add(new Entry(9,10));
-        yValues.add(new Entry(10,25));
-        yValues.add(new Entry(11,25));
-        yValues.add(new Entry(12,25));
-        yValues.add(new Entry(13,25));
-        yValues.add(new Entry(14,25));
-        yValues.add(new Entry(15,25));
-        yValues.add(new Entry(16,25));
-        yValues.add(new Entry(17,25));
-        yValues.add(new Entry(18,25));
-        yValues.add(new Entry(19,25));
-        yValues.add(new Entry(20,34));
-        yValues.add(new Entry(21,34));
-        yValues.add(new Entry(22,34));
-        yValues.add(new Entry(23,34));
-        yValues.add(new Entry(24,34));
-        yValues.add(new Entry(25,34));
-        yValues.add(new Entry(26,34));
-        yValues.add(new Entry(27,34));
-        yValues.add(new Entry(28,34));
-        yValues.add(new Entry(29,34));
-        yValues.add(new Entry(30,34));
 
-        LineDataSet set1, set2,set3,set4;
+        LineDataSet set1;
 
 
-        set1 = new LineDataSet(yValues, "Beds ");
+        set1 = new LineDataSet(yValues, "Occupany Rate ");
 
 
         set1.setDrawCircles(false);
         set1.setDrawValues(false);
-        set1.setColor(Color.DKGRAY);
+        set1.setColor(Color.RED);
 
         ArrayList <ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
-
-
-
-        ArrayList <Entry> y2Values = new ArrayList<>();
-
-
-        y2Values.add(new Entry(0,0));
-        y2Values.add(new Entry(1,1));
-        y2Values.add(new Entry(2,0));
-        y2Values.add(new Entry(3,1));
-        y2Values.add(new Entry(4,2));
-        y2Values.add(new Entry(5,3));
-        y2Values.add(new Entry(6,4));
-        y2Values.add(new Entry(7,4));
-        y2Values.add(new Entry(8,4));
-        y2Values.add(new Entry(9,6));
-        y2Values.add(new Entry(10,6));
-        y2Values.add(new Entry(11,6));
-        y2Values.add(new Entry(12,10));
-        y2Values.add(new Entry(13,15));
-        y2Values.add(new Entry(14,16));
-        y2Values.add(new Entry(15,16));
-        y2Values.add(new Entry(16,16));
-        y2Values.add(new Entry(17,16));
-        y2Values.add(new Entry(18,16));
-        y2Values.add(new Entry(19,15));
-        y2Values.add(new Entry(20,14));
-        y2Values.add(new Entry(21,13));
-        y2Values.add(new Entry(22,13));
-        y2Values.add(new Entry(23,13));
-        y2Values.add(new Entry(24,13));
-        y2Values.add(new Entry(25,13));
-        y2Values.add(new Entry(26,15));
-        y2Values.add(new Entry(27,16));
-        y2Values.add(new Entry(28,13));
-        y2Values.add(new Entry(29,13));
-        y2Values.add(new Entry(30,19));
-
-
-
-
-        set2 = new LineDataSet(y2Values, "Occupancy ");
-
-
-        set2.setDrawCircles(false);
-        set2.setDrawValues(false);
-        set2.setDrawCircleHole(false);
-
-        set2.setColor(Color.BLUE);
-        ArrayList <ILineDataSet> dataset2 = new ArrayList<>();
-        dataset2.add(set2);
-
-        ArrayList <Entry> y3Values = new ArrayList<>();
-        y3Values.add(new Entry(0,0));
-        y3Values.add(new Entry(1,9));
-        y3Values.add(new Entry(2,8));
-        y3Values.add(new Entry(3,7));
-        y3Values.add(new Entry(4,5));
-        y3Values.add(new Entry(5,5));
-        y3Values.add(new Entry(6,6));
-        y3Values.add(new Entry(7,6));
-        y3Values.add(new Entry(8,3));
-        y3Values.add(new Entry(9,3));
-        y3Values.add(new Entry(10,18));
-        y3Values.add(new Entry(11,17));
-        y3Values.add(new Entry(12,13));
-        y3Values.add(new Entry(13,7));
-        y3Values.add(new Entry(14,6));
-        y3Values.add(new Entry(15,7));
-        y3Values.add(new Entry(16,5));
-        y3Values.add(new Entry(17,6));
-        y3Values.add(new Entry(18,4));
-        y3Values.add(new Entry(19,7));
-        y3Values.add(new Entry(20,19));
-        y3Values.add(new Entry(21,21));
-        y3Values.add(new Entry(22,19));
-        y3Values.add(new Entry(23,18));
-        y3Values.add(new Entry(24,18));
-        y3Values.add(new Entry(25,20));
-        y3Values.add(new Entry(26,16));
-        y3Values.add(new Entry(27,14));
-        y3Values.add(new Entry(28,17));
-        y3Values.add(new Entry(29,20));
-        y3Values.add(new Entry(30,15));
-
-
-        set3 = new LineDataSet(y3Values, "Open ");
-
-        set3.setDrawCircles(false);
-        set3.setDrawValues(false);
-        set3.setDrawCircleHole(false);
-
-        set3.setColor(Color.GREEN);
-        ArrayList <ILineDataSet> dataset3 = new ArrayList<>();
-        dataset3.add(set3);
-
-
-
-        LineData dataLine = new LineData(set1,set2,set3);
+        LineData dataLine = new LineData(set1);
         chart.getDescription().setEnabled(false);
         chart.getXAxis().setTextSize(10f);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.setData(dataLine);
-
-
     }
 
 
@@ -306,5 +487,4 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

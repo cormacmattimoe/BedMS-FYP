@@ -158,7 +158,8 @@ public class Inventoryofbeds extends AppCompatActivity implements AdapterView.On
 public List<String> getwards() {
     spinWards.setAdapter(lAdapter);
     db.collection("wards")
-            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
         @Override
         public void onComplete(@NonNull Task<QuerySnapshot> task) {
             if (task.isSuccessful()) {

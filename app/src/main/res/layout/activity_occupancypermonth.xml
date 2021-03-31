@@ -4,37 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="137dp"
-        android:layout_height="72dp"
 
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_marginLeft="50dp"
+    <Spinner
+        android:id="@+id/spinMonths"
+        android:layout_width="367dp"
+        android:layout_height="43dp"
         android:layout_marginTop="50dp"
-        android:text="Occupany Rate"
-        android:textSize="18dp" />
-
-    <TextView
-        android:id="@+id/tvOccRate"
-        android:layout_width="149dp"
-        android:layout_height="49dp"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_alignRight="@id/textView17"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="-225dp"
-        android:layout_toRightOf="@id/textView17"
-        android:text="TextView"
-        android:textColor="#378352"
-        android:textSize="18dp" />
+        android:background="#87B2D5"
+        android:entries="@array/Months"
+        />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart1"
         android:layout_width="match_parent"
-        android:layout_height="598dp"
-        android:layout_below="@id/textView17"
-        android:layout_marginTop="11dp" />
+        android:layout_height="402dp"
+        android:layout_below="@id/spinMonths"
+        android:layout_marginTop="200dp" />
 
 
 </RelativeLayout>

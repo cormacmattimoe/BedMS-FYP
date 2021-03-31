@@ -94,19 +94,14 @@ public class BedStatusForDate extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                    if(dateSelectedString == null) {
-                        Toast.makeText(getApplicationContext(),"Please choose a date to continue", Toast.LENGTH_LONG).show();
-                    }else{
-                        Intent intent = new Intent(v.getContext(), BedStatusChartsForDate.class);
-                        intent.putExtra("Date", dateSelectedString);
-                        intent.putExtra("titleDate", titleDate);
-                        GetWardForBed gwb = new GetWardForBed();
-                        String ward = gwb.GetWard("0s9DBoYTnK3rd1jvojEl");
-                        System.out.print("this is the ward returned 2 = " + ward);
-                        v.getContext().startActivity(intent);
-                        System.out.print("this is the ward returned 3 = " + ward);
-
-                    }
+                if(dateSelectedString == null) {
+                    Toast.makeText(getApplicationContext(),"Please choose a date to continue", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent intent = new Intent(v.getContext(), BedStatusChartsForDate.class);
+                    intent.putExtra("Date", dateSelectedString);
+                    intent.putExtra("titleDate", titleDate);
+                    v.getContext().startActivity(intent);
+                }
 
 
             }
@@ -163,5 +158,3 @@ public class BedStatusForDate extends AppCompatActivity {
             totalbeds.setText(Integer.toString(totalNumberBedsInWard));
 
           */
-
-
