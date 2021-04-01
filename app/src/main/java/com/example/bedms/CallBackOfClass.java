@@ -1,3 +1,5 @@
+/*
+
 package com.example.bedms;
 
 
@@ -5,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,6 +55,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.callback.Callback;
+
 public class BedStatusChartsForDate extends AppCompatActivity {
 
     private static String TAG = "MainActivity";
@@ -63,8 +68,7 @@ public class BedStatusChartsForDate extends AppCompatActivity {
 
     float occRate;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    Map<String,String> myMap = new HashMap<String,String>();
-
+    Map<String, String> myMap = new HashMap<String, String>();
     int categorySelected;
     BedInfo bip;
     String bi;
@@ -76,24 +80,27 @@ public class BedStatusChartsForDate extends AppCompatActivity {
     int bedNotYetCreated;
     int totalNumberOfBeds;
     int[][] allBedStatusbyWard = new int[5][6];
-    ArrayList<BedInfo> allBeds = new ArrayList<BedInfo>();
+    ArrayList<BedInfo> allBedsWithoutStatus = new ArrayList<BedInfo>();
     int[] bedStatus = new int[]{0, 0};
     String ward;
     BedInfo bedId;
     String dateSelected;
     int statusCode;
     int wardCode;
+    String bedIdStringa;
     String bedIdString;
-    String wardIdString;
+    String wardIdString = new String();
     int status;
     Map<String, String> bedsAll = new HashMap<>();
     BedInfo bifOut = new BedInfo();
+    ArrayList<BedInfo> allBedsWithStatus = new ArrayList<BedInfo>();
 
-
+    BedInfo bedDetails =  new BedInfo();
+    BedInfo bifIn = new BedInfo();
 
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bedstatuschartdate);
         Log.d(TAG, "onCreate: starting to create chart");
@@ -126,7 +133,39 @@ public class BedStatusChartsForDate extends AppCompatActivity {
         // ArrayList<String> allBeds;
 
 
-        getAllBedIDs();
+        System.out.println("This is the size before  " + allBedsWithoutStatus.size());
+
+
+        getAllBedDetails(new Callbacka() {
+            @Override
+            public void calla() {
+                System.out.println("This is the size after call back  " + allBedsWithoutStatus.size());
+                for (int i = 0; i < allBedsWithoutStatus.size(); i++) {
+                    bedIdString = "";
+                    wardIdString = "";
+                    System.out.println("This the list of beds after call " + i + "  " + allBedsWithoutStatus.get(i).getBedId());
+                }
+                for (int u = 0; u < allBedsWithoutStatus.size(); u++) {
+                    bedIdString = allBedsWithoutStatus.get(u).getBedId();
+                    wardIdString = allBedsWithoutStatus.get(u).getWard();
+                    System.out.println("Before calculate This the bed id and ward id " + u + "  " + bedIdString + " " + wardIdString);
+                    calculateStatusAndWard(new Callbackb() {
+                        @Override
+                        public void callb() {
+                            for (int j = 0; j < allBedsWithStatus.size(); j++) {
+                                System.out.println("List of beds with status added  " + "  " + j + " " + allBedsWithStatus.get(j).getBedId() + allBedsWithStatus.get(j).getWard() + " " + allBedsWithStatus.get(j).getStatus());
+                            }
+                        }
+                    });
+                    allBedsWithoutStatus = new ArrayList<>();
+                }
+            }
+        });
+
+
+
+
+
         //  totalNumberOfBeds = allBeds.size();
 
 
@@ -141,7 +180,8 @@ public class BedStatusChartsForDate extends AppCompatActivity {
                          cleaning =               [3][w]
                          notcreatedyet =          [4][w]       This will be set if event = "".
                          Ward name =                 [w]   0 = "St Johns":1 = "St Marys":2 = "St Pauls":3 = "St Magz":4 = "St Joes":5 = other Ward (default)
-         */
+
+
 
 
 
@@ -169,133 +209,134 @@ public class BedStatusChartsForDate extends AppCompatActivity {
         });
 
     }
-    interface bedIdCallBack{
-        void firebaseResponseCallback(String result);//whatever your return type is.
-    }
 
+    public void getAllBedDetails(Callbacka callback) {
+        System.out.println("Get all bed details ");
+        db.collection("bed")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                        if (task2.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task2.getResult()) {
+                                final BedInfo bifIn = new BedInfo();
+                                bedIdStringa = document.getId();
+                                wardIdString = document.getString("Ward");
+                                bifIn.setBedId(bedIdStringa);
+                                bifIn.setWard(wardIdString);
+                                allBedsWithoutStatus.add(bifIn);
+                            }
+                            callback.calla();
+                        }
+                    }
+                });
+    }
 
 
 
 
     // Method here to get all the beds from the beds collection to then to be passed in to get the bed history in the next method
-    public void getAllBedIDs() {
+    public void calculateStatusAndWard(Callbackb callbackb) {
+
+
+        //   System.out.println("this should be details returned "+   .getAllBedDetails());
+        //Now get the history of the bed to get the status
         db.collection("bed")
+                .document(bedIdString)
+                .collection("bedHistory4")
+                .orderBy("dateAndTime")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                final BedInfo bifIn = new BedInfo();
-                                bedIdString = document.getId();
-                                wardIdString = document.getString("Ward");
-                                bifIn.setBedId(bedIdString);
-                                bifIn.setWard(wardIdString);
-                                System.out.println("this is bif " + bifIn.getBedId() + " " + bifIn.getWard());
+                    public void onComplete(@NonNull Task<QuerySnapshot> task1) {
+                        if (task1.isSuccessful()) {
+                            System.out.println("This is bed id using for history " + bedIdString);
+                            String event = "";
+                            String eventDateString = "";
+                            Date eventDateFromDb = new Date();
+                            Date dateSelectedFromScreen = new Date();
+                            for (QueryDocumentSnapshot history : task1.getResult()) {
+                                eventDateString = history.getString("dateAndTime");
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                System.out.println("This is bed id using for inside method at history " + bedIdString);
+                                try {
+                                    eventDateFromDb = format.parse(eventDateString);
+                                    dateSelectedFromScreen = dateFormatter.parse(dateFromDateSelected);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                //   System.out.println("This is date time returned " + ": " + eventDateFromDb);
+                                //   System.out.println("This is date time string  " + ": " + dateSelectedFromScreen);
 
-                                //Now get the history of the bed to get the status
-                                db.collection("bed")
-                                        .document(bedIdString)
-                                        .collection("bedHistory4")
-                                        .orderBy("dateAndTime")
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()){
-                                                    String event = "";
-                                                    String eventDateString = "";
-                                                    Date eventDateFromDb = new Date();
-                                                    Date dateSelectedFromScreen = new Date();
-                                                    for (QueryDocumentSnapshot history : task.getResult()) {
-                                                        eventDateString = history.getString("dateAndTime");
-                                                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                                                        try {
-                                                            eventDateFromDb = format.parse(eventDateString);
-                                                            dateSelectedFromScreen = dateFormatter.parse(dateFromDateSelected);
-                                                        } catch (ParseException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        System.out.println("This is date time returned " + ": " + eventDateFromDb);
-                                                        System.out.println("This is date time string  " + ": " + dateSelectedFromScreen);
-
-                                                        //Storing the eventType for transactions before or equal to the selectedDate
-                                                        if (eventDateFromDb.compareTo(dateSelectedFromScreen) <= 0) {
-                                                            event = history.getString("eventType");
-                                                        }
-                                                    } // end For loop
-                                                    // now use the event to set the status in the bedStatus array.
-                                                    switch (event) {
-                                                        case "Added bed":
-                                                        case "Bed allocated to ward":
-                                                        case "Bed is now open":
-                                                        case "Bed is cleaned – ready for next patient":
-                                                            statusCode = 0;
-                                                            break;
-                                                        case "Bed allocated - patient on way":
-                                                            statusCode = 1;
-                                                            break;
-                                                        case "Patient in bed in ward":
-                                                            statusCode = 2;
-                                                            break;
-                                                        case "Bed ready for cleaning":
-                                                            statusCode = 3;
-                                                            break;
-                                                        default:
-                                                            statusCode = 4;
-                                                            System.out.println("This bed is the bed not created yet" + bedId);
-                                                            break;
-                                                    }   // end Switch for bedStatus
-
-                                                    switch (wardIdString) {
-                                                        case "St Johns":
-                                                            wardCode = 0;
-                                                            break;
-                                                        case "St Marys":
-                                                            wardCode = 1;
-                                                            break;
-                                                        case "St Pauls":
-                                                            wardCode = 2;
-                                                            break;
-                                                        case "St Magz":
-                                                            wardCode = 3;
-                                                            break;
-                                                        case "St Joes":
-                                                            wardCode = 4;
-                                                            break;
-                                                        default:
-                                                            wardCode = 5;
-                                                    }  // end Switch for Ward
-                                                    bedStatus[0] = statusCode;
-                                                    bedStatus[1] = wardCode;
-                                                    bifIn.setStatus(statusCode);
-                                                    allBeds.add(bifIn);
-                                                }
-                                                else {
-                                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                                }
-                                            }
-
-                                        });
-                                System.out.println("This is the number of beds in allBeds  " + allBeds.size());
-
-
-
+                                //Storing the eventType for transactions before or equal to the selectedDate
+                                if (eventDateFromDb.compareTo(dateSelectedFromScreen) <= 0) {
+                                    event = history.getString("eventType");
+                                }
                             }
+                            // end For loop
+                            // now use the event to set the status in the bedStatus array.
+                            switch (event) {
+                                case "Added bed":
+                                case "Bed allocated to ward":
+                                case "Bed is now open":
+                                case "Bed is cleaned – ready for next patient":
+                                    statusCode = 0;
+                                    break;
+                                case "Bed allocated - patient on way":
+                                    statusCode = 1;
+                                    break;
+                                case "Patient in bed in ward":
+                                    statusCode = 2;
+                                    break;
+                                case "Bed ready for cleaning":
+                                    statusCode = 3;
+                                    break;
+                                default:
+                                    statusCode = 4;
+                                    System.out.println("This bed is the bed not created yet" + bedId);
+                                    break;
+                            }   // end Switch for bedStatus
 
-                       //     System.out.println("This is the number of beds in allBeds  " + allBeds.size());
-                            for (int j = 0; j < allBeds.size(); j++) {
-                                System.out.println("This is allBeds after getting from bif " + allBeds.get(j).getBedId() + " " + allBeds.get(j).getWard());
-                            }
-                            buildTotals();
+                            switch (wardIdString) {
+                                case "St Johns":
+                                    wardCode = 0;
+                                    break;
+                                case "St Marys":
+                                    wardCode = 1;
+                                    break;
+                                case "St Pauls":
+                                    wardCode = 2;
+                                    break;
+                                case "St Magz":
+                                    wardCode = 3;
+                                    break;
+                                case "St Joes":
+                                    wardCode = 4;
+                                    break;
+                                default:
+                                    wardCode = 5;
+                            }  // end Switch for Ward
+
+                            bedStatus[0] = statusCode;
+                            bedStatus[1] = wardCode;
+                            bedDetails.setBedId(bedIdString);
+                            bedDetails.setWard(wardIdString);
+                            bedDetails.setStatus(statusCode);
+                            System.out.println("This is bip before " + bedDetails.getBedId() + " " + bedDetails.getWard() + " " +  bedDetails.getStatus());
+                            allBedsWithStatus.add(bedDetails);
+                            System.out.println("Bed details added");
+                            callbackb.callb();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task1.getException());
                         }
 
                     }
                 });
-
-
     }
+
+
+
     public int totalCategory(int category, int[][] allBedStatusByWard) {
         int totalCategory = 0;
         for (int count = 0; count < 6; count++) {
@@ -304,11 +345,10 @@ public class BedStatusChartsForDate extends AppCompatActivity {
         return totalCategory;
     }
     public void buildTotals(){
-        System.out.println("This is the size of all beds " + allBeds.size());
-        for (int i = 0; i < allBeds.size(); i++) {
-            wardIdString = allBeds.get(i).getWard();
-            bedStatus[0] = allBeds.get(i).getStatus();
-            statusCode = allBeds.get(i).getStatus();
+        for (int i = 0; i < allBedsWithStatus.size(); i++) {
+            wardIdString = allBedsWithStatus.get(i).getWard();
+            bedStatus[0] = allBedsWithStatus.get(i).getStatus();
+            statusCode = allBedsWithStatus.get(i).getStatus();
             switch (wardIdString) {
                 case "St Johns":
                     wardCode = 0;
@@ -329,7 +369,7 @@ public class BedStatusChartsForDate extends AppCompatActivity {
                     wardCode = 5;
             }  // end Switch for Ward
             bedStatus[1] = wardCode;
-            System.out.println("This is the the bed id" + allBeds.get(i).getBedId() + " " + "Ward id = " + wardIdString + "Ward Code =  " + wardCode + "Status = " + statusCode);
+            System.out.println("This is the the bed id" + allBedsWithStatus.get(i).getBedId() + " " + "Ward id = " + wardIdString + "Ward Code =  " + wardCode + "Status = " + statusCode);
             allBedStatusbyWard[statusCode][wardCode] = allBedStatusbyWard[statusCode][wardCode] + 1;
         }
         open = totalCategory(0, allBedStatusbyWard);
@@ -337,7 +377,7 @@ public class BedStatusChartsForDate extends AppCompatActivity {
         occupied = totalCategory(2, allBedStatusbyWard);
         cleaning = totalCategory(3, allBedStatusbyWard);
         bedNotYetCreated = totalCategory(4, allBedStatusbyWard);
-        bedCountatDate = allBeds.size() - bedNotYetCreated;
+        bedCountatDate = allBedsWithStatus.size() - bedNotYetCreated;
 
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
@@ -556,6 +596,7 @@ public class BedStatusChartsForDate extends AppCompatActivity {
     }
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -593,4 +634,15 @@ public class BedStatusChartsForDate extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    // Callback function
+    public interface Callbacka {
+        void calla();
+    }
+    // Callback function
+    public interface Callbackb {
+        void callb();
+    }
+
 }
+*/

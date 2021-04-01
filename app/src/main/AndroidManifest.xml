@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
-        <activity android:name=".CalculateWaitTime2"></activity>
+        <activity android:name=".testOfDate"></activity>
+        <activity android:name=".CalculateWaitTime2" />
         <activity android:name=".OccupancyPerMonth" />
         <activity android:name=".ChangeDataBase" />
         <activity android:name=".testingCalendar" />
