@@ -1,6 +1,8 @@
 package com.example.bedms;
 
-public class BedInfo {
+import java.io.Serializable;
+
+public class BedInfo implements Serializable {
     String bedId;
     String ward;
     int status;

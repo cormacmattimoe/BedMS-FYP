@@ -9,11 +9,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,10 +27,12 @@ import com.example.bedms.Model.Bed;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -43,6 +47,13 @@ public class BedStatusForDate extends AppCompatActivity {
     Button statusBtn;
     String dateSelectedString;
     String titleDate;
+    ArrayList<BedInfo> allBedsWithoutStatus = new ArrayList<BedInfo>();
+    String bedIdString;
+    String wardIdString;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference bedsRef = db.collection("bed");
+    CalendarView calV;
+
 
 
 
@@ -52,60 +63,60 @@ public class BedStatusForDate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inputdate);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
-        edDate = (TextView) findViewById(R.id.edDatePicker);
-        statusBtn = findViewById(R.id.btnStatus);
+        calV = findViewById(R.id.calendarView);
 
         setTitle("Bed Status for.. ");
 
-        edDate.setOnClickListener(new View.OnClickListener() {
+        getAllBedDetails(new Callbacka() {
             @Override
-            public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-                int hour = cal.get(Calendar.HOUR);
-                int min = cal.get(Calendar.MINUTE);
-                int seconds = cal.get(Calendar.SECOND);
-                DatePickerDialog dialog = new DatePickerDialog(
-                        BedStatusForDate.this,
-                        android.R.style.Theme_DeviceDefault_Light_Dialog,
-                        mDateSetListener1,
-                        year, month, day);
-                dialog.show();
-
-
+            public void calla() {
+                System.out.println("This is the size after call back  " + allBedsWithoutStatus.size());
+                for (int i = 0; i < allBedsWithoutStatus.size(); i++) {
+                    bedIdString = "";
+                    wardIdString = "";
+                }
             }
         });
-        mDateSetListener1 = new DatePickerDialog.OnDateSetListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+        calV.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 dateSelectedString = (dayOfMonth + "-" + "0" + (month + 1) + "-" + year + " " + "00" + ":" + "00" + ":" + "00");
                 titleDate = (dayOfMonth + "-" + "0" + (month + 1) + "-" + year);
-                System.out.println("Date selected string " + dateSelectedString);
-                edDate.setText(dateSelectedString);
-            }
-        };
 
-
-        statusBtn.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View v) {
-                if(dateSelectedString == null) {
-                    Toast.makeText(getApplicationContext(),"Please choose a date to continue", Toast.LENGTH_LONG).show();
-                }else{
-                    Intent intent = new Intent(v.getContext(), BedStatusChartsForDate.class);
+                if (dateSelectedString == null) {
+                    Toast.makeText(getApplicationContext(), "Please choose a date to continue", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(view.getContext(), BedStatusChartsForDate.class);
+                    intent.putExtra("All Beds",allBedsWithoutStatus);
                     intent.putExtra("Date", dateSelectedString);
                     intent.putExtra("titleDate", titleDate);
-                    v.getContext().startActivity(intent);
+                    view.getContext().startActivity(intent);
                 }
-
 
             }
         });
+    }
+
+    public void getAllBedDetails(Callbacka callback){
+        System.out.println("Get all bed details ");
+        db.collection("bed")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                        if (task2.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task2.getResult()) {
+                                final BedInfo bifIn = new BedInfo();
+                                bedIdString = document.getId();
+                                wardIdString = document.getString("Ward");
+                                bifIn.setBedId(bedIdString);
+                                bifIn.setWard(wardIdString);
+                                allBedsWithoutStatus.add(bifIn);
+                            }
+                               callback.calla();
+                        }
+                    }
+                });
     }
 
     @Override
@@ -144,7 +155,12 @@ public class BedStatusForDate extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    // Callback function
+    public interface Callbacka {
+        void calla();
+    }
 }
+
 
 
 

@@ -4,35 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/side_nav_bar"
+    android:background="@drawable/bedapp"
     tools:context=".BedStatusForDate">
 
-    <Button
-        android:id="@+id/btnStatus"
-        android:layout_width="189dp"
-        android:layout_height="53dp"
-        android:text="Get Bed Status"
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.315" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edDatePicker"
-        android:layout_width="320dp"
-        android:layout_height="36dp"
-        android:background="@drawable/rounded_edittext"
-        android:ems="10"
-        android:hint="Please click here to pick a date "
-        android:inputType="textPersonName"
-        android:textColor="#202020"
-        android:textColorHint="#000000"
-        android:textSize="20sp"
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="198dp"
+        android:layout_height="39dp"
+        android:text="Select a Date below"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.395"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.205" />
+        app:layout_constraintVertical_bias="0.128" />
 </androidx.constraintlayout.widget.ConstraintLayout>
