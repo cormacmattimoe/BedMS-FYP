@@ -76,6 +76,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
     BedInfo bedDetails =  new BedInfo();
     Boolean callbackDone = false;
     int bedStatusAtDate = 0;
+    int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +105,11 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         System.out.println("These are date after intent " + dateFromDateSelected);
         setTitle("Bed Status as of:  " + titleDate);
         // 99 is set for the first time through but after it will be whatever is clicked on the pie chart
-        categorySelected = 99;
         for (int j = 0; j < allBedsWithoutStatus.size(); j++) {
             System.out.println("All Beds without status after intent " + "  " + j + " " + allBedsWithoutStatus.get(j).getBedId() + allBedsWithoutStatus.get(j).getWard());
         }
         getBedHistory();
+        /*
         Handler h =new Handler() ;
         h.postDelayed(new Runnable() {
             @Override
@@ -121,6 +122,8 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
             }
         } , 5000);
 
+
+         */
         //  totalNumberOfBeds = allBeds.size();
         /*
           first element of singleBedStatusAndWard  = Status  and is :  0 = open, [1]  = allocated, [2]   = occupied, [3]  = cleaning, [4] = no history for that date - bed not yet created.
@@ -160,18 +163,102 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
     }
 
+    public int getBedStatus(Task<QuerySnapshot> returnedHistory) {
+        int statusCode;
+
+        String event = "";
+        String eventDateString = "";
+        Date eventDateFromDb = new Date();
+        Date dateSelectedFromScreen = new Date();
+        int count = 0;
+
+        for (QueryDocumentSnapshot history : returnedHistory.getResult()) {
+            eventDateString = history.getString("dateAndTime");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+            try {
+                eventDateFromDb = format.parse(eventDateString);
+                dateSelectedFromScreen = dateFormatter.parse(dateFromDateSelected);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            //Storing the eventType for transactions before or equal to the selectedDate
+            if (eventDateFromDb.compareTo(dateSelectedFromScreen) <= 0) {
+                event = history.getString("eventType");
+            }
+        }
+
+        switch (event) {
+            case "Added bed":
+            case "Bed allocated to ward":
+            case "Bed is now open":
+            case "Bed is cleaned – ready for next patient":
+                statusCode = 0;
+                break;
+            case "Bed allocated - patient on way":
+                statusCode = 1;
+                break;
+            case "Patient in bed in ward":
+                statusCode = 2;
+                break;
+            case "Bed ready for cleaning":
+                statusCode = 3;
+                break;
+            default:
+                statusCode = 4;
+                break;
+        }
+
+        return statusCode;
+    }
+
+    public void getHistoryDetails(String bedId, int numberOfBeds, String ward) {
+        // Do database query for each bed ID to get the bed history back
+        db.collection("bed")
+                .document(bedId)
+                .collection("bedHistory4")
+                .orderBy("dateAndTime")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> returnedHistory) {
+                        if (returnedHistory.isSuccessful()) {
+                            System.out.println("count: " + count);
+                            System.out.println("BedId: " + bedId);
+                            BedInfo currentBed = new BedInfo();
+                            int bedStatus = getBedStatus(returnedHistory);
+                            currentBed.setStatus(bedStatus);
+                            currentBed.setBedId(bedId);
+                            currentBed.setWard(ward);
+                            allBedsWithStatus.add(currentBed);
+                            count++;
+
+                            if (count == numberOfBeds) {
+                                System.out.println("");
+                                buildTotals(allBedsWithStatus);
+                                //getBedStatusTotals(allBedsWithStatus);
+                            }
+
+                        }
+                    }
+                });
+    }
+
     public void getBedHistory() {
         int statusCode = 0;
+        int numberOfBeds  = allBedsWithoutStatus.size();
         for (int u = 0; u < allBedsWithoutStatus.size(); u++) {
             bedIdString = allBedsWithoutStatus.get(u).getBedId();
             wardIdString = allBedsWithoutStatus.get(u).getWard();
             System.out.println("Before calculate This the bed id and ward id " + u + "  " + bedIdString + " " + wardIdString);
+            getHistoryDetails(bedIdString, numberOfBeds, wardIdString);
 
 
-                 bedStatusAtDate  =  calculateStatus(bedIdString, new Callbackb() {
+               /* calculateStatus(bedIdString, new Callbackb() {
                 @Override
                 public void callb() {
-
 
                     System.out.println("This is the bed status at date  = " + BedStatusChartsForDate.this.bedStatusAtDate);
 
@@ -207,7 +294,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                     System.out.println("List of all beds with status added end of getBedHistory = " + "  " + size + " " + allBedsWithStatus.get(size).getBedId() + allBedsWithStatus.get(size).getWard() + " " + allBedsWithStatus.get(size).getStatus());
 
                 }
-            });
+            });*/
         }
     }
 
@@ -215,7 +302,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
 
     // Method here to get all the beds from the beds collection to then to be passed in to get the bed history in the next method
-    public int calculateStatus(String bedId, Callbackb callbackb) {
+    public void calculateStatus(String bedId, Callbackb callbackb) {
         System.out.println("This the bed Id before using db call "+ bedId);
         //   System.out.println("this should be details returned "+   .getAllBedDetails());
         //Now get the history of the bed to get the status
@@ -232,6 +319,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                             String eventDateString = "";
                             Date eventDateFromDb = new Date();
                             Date dateSelectedFromScreen = new Date();
+                            int count = 0;
                             for (QueryDocumentSnapshot history : task1.getResult()) {
                                 eventDateString = history.getString("dateAndTime");
                                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -274,7 +362,17 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                                     break;
                             }   // end Switch for bedStatus
 
-                            System.out.println("Bed details added to all beds with status " + bedId +  " " + " " + statusCode);
+                            System.out.println("Bed details added to all beds with status " + bedId + " " + " " + statusCode);
+                            count++;
+                            bedDetails.setBedId(bedId);
+                            bedDetails.setStatus(statusCode);
+                            allBedsWithStatus.add(bedDetails);
+
+                            if (count == allBedsWithoutStatus.size()){
+                                // do whatever you want to do next that operates on the arraylist of bedids and status codes
+                                System.out.println("List of all beds with status added end of calculate status  = " + "  " + count + " " + allBedsWithStatus.get(count).getBedId() + allBedsWithStatus.get(count).getWard() + " " + allBedsWithStatus.get(count).getStatus());
+
+                            }
                             callbackb.callb();
                         } else {
                             Log.d(TAG, "Error getting documents: ", task1.getException());
@@ -282,7 +380,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
                     }
                 });
-        return statusCode;
+        //return statusCode;
     }
 
 
@@ -435,14 +533,14 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         chart.setHighlightFullBarEnabled(true);
         chart.getDescription().setEnabled(false);
 
-        if (categorySelected == 99){
+       // if (categorySelected == 99){
             // first time thru category = 99 - meaning show all beds.
             // To do this add all categories for all wards to show total for all categories for all wards
             // OR show stacked barchart for Ward - showing open, allocated, oppupoed, cleaning by ward in a stacked barchart.
             //
             //  more here for all wards.....
-        }
-        else {
+       // }
+      //  else {
             getBedsByStatusByWard.add(new BarEntry(0, allBedStatusbyWard[categorySelected][0]));
             getBedsByStatusByWard.add(new BarEntry(1, allBedStatusbyWard[categorySelected][1]));
             getBedsByStatusByWard.add(new BarEntry(2, allBedStatusbyWard[categorySelected][2]));
@@ -552,7 +650,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
             xAxis.setValueFormatter(formatter);
             chart.setData(Data);
             chart.invalidate();
-        }
+
         return getBedsByStatusByWard;
     }
 
