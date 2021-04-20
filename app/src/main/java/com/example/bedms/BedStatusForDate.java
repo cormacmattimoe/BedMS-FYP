@@ -100,9 +100,10 @@ public class BedStatusForDate extends AppCompatActivity {
                                 bifIn.setBedId(bedIdString);
                                 bifIn.setWard(wardIdString);
                                 allBedsWithoutStatus.add(bifIn);
+
                             }
                                callback.calla();
-                        }
+                                                 }
                     }
                 });
     }

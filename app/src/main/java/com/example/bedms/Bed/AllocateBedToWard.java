@@ -18,8 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.R;
-import com.example.bedms.UpdateBedHistory;
-import com.example.bedms.UpdateBedHistory4;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

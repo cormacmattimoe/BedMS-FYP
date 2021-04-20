@@ -2,17 +2,17 @@ package com.example.bedms;
 
 import java.time.LocalDateTime;
 
-public class BedHistory4Event {
+public class BedHistoryEvent {
 
     private String eventType;
     private String dateAndTime;
 
 
-    public BedHistory4Event() {
+    public BedHistoryEvent() {
 
     }
 
-    public BedHistory4Event(String eventType, String dateAndTime) {
+    public BedHistoryEvent(String eventType, String dateAndTime) {
         this.eventType = eventType;
         this.dateAndTime = dateAndTime;
     }

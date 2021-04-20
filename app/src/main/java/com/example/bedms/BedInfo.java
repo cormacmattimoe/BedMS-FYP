@@ -1,11 +1,15 @@
 package com.example.bedms;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class BedInfo implements Serializable {
     String bedId;
     String ward;
-    int status;
+    int currentStatus;
+    //how to set Open, Allocated, Occupier, Cleaning, NotYetCreated here?
+    ArrayList <BedHistoryEvent> bedHistory = new ArrayList<>();
+    //need neew????
 
 
     public String getBedId() {
@@ -24,11 +28,19 @@ public class BedInfo implements Serializable {
         this.ward = ward;
     }
 
-    public int getStatus() {
-        return status;
+    public int getCurrentStatus() {
+        return currentStatus;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setCurrentStatus(int currentStatus) {
+        this.currentStatus = currentStatus;
+    }
+
+    public ArrayList<BedHistoryEvent> getBedHistory() {
+        return bedHistory;
+    }
+
+    public void setBedHistory(ArrayList<BedHistoryEvent> bedHistory) {
+        this.bedHistory = bedHistory;
     }
 }

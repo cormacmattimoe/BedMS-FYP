@@ -201,7 +201,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                             System.out.println("BedId: " + bedId);
                             BedInfo currentBed = new BedInfo();
                             int bedStatus = getBedStatus(returnedHistory);
-                            currentBed.setStatus(bedStatus);
+                            currentBed.setCurrentStatus(bedStatus);
                             currentBed.setBedId(bedId);
                             currentBed.setWard(ward);
                             allBedsWithStatus.add(currentBed);
@@ -262,9 +262,9 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         int codeStatus, codeWard;
         for (int k = 0; k < allBedDetails.size(); k++) {
             wardString = allBedDetails.get(k).getWard();
-            bedStats[0] = allBedDetails.get(k).getStatus();
-            codeStatus = allBedDetails.get(k).getStatus();
-            System.out.println("In build totals all bed details  " + k + " " + wardString + " " + allBedDetails.get(k).getStatus());
+            bedStats[0] = allBedDetails.get(k).getCurrentStatus();
+            codeStatus = allBedDetails.get(k).getCurrentStatus();
+            System.out.println("In build totals all bed details  " + k + " " + wardString + " " + allBedDetails.get(k).getCurrentStatus());
             switch (wardString) {
                 case "St Johns":
                     codeWard = 0;

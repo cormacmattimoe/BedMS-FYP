@@ -63,37 +63,17 @@ public class OccupancyPerMonth extends AppCompatActivity implements
     String dateSelected;
     BedStatusChartsForDate bscd;
   //  int monthsList = new ArrayList<>();
-    TextView totalbeds, occupanyRate;
-    String dateFromDateSelected;
-    int days = 0;
 
     float occRate;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    Map<String,String> myMap = new HashMap<String,String>();
 
-    int categorySelected;
-    BedInfo bip;
-    String bi;
-    int bedCountatDate = 0;
-    int open;
-    int occupied;
-    int allocated;
-    int cleaning;
-    int bedNotYetCreated;
-    int totalNumberOfBeds;
 
     ArrayList<BedInfo> allBeds = new ArrayList<BedInfo>();
     ArrayList<BedInfo> allBedsWithStatus = new ArrayList<BedInfo>();
-    int[] bedStatus = new int[]{0, 0};
-    String ward;
-    BedInfo bedId;
-    int statusCode;
-    int wardCode;
+
     String bedIdString;
     String wardIdString;
-    int status;
-    Map<String, String> bedsAll = new HashMap<>();
-    BedInfo bifOut = new BedInfo();
+
     Boolean firstTimeThrough = true;
     int[] occupancyRate ;    //declaring array
     int count =0;
@@ -225,31 +205,29 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 dateSelected = (day + "-" + month +"-2021 00:00:00");
             }
             System.out.println("in COTFM : starting for date = " + dateSelected + "  day = " + i );
-            allBedsWithStatus.clear();
-            getBedHistoryforEachBedforDay(i,numberOfDays);
+            getBedHistoryforEachBedforDay(i,numberOfDays, dateSelected);
 
             System.out.println("in COTFM : Occupancy rate for day = " + i + " = "+ occupancyRate[i] + " and number of days = " + numberOfDays );
         }
     }
 
 
-    public void getBedHistoryforEachBedforDay(int day, int numberOfDays) {
+    public void getBedHistoryforEachBedforDay(int day, int numberOfDays, String dateSelected) {
          //run thru each bed and get its status and occ rate, and add it to the array allBedsWithStatus
 
+        allBedsWithStatus.clear();
         int numberOfBeds  = allBeds.size();
-
-        for (int u = 0; u < allBeds.size(); u++) {
-            bedIdString = allBeds.get(u).getBedId();
-            wardIdString = allBeds.get(u).getWard();
+        for (BedInfo bed:allBeds) {
+            bedIdString = bed.getBedId();
+            wardIdString = bed.getWard();
             //System.out.println("Before calculate This the bed id and ward id for index = " + u + "  bed ID = " + bedIdString + "  ward ID = " + wardIdString);
-            getHistoryDetails(bedIdString, numberOfBeds, wardIdString, day, numberOfDays);
+            getHistoryDetails(bedIdString, numberOfBeds, wardIdString, day, numberOfDays, dateSelected);
 //            System.out.println("after calc: This is the occ rate for bed index = " + u + " and day =  " + day + " occupancy = " + occupancyRate[day]);
         }
-
     }
 
 
-    public void getHistoryDetails(String bedId, int numberOfBeds, String ward, int day, int numberOfDays) {
+    public void getHistoryDetails(String bedId, int numberOfBeds, String ward, int day, int numberOfDays, String dateSelected) {
         // Do database query for each bed ID to get the bed history back
         System.out.println("in getHistoryDetails");
 
@@ -265,16 +243,19 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                            // System.out.println("count: " + count);
                           //  System.out.println("BedId: " + bedId);
                             BedInfo currentBed = new BedInfo();
-                            int bedStatus = getBedStatus(returnedHistory);
-                            currentBed.setStatus(bedStatus);
+                            int bedStatus = getBedStatus(returnedHistory, dateSelected);
+                            currentBed.setCurrentStatus(bedStatus);
                             currentBed.setBedId(bedId);
                             currentBed.setWard(ward);
                             allBedsWithStatus.add(currentBed);
                             count++;
 
                             if (count == numberOfBeds) {
-                                System.out.println("Going to build totals for day = " + day + " and count = " + count + "number of beds = " + numberOfBeds);
+                                System.out.println("Going to build totals for day = " + day + " and count = " + count + "# of beds = " + numberOfBeds + "  date = "+ dateSelected);
                                 count = 0;
+                                for (int c = 0; c < numberOfBeds; c++) {
+                                    System.out.println("day = " + day + " date = "+ dateSelected + "allbeds = " + allBeds.get(c).getBedId() + " abws = " +allBedsWithStatus.get(c).getBedId());
+                                }
                                 buildTotals(allBedsWithStatus, day, numberOfDays);
                             }
                         }
@@ -283,7 +264,9 @@ public class OccupancyPerMonth extends AppCompatActivity implements
     }
 
 
-    public int getBedStatus(Task<QuerySnapshot> returnedHistory) {
+    public int getBedStatus(Task<QuerySnapshot> returnedHistory, String dateSelected) {
+        // runs thru the returnedHistory until = dateSelected and returns state at that date
+
         int statusCode;
 
         String event = "";
@@ -334,58 +317,54 @@ public class OccupancyPerMonth extends AppCompatActivity implements
 
 
     public void buildTotals(ArrayList <BedInfo> allBedDetails, int day,int numberOfDays) {
+
+        int bedCountatDate;
+        int open;
+        int occupied;
+        int allocated;
+        int cleaning;
+        int bedNotYetCreated;
         /*
-          We are using two arrays to describe bed stats.
+        we need 2 stats for each bed: statusCode and wardCode.
+              StatusCode represents :  0 = open, 1  = allocated, 2   = occupied, 3 = cleaning, 4 = no history for that date - bed not yet created.
+              wardCode represents:      0 = "St Johns":1 = "St Marys":2 = "St Pauls":3 = "St Magz":4 = "St Joes":5 = other Ward (default)
 
-          First we use bedStats to show stats for a single bed. This is a 2 element array as follows:
-              first element = Status  and is :  0 = open, [1]  = allocated, [2]   = occupied, [3]  = cleaning, [4] = no history for that date - bed not yet created.
-              Second element is the Ward the bed is in
-                         open =                   [0][w]
-                         allocated =              [1][w]
-                         occupied =               [2][w]
-                         cleaning =               [3][w]
-                         notcreatedyet =          [4][w]       This will be set if event = "".
-                         Ward name =                 [w]   0 = "St Johns":1 = "St Marys":2 = "St Pauls":3 = "St Magz":4 = "St Joes":5 = other Ward (default)
-
-          Second we use allBedsStatusbyWard to show stats for all beds. This is a 5 X 6 array showing total by Status and Ward combination :
+          Then we use allBedsStatusbyWard to show stats for all beds. This is a 5 X 6 array showing total by Status and Ward combination :
               Status  and is :  0 = open, [1]  = allocated, [2]   = occupied, [3]  = cleaning, [4] = no history for that date - bed not yet created.
               Ward the bed is in
                   Example:  allBedsStatusbyWard[2][3] = total of beds which have status 2 (occupied) and ward 3 (St Mags).
-
          */
+
         System.out.println("In Build Totals");
         int[][] allBedStatusbyWard = new int[5][6];
-        int[] bedStats = new int[]{0, 0};
         String wardString;
-        int codeStatus, codeWard;
+        int statusCode, wardCode;
         for (int k = 0; k < allBedDetails.size(); k++) {
             wardString = allBedDetails.get(k).getWard();
-            bedStats[0] = allBedDetails.get(k).getStatus();
-            codeStatus = allBedDetails.get(k).getStatus();
-            //  System.out.println("In build totals all bed details  " + k + " " + wardString + " " + allBedDetails.get(k).getStatus());
+            statusCode = allBedDetails.get(k).getCurrentStatus();
             switch (wardString) {
                 case "St Johns":
-                    codeWard = 0;
+                    wardCode = 0;
                     break;
                 case "St Marys":
-                    codeWard = 1;
+                    wardCode = 1;
                     break;
                 case "St Pauls":
-                    codeWard = 2;
+                    wardCode = 2;
                     break;
                 case "St Magz":
-                    codeWard = 3;
+                    wardCode = 3;
                     break;
                 case "St Joes":
-                    codeWard = 4;
+                    wardCode = 4;
                     break;
                 default:
-                    codeWard = 5;
+                    wardCode = 5;
             }  // end Switch for Ward
-            bedStats[1] = codeWard;
 
-            //System.out.println("This is the the bed id inside build totals = " + allBedDetails.get(k).getBedId() + " " + "Ward id = " + wardString + "Ward Code =  " + codeWard + "Status = " + codeStatus);
-            allBedStatusbyWard[codeStatus][codeWard] = allBedStatusbyWard[codeStatus][codeWard] + 1;
+            allBedStatusbyWard[statusCode][wardCode] = allBedStatusbyWard[statusCode][wardCode] + 1;
+            System.out.println("in build totals Day = " + day + " the bedid = " + allBedDetails.get(k).getBedId() + " Ward id = " + wardString + " Status + Ward Code =  " + statusCode + " " + wardCode);
+
         }
 
         open = totalCategory(0, allBedStatusbyWard);
@@ -412,6 +391,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
 
         System.out.println("at end of Build Totals, day = " + day + " numberofdays = " + numberOfDays + " occRate = " + occupancyRate[day]);
         allBedDetails.clear();
+
         if (day==numberOfDays)
          {
              for (int j = 1; j < numberOfDays+1; j++) {

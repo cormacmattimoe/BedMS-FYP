@@ -143,7 +143,7 @@ public class CalculateWaitTime extends AppCompatActivity {
 
 
     public void getAllBeds(){
-    //called during onCreate to gtahter all bed details
+    //called during onCreate to gahter all bed details
 
         System.out.println("Get all bed details ");
         db.collection("bed")

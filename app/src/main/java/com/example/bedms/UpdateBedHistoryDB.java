@@ -6,35 +6,33 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.example.bedms.Model.BedHistory2Event;
-import com.example.bedms.Model.BedHistoryEvent;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-
-public class UpdateBedHistory2 {
+public class UpdateBedHistoryDB {
     private static final String TAG = "bedHistory" ;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void updateBedHistory2(String bedId, String eventType, LocalDateTime eventDate){
-        BedHistory2Event newEvent = new BedHistory2Event();
+    public void updateBedHistory4(String bedId, String eventType, String outputDate){
+        BedHistoryEvent newEvent = new BedHistoryEvent();
+
+
+
+
         newEvent.setEventType(eventType);
-        newEvent.setDateAndTime(eventDate);
+        newEvent.setDateAndTime(outputDate);
 
         db.collection("bed")
                 .document(bedId)
-                .collection("bedHistory2")
+                .collection("bedHistory4")
                 .add(newEvent)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "Bed history 2 added " + documentReference.getId());
+                        Log.d(TAG, "Bed history updated for " + documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
