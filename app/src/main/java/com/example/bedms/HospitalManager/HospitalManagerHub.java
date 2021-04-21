@@ -1,4 +1,4 @@
-package com.example.bedms;
+package com.example.bedms.HospitalManager;
 
 
 import android.content.Intent;
@@ -12,14 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-
-import com.example.bedms.HospitalManager.StatsAsOfToday;
+import com.example.bedms.OccupancyPerMonth;
+import com.example.bedms.R;
+import com.example.bedms.StatsShown;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class testingSplash extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HospitalManagerHub extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     ImageButton imageButtonAnimals, imageButtonVets, imageButtonWeather, imageButtonMap, imageButtonToDo, imageButtonEmissions, imageButtonInvoiceExpense, buttonSideMenu;
@@ -45,24 +46,24 @@ public class testingSplash extends AppCompatActivity implements NavigationView.O
 
     public void clickHospitalManager(View view) {
         imageButtonAnimals = findViewById(R.id.hosManHub);
-        startActivity(new Intent(testingSplash.this, StatsAsOfToday.class));
+        startActivity(new Intent(HospitalManagerHub.this, StatsAsOfToday.class));
 
     }
 
     public void clickDate(View view) {
         imageButtonVets = findViewById(R.id.imageButtonVets);
-        startActivity(new Intent(testingSplash.this, BedStatusForDate.class));
+        startActivity(new Intent(HospitalManagerHub.this, BedStatusForDate.class));
 
     }
 
     public void clickStats(View view) {
         imageButtonWeather = findViewById(R.id.imageButtonWeather);
-        startActivity(new Intent(testingSplash.this, StatsShown.class));
+        startActivity(new Intent(HospitalManagerHub.this, StatsShown.class));
     }
 
     public void clickRate(View view) {
         imageButtonToDo = findViewById(R.id.imageButtonToDoList);
-        startActivity(new Intent(testingSplash.this, OccupancyPerMonth.class));
+        startActivity(new Intent(HospitalManagerHub.this, OccupancyPerMonth.class));
 
     }
 
@@ -119,47 +120,8 @@ public class testingSplash extends AppCompatActivity implements NavigationView.O
         }
     }
 
- */
 
-/*
-    public void clickAnimals(View view) {
-        imageButtonAnimals = findViewById(R.id.imageButtonAnimals);
-        Toast.makeText(MainActivity.this, "Animals Registered", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(MainActivity.this, AnimalActivity.class));
 
-    }
-
-    public void clickVets(View view) {
-        imageButtonVets = findViewById(R.id.imageButtonVets);
-        startActivity(new Intent(MainActivity.this, VetActivity.class));
-
-    }
-
-    public void clickWeather(View view) {
-        imageButtonWeather = findViewById(R.id.imageButtonWeather);
-        startActivity(new Intent(MainActivity.this, WeatherActivity.class));
-    }
-
-    public void clickToDoList(View view) {
-        imageButtonToDo = findViewById(R.id.imageButtonToDoList);
-        startActivity(new Intent(MainActivity.this, ToDoListActivity.class));
-
-    }
-
-    public void clickGoogleMap(View view) {
-        imageButtonMap = findViewById(R.id.imageButtonGoogleMap);
-        startActivity(new Intent(MainActivity.this, MapsActivity.class));
-    }
-
-    public void clickEmissions(View view) {
-        imageButtonEmissions = findViewById(R.id.imageButtonEmissions);
-        startActivity(new Intent(MainActivity.this, EmissionsActivity.class));
-    }
-
-    public void clickInvoiceExpense(View view) {
-        imageButtonInvoiceExpense = findViewById(R.id.imageButtonInvoiceExpense);
-        startActivity(new Intent(MainActivity.this, InvoiceReceiptActivity.class));
-    }
 
     private void closeDrawer() {
         drawerLayout.closeDrawer(GravityCompat.START);

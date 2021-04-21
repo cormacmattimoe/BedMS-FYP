@@ -8,15 +8,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.Auth.login;
-import com.example.bedms.Auth.welcome;
-import com.example.bedms.Bed.Inventoryofbeds;
 import com.example.bedms.BedStatusForDate;
 import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.Model.Bed;
@@ -37,7 +33,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,7 +44,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class hospitalmanagerhub extends AppCompatActivity {
+public class StatsAsOfToday extends AppCompatActivity {
 
     private static String TAG = "MainActivity";
 
@@ -71,7 +66,7 @@ public class hospitalmanagerhub extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hospitalmanagerhub);
+        setContentView(R.layout.activity_statsasoftoday);
         Log.d(TAG, "onCreate: starting to create chart");
         String titleVariable = "As Of Today";
         setTitle("Bed Status " + titleVariable);
@@ -464,26 +459,26 @@ public class hospitalmanagerhub extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Intent i = new Intent(hospitalmanagerhub.this, hospitalmanagerhub.class);
+                Intent i = new Intent(StatsAsOfToday.this, StatsAsOfToday.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
-                Intent z = new Intent(hospitalmanagerhub.this, BedStatusForDate.class);
+                Intent z = new Intent(StatsAsOfToday.this, BedStatusForDate.class);
                 startActivity(z);
                 return true;
             case R.id.item3:
-                Intent S = new Intent(hospitalmanagerhub.this, OccupancyPerMonth.class);
+                Intent S = new Intent(StatsAsOfToday.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
             case R.id.item4:
-                Intent g = new Intent(hospitalmanagerhub.this, CalculateWaitTime.class);
+                Intent g = new Intent(StatsAsOfToday.this, CalculateWaitTime.class);
                 startActivity(g);
                 return true;
 
             case R.id.item5:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent r = new Intent(hospitalmanagerhub.this, login.class);
+                Intent r = new Intent(StatsAsOfToday.this, login.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,4 +1,6 @@
-package com.example.bedms;
+
+/*
+        package com.example.bedms;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -18,3 +20,5 @@ public class GetWardForBedTest extends TestCase {
         assertEquals("St Joes", ward);
     }
 }
+
+ */

@@ -17,9 +17,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/bedlogo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/bedlogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
@@ -49,7 +49,7 @@
         <activity android:name=".CalculateWaitTime" />
         <activity android:name=".StatsShown" />
         <activity android:name=".drawer" />
-        <activity android:name=".HospitalManager.hospitalmanagerhub" />
+        <activity android:name=".HospitalManager.StatsAsOfToday" />
         <activity android:name=".Doctor.dischargepatient" />
         <activity android:name=".Doctor.inventoryofpatientsinbeds" />
         <activity android:name=".Patient.inventoryofpatientsadmin" />
@@ -66,7 +66,6 @@
         <activity android:name=".Employees.Inventoryofemployees" />
         <activity android:name=".Doctor.doctorhub" />
         <activity android:name=".Employees.hospitalmanager" />
-
         <activity android:name=".Admin.CreateNewPatient" />
         <activity android:name=".Doctor.SearchPatient" />
         <activity android:name=".Doctor.AdmitPatient" />
@@ -78,14 +77,14 @@
         <activity android:name=".Auth.login" />
         <activity android:name=".Employees.manageemployees" />
         <activity android:name=".Auth.Register" />
-        <activity android:name=".Auth.welcome">
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Auth.MainActivity" />
+        <activity android:name=".Auth.welcome"/>
 
         <meta-data
             android:name="preloaded_fonts"

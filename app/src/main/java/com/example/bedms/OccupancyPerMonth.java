@@ -19,7 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.bedms.Auth.login;
-import com.example.bedms.HospitalManager.hospitalmanagerhub;
+import com.example.bedms.HospitalManager.HospitalManagerHub;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -38,6 +38,7 @@ import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -62,7 +63,8 @@ public class OccupancyPerMonth extends AppCompatActivity implements
     ArrayAdapter<CharSequence> adapter;
     String dateSelected;
     BedStatusChartsForDate bscd;
-  //  int monthsList = new ArrayList<>();
+
+    //  int monthsList = new ArrayList<>();
 
     float occRate;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -79,6 +81,8 @@ public class OccupancyPerMonth extends AppCompatActivity implements
     int count =0;
     int numberOfDays = 0;
 
+
+    int[] occupiedBeds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +102,10 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         spinMonths.setAdapter(adapter);
         monthSelected = "";
         getAllBedIDs();
-        createLineChart();
+        createNewLineChart(); //Need to figure out why it's being called twice
         firstTimeThrough = false;
         spinMonths.setOnItemSelectedListener(this);
-   //     spinMonths.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+        //     spinMonths.setOnItemClickListener((AdapterView.OnItemClickListener) this);
 
         // Build array of allbeds that we will use to drive the gathering of data for the desired month
 
@@ -117,7 +121,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 // then after totals are calculated - call createLineChart
                 setTitle("Month Selected  = " );
                 monthSelected = spinMonths.getSelectedItem().toString();
-                if(monthSelected != "Please select here..." ) {
+                if(!monthSelected.equals("Please select here...")) {
                     setTitle("Month Selected  = " + monthSelected);
                     for (int b = 0; b < allBeds.size(); b++) {
                         System.out.println("in OnSelected : all beds " + b + " = " + allBeds.get(b).getBedId());
@@ -177,7 +181,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         //    and y is the occupancy rate.
         //     Date format = ("dd-MM-yyyy HH:mm:ss");
         switch (monthSelected) {
-            case ("Janary"):
+            case ("January"):
                 numberOfDays = 31;
                 month = "01";
                 break;
@@ -190,42 +194,75 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 month = "03";
                 break;
             default:
-                numberOfDays = 30;
-                month = "01";
+                return;
         }
 
         occupancyRate = new int[numberOfDays+1];
+        occupiedBeds = new int[numberOfDays+1];
 
         for (int i = 1; i < numberOfDays+1; i++) {
-          //  int i = 2;
-            String day = String.valueOf(i);
+            //  int i = 2;
             if (i < 10) {
-                dateSelected = ("0" + day + "-" + month + "-2021 00:00:00");
+                dateSelected = ("0" + String.valueOf(i) + "-" + month + "-2021 00:00:00");
             } else {
-                dateSelected = (day + "-" + month +"-2021 00:00:00");
+                dateSelected = (String.valueOf(i) + "-" + month +"-2021 00:00:00");
             }
             System.out.println("in COTFM : starting for date = " + dateSelected + "  day = " + i );
+
             getBedHistoryforEachBedforDay(i,numberOfDays, dateSelected);
 
-            System.out.println("in COTFM : Occupancy rate for day = " + i + " = "+ occupancyRate[i] + " and number of days = " + numberOfDays );
+            System.out.println("in COTFM : Occupancy rate for day = " + i + " = "+ occupancyRate[1] + " and number of days = " + numberOfDays );
         }
+        //finished calculating all totals, now plot chart;
+        // while(stillCalculating){
+        // Do nothing.
+        // }
+        createNewLineChart();
+
+
+
+
+
     }
 
 
     public void getBedHistoryforEachBedforDay(int day, int numberOfDays, String dateSelected) {
-         //run thru each bed and get its status and occ rate, and add it to the array allBedsWithStatus
+        //run thru each bed and get its status and occ rate, and add it to the array allBedsWithStatus
 
         allBedsWithStatus.clear();
         int numberOfBeds  = allBeds.size();
-        for (BedInfo bed:allBeds) {
+        for (BedInfo bed:allBeds) { // THIS IS EMPTY
             bedIdString = bed.getBedId();
             wardIdString = bed.getWard();
             //System.out.println("Before calculate This the bed id and ward id for index = " + u + "  bed ID = " + bedIdString + "  ward ID = " + wardIdString);
-            getHistoryDetails(bedIdString, numberOfBeds, wardIdString, day, numberOfDays, dateSelected);
+            getHistoryDetailsNew(bedIdString, numberOfBeds, wardIdString, day, numberOfDays, dateSelected);
 //            System.out.println("after calc: This is the occ rate for bed index = " + u + " and day =  " + day + " occupancy = " + occupancyRate[day]);
         }
     }
 
+    private void getHistoryDetailsNew(String bedId, int numberOfBeds, String ward, int day, int numberOfDays, String dateSelected) {
+        // Do database query for each bed ID to get the bed history back
+        //System.out.println("in getHistoryDetails");
+
+        CollectionReference eventsCollection = db.collection("bed")
+                .document(bedId)
+                .collection("bedHistory4");
+
+        Task<QuerySnapshot> events = eventsCollection.get();
+        while (!events.isComplete()){
+
+        }
+
+        int bedStatus = getBedStatus(events, dateSelected);
+        AddToTotal(bedStatus, day);
+
+    }
+
+    private void AddToTotal(int bedStatus, int day) {
+        if (bedStatus!= 4){
+            occupiedBeds[day]++;
+        }
+    }
 
     public void getHistoryDetails(String bedId, int numberOfBeds, String ward, int day, int numberOfDays, String dateSelected) {
         // Do database query for each bed ID to get the bed history back
@@ -240,8 +277,8 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> returnedHistory) {
                         if (returnedHistory.isSuccessful()) {
-                           // System.out.println("count: " + count);
-                          //  System.out.println("BedId: " + bedId);
+                            // System.out.println("count: " + count);
+                            //  System.out.println("BedId: " + bedId);
                             BedInfo currentBed = new BedInfo();
                             int bedStatus = getBedStatus(returnedHistory, dateSelected);
                             currentBed.setCurrentStatus(bedStatus);
@@ -266,6 +303,10 @@ public class OccupancyPerMonth extends AppCompatActivity implements
 
     public int getBedStatus(Task<QuerySnapshot> returnedHistory, String dateSelected) {
         // runs thru the returnedHistory until = dateSelected and returns state at that date
+
+        if (returnedHistory.getResult().isEmpty()){
+            return 4;
+        }
 
         int statusCode;
 
@@ -340,8 +381,9 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         String wardString;
         int statusCode, wardCode;
         for (int k = 0; k < allBedDetails.size(); k++) {
-            wardString = allBedDetails.get(k).getWard();
-            statusCode = allBedDetails.get(k).getCurrentStatus();
+            BedInfo bed = allBedDetails.get(k);
+            wardString = bed.getWard();
+            statusCode = bed.getCurrentStatus();
             switch (wardString) {
                 case "St Johns":
                     wardCode = 0;
@@ -362,8 +404,9 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                     wardCode = 5;
             }  // end Switch for Ward
 
-            allBedStatusbyWard[statusCode][wardCode] = allBedStatusbyWard[statusCode][wardCode] + 1;
-            System.out.println("in build totals Day = " + day + " the bedid = " + allBedDetails.get(k).getBedId() + " Ward id = " + wardString + " Status + Ward Code =  " + statusCode + " " + wardCode);
+            allBedStatusbyWard[statusCode][wardCode]++;
+            System.out.println("in build totals Day = " + day + " the bedId = " + bed.getBedId() + " Ward id = " + wardString + " Status:" + statusCode +" Ward Code:" + wardCode);
+            System.out.println("Status/Ward count: " + allBedStatusbyWard[statusCode][wardCode]);
 
         }
 
@@ -374,7 +417,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         bedNotYetCreated = totalCategory(4, allBedStatusbyWard);
         bedCountatDate = allBedDetails.size() - bedNotYetCreated;
 
-        System.out.println("Totals for day = " + day + "Numbers = " + open + " " + allocated + " " + occupied + " " + cleaning + " " + bedNotYetCreated + " and overall total on the date = " + bedCountatDate);
+        System.out.println("Totals for day = " + day + " Open:" + open + " Allocated:" + allocated + " Occupied:" + occupied + " Cleaning:" + cleaning + " Bed Not yet Created:" + bedNotYetCreated + " and overall total on the date = " + bedCountatDate);
 
         //Calculate Total Beds and Occupancy rate @ date and display on screen.
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -389,21 +432,21 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         // If the day being processed = number of days then print the chart.
         occupancyRate[day] = (int) occRate;
 
-        System.out.println("at end of Build Totals, day = " + day + " numberofdays = " + numberOfDays + " occRate = " + occupancyRate[day]);
+        System.out.println("at end of Build Totals, day = " + day + " numberofdays = " + numberOfDays + " occRate% = " + occupancyRate[day]);
         allBedDetails.clear();
 
         if (day==numberOfDays)
-         {
-             for (int j = 1; j < numberOfDays+1; j++) {
-                 System.out.println("Occupancy Rate day = " + j + " = " + occupancyRate[j]);
-             }
-             createLineChart();
-         }
+        {
+            for (int j = 1; j < numberOfDays+1; j++) {
+                System.out.println("Occupancy Rate day: " + j + " = " + occupancyRate[j] +"%");
+            }
+            createLineChart();
+        }
         else {
             System.out.println("no match - day = " + day + " numberofdays = " + numberOfDays + " continuing");
         }
 
-        }
+    }
 
     public int totalCategory(int category, int[][] allBeds2dtc) {
         int totalCategory = 0;
@@ -413,24 +456,66 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         return totalCategory;
     }
 
-
-
     public void createLineChart() {
         //occupancyRate Array contains rate per day for the month........
 
         ArrayList<Entry> yValues = new ArrayList<>();
         // clear array before starting ?
-       if(firstTimeThrough )
-            {
-                for (int i = 1; i < numberOfDays; i++) {
-                    yValues.add(new Entry(i, 0));
-                }
-            }else{
-                    yValues.clear();
-                    for (int i = 1; i < numberOfDays ; i++) {
-                    yValues.add(new Entry(i, occupancyRate[i]));
-                }
-                 }
+        if(firstTimeThrough )
+        {
+            for (int i = 1; i < numberOfDays; i++) {
+                yValues.add(new Entry(i, 0));
+            }
+        }else{
+            yValues.clear();
+            for (int i = 1; i < numberOfDays ; i++) {
+                yValues.add(new Entry(i, occupiedBeds[i]));
+            }
+        }
+        //chart.setOnChartValueSelectedListener(this);
+
+        // enable scaling and dragging
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(true);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        chart.setPinchZoom(false);
+
+        LineDataSet set1;
+
+        set1 = new LineDataSet(yValues, "Occupany Rate ");
+        set1.setDrawCircles(false);
+        set1.setDrawValues(false);
+        set1.setColor(Color.RED);
+
+        ArrayList <ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+        LineData dataLine = new LineData(set1);
+        chart.getDescription().setEnabled(false);
+        chart.getXAxis().setTextSize(10f);
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        chart.setData(dataLine);
+        chart.invalidate();
+    }
+
+
+
+    public void createNewLineChart() {
+        //occupancyRate Array contains rate per day for the month........
+
+        ArrayList<Entry> yValues = new ArrayList<>();
+        // clear array before starting ?
+        if(firstTimeThrough )
+        {
+            for (int i = 1; i < numberOfDays; i++) {
+                yValues.add(new Entry(i, 0));
+            }
+        }else{
+            yValues.clear();
+            for (int i = 1; i < numberOfDays ; i++) {
+                yValues.add(new Entry(i, occupiedBeds[i]));
+            }
+        }
         //chart.setOnChartValueSelectedListener(this);
 
         // enable scaling and dragging
@@ -520,7 +605,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Intent i = new Intent(OccupancyPerMonth.this, hospitalmanagerhub.class);
+                Intent i = new Intent(OccupancyPerMonth.this, HospitalManagerHub.class);
                 startActivity(i);
                 return true;
             case R.id.item2:

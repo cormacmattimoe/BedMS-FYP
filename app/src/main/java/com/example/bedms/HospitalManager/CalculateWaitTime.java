@@ -1,4 +1,4 @@
-package com.example.bedms;
+package com.example.bedms.HospitalManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
-import com.example.bedms.HospitalManager.StatsAsOfToday;
+import com.example.bedms.BedInfo;
+import com.example.bedms.OccupancyPerMonth;
+import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

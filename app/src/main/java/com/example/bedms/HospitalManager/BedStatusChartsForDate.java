@@ -1,6 +1,6 @@
 
 
-package com.example.bedms;
+package com.example.bedms.HospitalManager;
 
 
 import android.content.Intent;
@@ -15,7 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
-import com.example.bedms.HospitalManager.StatsAsOfToday;
+import com.example.bedms.BedInfo;
+import com.example.bedms.OccupancyPerMonth;
+import com.example.bedms.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
