@@ -30,10 +30,10 @@
     <color name="cat4">#A78ADC</color>
     <color name="cat5">#838088</color>
     <string-array name="Months">
-        <item> Please select here... </item>
         <item> January </item>
         <item> February </item>
         <item> March  </item>
+        <item> April  </item>
     </string-array>
     <string-array name="statsWanted">
         <item> click here for stats wanted ....  </item>

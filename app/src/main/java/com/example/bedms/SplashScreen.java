@@ -24,6 +24,7 @@ public class SplashScreen extends Activity {
             public void run() {
                 Intent intent=new Intent(SplashScreen.this, welcome.class);
                 startActivity(intent);
+                BedCache.SetupCache();
                 finish();
             }
         },3000);

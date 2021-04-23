@@ -1,7 +1,9 @@
 package com.example.bedms.Model;
 
-public class Bed {
+import java.util.Hashtable;
+import java.util.List;
 
+public class Bed {
 
     private String bedName;
     private String bedType;
@@ -9,14 +11,13 @@ public class Bed {
     private String bedStatus;
     private String bedWard;
     private String bedId;
-
-
-
+    private Hashtable<String,BedHistoryEvent> bedHistoryEventHashTable;
 
     //List<String> bed =  new ArrayList<>();
     public Bed(){
 
     }
+
     public Bed(String bedName, String bedType, String patientID, String bedStatus, String bedWard, String bedId ){
         this.bedName = bedName;
         this.bedType = bedType;
@@ -24,10 +25,17 @@ public class Bed {
         this.bedStatus = bedStatus;
         this.bedWard = bedWard;
         this.bedId = bedId;
-
     }
 
-
+    public Bed(String bedName, String bedType, String patientID, String bedStatus, String bedWard, String bedId, Hashtable<String,BedHistoryEvent> bedHistoryEventHashTable ){
+        this.bedName = bedName;
+        this.bedType = bedType;
+        this.patientID = patientID;
+        this.bedStatus = bedStatus;
+        this.bedWard = bedWard;
+        this.bedId = bedId;
+        this.bedHistoryEventHashTable = bedHistoryEventHashTable;
+    }
 
     public String getBedId() {
         return bedId;
@@ -48,7 +56,6 @@ public class Bed {
     public String getBedType() {
         return bedType;
     }
-
 
     public void setBedType(String bedType) {
         this.bedType = bedType;
@@ -78,5 +85,7 @@ public class Bed {
         this.bedWard = bedWard;
     }
 
+    public void setBedHistoryEventHashTable(Hashtable<String,BedHistoryEvent> bedHistoryEventHashTable) { this.bedHistoryEventHashTable = bedHistoryEventHashTable;}
 
+    public Hashtable<String,BedHistoryEvent> getBedHistoryEventHashTable() { return bedHistoryEventHashTable; }
 }
