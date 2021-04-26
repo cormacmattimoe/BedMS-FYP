@@ -27,7 +27,7 @@ public class SplashScreen extends Activity {
                 BedCache.SetupCache();
                 finish();
             }
-        },3000);
+        },2700);
 
     }
 }
