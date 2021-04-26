@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Employees.manageemployees;
-import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -57,7 +57,7 @@ public class centraladminhub extends AppCompatActivity {
         admitPatientBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CreateNewPatient.class));
+                startActivity(new Intent(getApplicationContext(), AdminHub.class));
             }
         });
     }

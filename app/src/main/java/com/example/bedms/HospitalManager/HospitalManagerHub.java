@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class HospitalManagerHub extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    ImageButton imageButtonAnimals, imageButtonVets, imageButtonWeather, imageButtonMap, imageButtonToDo, imageButtonEmissions, imageButtonInvoiceExpense, buttonSideMenu;
+    ImageButton statsToday, statsOfDate, occupancyPerMonth, overviewStats;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -35,7 +35,7 @@ public class HospitalManagerHub extends AppCompatActivity implements NavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_testing_splash);
+        setContentView(R.layout.activity_hoshub);
         setTitle("Manager Hub");
     }
 
@@ -45,24 +45,24 @@ public class HospitalManagerHub extends AppCompatActivity implements NavigationV
     }
 
     public void clickHospitalManager(View view) {
-        imageButtonAnimals = findViewById(R.id.hosManHub);
+        statsToday = findViewById(R.id.hosManHub);
         startActivity(new Intent(HospitalManagerHub.this, StatsAsOfToday.class));
 
     }
 
     public void clickDate(View view) {
-        imageButtonVets = findViewById(R.id.imageButtonVets);
+        statsOfDate = findViewById(R.id.statsOfDate);
         startActivity(new Intent(HospitalManagerHub.this, BedStatusForDate.class));
 
     }
 
     public void clickStats(View view) {
-        imageButtonWeather = findViewById(R.id.imageButtonWeather);
-        startActivity(new Intent(HospitalManagerHub.this, StatsShown.class));
+        overviewStats = findViewById(R.id.statsOverview);
+        startActivity(new Intent(HospitalManagerHub.this, CalculateWaitTime.class));
     }
 
     public void clickRate(View view) {
-        imageButtonToDo = findViewById(R.id.imageButtonToDoList);
+        occupancyPerMonth = findViewById(R.id.OccupancyPerMonth);
         startActivity(new Intent(HospitalManagerHub.this, OccupancyPerMonth.class));
 
     }

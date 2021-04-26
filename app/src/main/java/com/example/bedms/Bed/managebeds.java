@@ -1,6 +1,7 @@
 package com.example.bedms.Bed;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,9 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -135,6 +137,7 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
                         db.collection("bed")
                             .add(bed)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
@@ -209,7 +212,7 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(managebeds.this, CreateNewPatient.class);
+                Intent i = new Intent(managebeds.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

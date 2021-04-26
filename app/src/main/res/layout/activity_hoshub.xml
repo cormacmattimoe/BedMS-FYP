@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bedapp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="702dp"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            tools:targetApi="lollipop" />
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="393dp"
+                android:layout_height="77dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Hospital Manager Hub"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+            </RelativeLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:columnOrderPreserved="false"
+                android:alignmentMode="alignMargins">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    app:cardElevation="6dp"
+                    app:cardCornerRadius="26dp"
+                    android:layout_margin="12dp"
+                    tools:targetApi="lollipop">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="176dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageButton
+                            android:id="@+id/hosManHub"
+                            android:layout_width="96dp"
+                            android:layout_height="85dp"
+                            android:onClick="clickHospitalManager"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/homell" />
+
+                        <TextView
+                            android:layout_width="112dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Current Bed Stats"
+                            android:textAlignment="center"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    app:cardElevation="6dp"
+                    app:cardCornerRadius="26dp"
+                    android:layout_margin="12dp"
+                    tools:targetApi="lollipop">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="176dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageButton
+                            android:id="@+id/statsOfDate"
+                            android:layout_width="100dp"
+                            android:layout_height="80dp"
+                            android:onClick="clickDate"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/calendar" />
+
+                        <TextView
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Bed Stats On date "
+                            android:textAlignment="center"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    app:cardElevation="6dp"
+                    app:cardCornerRadius="26dp"
+                    android:layout_margin="12dp"
+                    tools:targetApi="lollipop">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="176dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageButton
+                            android:id="@+id/statsOverview"
+                            android:layout_width="120dp"
+                            android:layout_height="100dp"
+                            android:background="@color/white"
+                            android:onClick="clickStats"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/stats" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="67dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Stats"
+                            android:textAlignment="center"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    app:cardElevation="6dp"
+                    app:cardCornerRadius="26dp"
+                    android:layout_margin="12dp"
+                    tools:targetApi="lollipop">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="176dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageButton
+                            android:id="@+id/OccupancyPerMonth"
+                            android:layout_width="120dp"
+                            android:layout_height="100dp"
+                            android:background="@color/white"
+                            android:onClick="clickRate"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/rate" />
+
+                        <TextView
+                            android:layout_width="117dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Occupancy rate"
+                            android:textAlignment="center"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.Auth.login;
 import com.example.bedms.Model.Bed;
 import com.google.android.gms.tasks.OnCompleteListener;

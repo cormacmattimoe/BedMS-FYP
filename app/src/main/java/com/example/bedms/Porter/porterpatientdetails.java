@@ -11,9 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
-import com.example.bedms.Doctor.AdmitPatient;
-import com.example.bedms.Doctor.dischargepatient;
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Doctor.doctorhub;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
@@ -132,7 +130,7 @@ public class porterpatientdetails extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent r = new Intent(porterpatientdetails.this, CreateNewPatient.class);
+                Intent r = new Intent(porterpatientdetails.this, AdminHub.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);

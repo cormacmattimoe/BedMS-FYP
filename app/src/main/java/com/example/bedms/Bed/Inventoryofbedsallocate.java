@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.BedAdapter;
 import com.example.bedms.R;
@@ -139,7 +139,7 @@ public class Inventoryofbedsallocate extends AppCompatActivity implements Adapte
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(Inventoryofbedsallocate.this, CreateNewPatient.class);
+                Intent i = new Intent(Inventoryofbedsallocate.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

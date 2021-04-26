@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Model.Bed;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -67,6 +67,7 @@ public class bedDetails extends AppCompatActivity {
                                 tvStatus.setText(document.getString("Status"));
                                 tvWard.setText(document.getString("Ward"));
                                 tvPatientId.setText(document.getString("PatientID"));
+
                             }
                         }
                     }
@@ -89,14 +90,14 @@ public class bedDetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(bedDetails.this, CreateNewPatient.class);
+                Intent i = new Intent(bedDetails.this, AdminHub.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent r = new Intent(bedDetails.this, CreateNewPatient.class);
+                Intent r = new Intent(bedDetails.this, AdminHub.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);
