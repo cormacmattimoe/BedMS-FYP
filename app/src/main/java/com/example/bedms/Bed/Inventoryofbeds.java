@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.BedAdapter;
-import com.example.bedms.Admin.AdminHub;
+import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -246,7 +246,7 @@ public List<String> getwards() {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(Inventoryofbeds.this, AdminHub.class);
+                Intent i = new Intent(Inventoryofbeds.this, CreateNewPatient.class);
                 startActivity(i);
                 return true;
             default:

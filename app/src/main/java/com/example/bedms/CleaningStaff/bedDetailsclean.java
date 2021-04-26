@@ -12,10 +12,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.AdminHub;
+import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.Model.Bed;
+import com.example.bedms.Porter.porterhub;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
+import com.example.bedms.UpdatePatientHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class bedDetailsclean extends AppCompatActivity {
     private static final String TAG = "updateobs";
@@ -149,14 +153,14 @@ public class bedDetailsclean extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(bedDetailsclean.this, AdminHub.class);
+                Intent i = new Intent(bedDetailsclean.this, CreateNewPatient.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent r = new Intent(bedDetailsclean.this, AdminHub.class);
+                Intent r = new Intent(bedDetailsclean.this, CreateNewPatient.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);

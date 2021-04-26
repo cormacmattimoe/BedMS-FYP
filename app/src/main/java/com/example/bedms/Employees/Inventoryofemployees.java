@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bedms.Admin.AdminHub;
+import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.Model.Employee;
 import com.example.bedms.Model.EmployeeAdapter;
 import com.example.bedms.R;
@@ -153,13 +153,13 @@ public class Inventoryofemployees extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(Inventoryofemployees.this, AdminHub.class);
+                Intent i = new Intent(Inventoryofemployees.this, CreateNewPatient.class);
                 startActivity(i);
                 return true;
 
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Create Patient" , Toast.LENGTH_LONG).show();
-                i = new Intent(Inventoryofemployees.this, AdminHub.class);
+                i = new Intent(Inventoryofemployees.this, CreateNewPatient.class);
                 startActivity(i);
                 return true;
             default:

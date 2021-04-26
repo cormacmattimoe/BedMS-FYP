@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Doctor.AdmitPatient;
+import com.example.bedms.Doctor.dischargepatient;
 import com.example.bedms.Doctor.doctorhub;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.Patient;

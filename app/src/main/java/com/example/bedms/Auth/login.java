@@ -13,10 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.AdminHub;
+import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.CleaningStaff.cleaningstaffhub;
 import com.example.bedms.Doctor.doctorhub;
-import com.example.bedms.HospitalManager.HospitalManagerHub;
 import com.example.bedms.Nurse.nursehub;
 import com.example.bedms.Porter.porterhub;
 import com.example.bedms.R;
@@ -189,7 +188,7 @@ public class login extends AppCompatActivity {
                                                         break;
                                                     case "Admin":
                                                         Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                                        Intent z = new Intent(login.this, AdminHub.class);
+                                                        Intent z = new Intent(login.this, CreateNewPatient.class);
                                                         login.this.startActivity(z);
                                                         break;
                                                     case "Cleaning Staff":
@@ -204,7 +203,7 @@ public class login extends AppCompatActivity {
                                                         break;
                                                     case "Hospital Manager":
                                                         Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                                        Intent n = new Intent(login.this, HospitalManagerHub.class);
+                                                        Intent n = new Intent(login.this, StatsAsOfToday.class);
                                                         login.this.startActivity(n);
                                                         break;
 

@@ -23,9 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
-        <activity android:name=".ResultActivity"></activity>
-        <activity android:name=".testOfDate" />
+        <activity android:name=".testOfDate"></activity>
         <activity android:name=".OccupancyPerMonth" />
+
         <activity android:name=".BedStatusForDate" />
         <activity android:name=".scannning" />
         <activity android:name=".testingSplash" />
@@ -43,16 +43,13 @@
         <activity android:name=".Admin.qrcodetesting" />
         <activity android:name=".bedDetailsPorter" />
         <activity android:name=".CleaningStaff.bedDetailsCleaner" />
+
         <activity android:name=".CleaningStaff.QrCoding" />
         <activity android:name=".BedStatusChartsForDate" />
         <activity android:name=".CalculateWaitTime" />
         <activity android:name=".StatsShown" />
         <activity android:name=".drawer" />
         <activity android:name=".HospitalManager.StatsAsOfToday" />
-        <activity android:name=".HospitalManager.HospitalManagerHub" />
-        <activity android:name=".HospitalManager.BedStatusChartsForDate" />
-        <activity android:name=".HospitalManager.BedStatusForDate" />
-        <activity android:name=".HospitalManager.CalculateWaitTime" />
         <activity android:name=".Doctor.dischargepatient" />
         <activity android:name=".Doctor.inventoryofpatientsinbeds" />
         <activity android:name=".Patient.inventoryofpatientsadmin" />
@@ -69,7 +66,7 @@
         <activity android:name=".Employees.Inventoryofemployees" />
         <activity android:name=".Doctor.doctorhub" />
         <activity android:name=".Employees.hospitalmanager" />
-        <activity android:name=".Admin.AdminHub" />
+        <activity android:name=".Admin.CreateNewPatient" />
         <activity android:name=".Doctor.SearchPatient" />
         <activity android:name=".Doctor.AdmitPatient" />
         <activity android:name=".Bed.Inventoryofbedsallocate" />
@@ -87,7 +84,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Auth.welcome" />
+        <activity android:name=".Auth.welcome"/>
 
         <meta-data
             android:name="preloaded_fonts"

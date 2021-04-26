@@ -291,8 +291,8 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         }
 
         open = totalCategory(0, allBedStatusbyWard);
-        occupied = totalCategory(1, allBedStatusbyWard);
-        allocated = totalCategory(2, allBedStatusbyWard);
+        allocated = totalCategory(1, allBedStatusbyWard);
+        occupied = totalCategory(2, allBedStatusbyWard);
         cleaning = totalCategory(3, allBedStatusbyWard);
         bedNotYetCreated = totalCategory(4, allBedStatusbyWard);
         bedCountatDate = allBedDetails.size() - bedNotYetCreated;
@@ -306,13 +306,12 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         float aloc = (float) allocated;
         float bedC = (float) bedCountatDate;
         occRate = (((occ + aloc) / bedC) * (100f));
-        String str = String.format("%" +
-                "f", occRate);
+        String str = String.format("%.02f", occRate);
         totalbeds.setText(Integer.toString(bedCountatDate));
         occupanyRate.setText(str);
 
         // now build pie-chart.
-        buildPieChart(open, occupied, allocated, cleaning);
+        buildPieChart(open, allocated, occupied, cleaning);
 
     }
 
@@ -331,7 +330,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
     }
 
 
-    public void buildPieChart(int open, int occupied, int allocated, int cleaning ) {
+    public void buildPieChart(int open, int allocated, int occupied, int cleaning ) {
         pieChart.getDescription().setEnabled(false);
         pieChart.setRotationEnabled(true);
         pieChart.setHoleColor(Color.WHITE);
@@ -347,8 +346,8 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         Log.d(TAG, "addDataSet started");
         ArrayList<PieEntry> yEntrys = new ArrayList<>();
         yEntrys.add(new PieEntry(open, "Open"));
-        yEntrys.add(new PieEntry(occupied, "Occupied"));
         yEntrys.add(new PieEntry(allocated, "Allocated"));
+        yEntrys.add(new PieEntry(occupied, "Occupied"));
         yEntrys.add(new PieEntry(cleaning, "Cleaning"));
         //Not Yet Created - not showing as it is deducted from total beds for that date.
 
@@ -377,7 +376,6 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         Legend legend = pieChart.getLegend();
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
 
-        pieChart.setEntryLabelColor(Color.WHITE);
         pieChart.setUsePercentValues(false);
         pieChart.setData(pieData);
         pieChart.setNoDataText("No Chart Data"); // this is the top line
@@ -412,11 +410,11 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                     bds.setColors(new int[]{getResources().getColor(R.color.cat1)});
                     break;
                 case 1:
-                    bds.setLabel("Occupied");
+                    bds.setLabel("Allocated");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat2)});
                     break;
                 case 2:
-                    bds.setLabel("Allocated");
+                    bds.setLabel("Occupied");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat3)});
                     break;
                 case 3:

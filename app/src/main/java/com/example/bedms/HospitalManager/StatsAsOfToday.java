@@ -87,8 +87,8 @@ public class StatsAsOfToday extends AppCompatActivity {
         pieChart.setCenterText("Beds by status");
         pieChart.setCenterTextSize(16);
         pieChart.setDrawEntryLabels(true);
-        pieChart.setEntryLabelColor(Color.WHITE);
-        pieChart.setEntryLabelTextSize(18);
+        pieChart.setEntryLabelColor(Color.BLACK);
+        pieChart.setEntryLabelTextSize(12);
         //More options just check out the documentation!
         getTotalsOfBeds();
         buildBarChart(0);

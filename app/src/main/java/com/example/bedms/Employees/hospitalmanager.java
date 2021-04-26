@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.AdminHub;
+import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -32,7 +32,7 @@ public class hospitalmanager extends AppCompatActivity {
                         startActivity(a);
                         break;
                     case R.id.createPatient:
-                        Intent b = new Intent(hospitalmanager.this, AdminHub.class);
+                        Intent b = new Intent(hospitalmanager.this, CreateNewPatient.class);
                         startActivity(b);
                         break;
                     case R.id.viewEmployees:
@@ -62,7 +62,7 @@ public class hospitalmanager extends AppCompatActivity {
 
                 case R.id.item2:
                     Toast.makeText(getApplicationContext(), "Create Patient" , Toast.LENGTH_LONG).show();
-                    i = new Intent(hospitalmanager.this, AdminHub.class);
+                    i = new Intent(hospitalmanager.this, CreateNewPatient.class);
                     startActivity(i);
                     return true;
                 default:

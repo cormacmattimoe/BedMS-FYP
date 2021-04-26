@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.AdminHub;
+import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -73,7 +73,7 @@ public class AllocateBedToWard extends AppCompatActivity implements AdapterView.
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.manageBeds:
-                        Intent a = new Intent(AllocateBedToWard.this, AdminHub.class);
+                        Intent a = new Intent(AllocateBedToWard.this, CreateNewPatient.class);
                         startActivity(a);
                         break;
                     case R.id.viewBeds:
@@ -191,7 +191,7 @@ public class AllocateBedToWard extends AppCompatActivity implements AdapterView.
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(AllocateBedToWard.this, AdminHub.class);
+                Intent i = new Intent(AllocateBedToWard.this, CreateNewPatient.class);
                 startActivity(i);
                 return true;
             default:

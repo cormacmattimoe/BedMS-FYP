@@ -113,6 +113,48 @@ public class qrcodetesting extends AppCompatActivity {
             }
         });
     }
+    /*
+    public void uploadImageToStorage(){
+
+
+        System.out.println("Made it to upload image method");
+        if(mPharmaciesAvailableStrArray.contains(autoTextPharmacy.getText().toString())) {
+            //Insert loading here
+            //greyedOutBackground.setVisibility(View.VISIBLE);
+//            mProgressBar.setVisibility(View.VISIBLE);
+            final StorageReference storageRef = mStorageRef.child("prescriptionImages/" + UUID.randomUUID() + ".jpg");
+
+            //Toast.makeText(getContext(), mContentURI.toString(), Toast.LENGTH_SHORT).show();
+            storageRef.putFile(mContentURI)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //Toast.makeText(getContext(), "Successful post to firebase" + uri.toString(), Toast.LENGTH_SHORT).show();
+
+                                    try {
+                                        postAPrescription(uri.toString());
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Upload has failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }else{
+            autoTextPharmacy.setError("Invalid Pharmacy");
+        }
+    }
+
+     */
 
 
     public void retrieveBedId() {

@@ -3,6 +3,7 @@ package com.example.bedms.Employees;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,12 +17,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.AdminHub;
+import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Bed.Inventoryofbedsallocate;
+import com.example.bedms.Bed.managebeds;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -141,13 +147,13 @@ public class manageemployees extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home ", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(manageemployees.this, AdminHub.class);
+                Intent i = new Intent(manageemployees.this, CreateNewPatient.class);
                 startActivity(i);
                 return true;
 
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Create Patient" , Toast.LENGTH_LONG).show();
-                i = new Intent(manageemployees.this, AdminHub.class);
+                i = new Intent(manageemployees.this, CreateNewPatient.class);
                 startActivity(i);
                 return true;
             default:
