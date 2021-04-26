@@ -9,7 +9,7 @@ public class BedInfo implements Serializable {
     int currentStatus;
     //how to set Open, Allocated, Occupier, Cleaning, NotYetCreated here?
     ArrayList <BedHistoryEvent> bedHistory = new ArrayList<>();
-    //need neew????
+    //need new????
 
 
     public String getBedId() {
