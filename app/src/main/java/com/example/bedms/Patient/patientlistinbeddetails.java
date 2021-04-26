@@ -1,6 +1,7 @@
 package com.example.bedms.Patient;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,9 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
 import com.example.bedms.Doctor.AdmitPatient;
 import com.example.bedms.Doctor.dischargepatient;
 import com.example.bedms.Doctor.doctorhub;
@@ -91,6 +92,7 @@ public class patientlistinbeddetails extends AppCompatActivity {
                         .whereEqualTo("PatientID", patientId)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {

@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Bed.Inventoryofbedsallocate;
 import com.example.bedms.Bed.managebeds;
 import com.example.bedms.R;
@@ -147,13 +147,13 @@ public class manageemployees extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home ", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(manageemployees.this, CreateNewPatient.class);
+                Intent i = new Intent(manageemployees.this, AdminHub.class);
                 startActivity(i);
                 return true;
 
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Create Patient" , Toast.LENGTH_LONG).show();
-                i = new Intent(manageemployees.this, CreateNewPatient.class);
+                i = new Intent(manageemployees.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

@@ -66,7 +66,6 @@
         <activity android:name=".Employees.Inventoryofemployees" />
         <activity android:name=".Doctor.doctorhub" />
         <activity android:name=".Employees.hospitalmanager" />
-        <activity android:name=".Admin.CreateNewPatient" />
         <activity android:name=".Doctor.SearchPatient" />
         <activity android:name=".Doctor.AdmitPatient" />
         <activity android:name=".Bed.Inventoryofbedsallocate" />

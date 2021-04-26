@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -209,7 +209,7 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(managebeds.this, CreateNewPatient.class);
+                Intent i = new Intent(managebeds.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

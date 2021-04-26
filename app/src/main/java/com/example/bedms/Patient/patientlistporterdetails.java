@@ -1,6 +1,7 @@
 package com.example.bedms.Patient;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,9 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Doctor.doctorhub;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.Patient;
@@ -148,6 +150,7 @@ public class patientlistporterdetails extends AppCompatActivity {
                         .whereEqualTo("BedName", bedSearch)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
@@ -197,7 +200,7 @@ public class patientlistporterdetails extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent r = new Intent(patientlistporterdetails.this, CreateNewPatient.class);
+                Intent r = new Intent(patientlistporterdetails.this, AdminHub.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);

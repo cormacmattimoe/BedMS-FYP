@@ -126,7 +126,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 // then after totals are calculated - call createLineChart
                 setTitle("Month Selected  = " );
                 monthSelected = spinMonths.getSelectedItem().toString();
-               // if(!monthSelected.equals("Please select here...")) {
+                if(!monthSelected.equals("Please select here...")) {
                     setTitle("Month Selected  = " + monthSelected);
 
                     Enumeration<String> keys = bedCache.keys();
@@ -138,7 +138,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                     }
 
                     createOccupancyTotalsForMonth(monthSelected);
-
+                }
 
 
             }

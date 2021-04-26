@@ -1,6 +1,7 @@
 package com.example.bedms.CleaningStaff;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,9 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.CreateNewPatient;
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Porter.porterhub;
 import com.example.bedms.R;
@@ -54,6 +56,7 @@ public class bedDetailsclean extends AppCompatActivity {
 
         // showObstructionDetails();
         cleanBtn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 String nameSearch = tvName.getText().toString();
@@ -153,14 +156,14 @@ public class bedDetailsclean extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(bedDetailsclean.this, CreateNewPatient.class);
+                Intent i = new Intent(bedDetailsclean.this, AdminHub.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent r = new Intent(bedDetailsclean.this, CreateNewPatient.class);
+                Intent r = new Intent(bedDetailsclean.this, AdminHub.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);
