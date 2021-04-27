@@ -529,7 +529,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                 startActivity(z);
                 return true;
             case R.id.item3:
-                Intent k = new Intent(BedStatusChartsForDate.this, BedStatusChartsForDate.class);
+                Intent k = new Intent(BedStatusChartsForDate.this, BedStatusForDate.class);
                 startActivity(k);
                 return true;
             case R.id.item4:

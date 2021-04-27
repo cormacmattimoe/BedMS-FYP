@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
-import com.example.bedms.BedStatusForDate;
 import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.OccupancyPerMonth;
@@ -467,7 +466,7 @@ public class StatsAsOfToday extends AppCompatActivity {
                 startActivity(z);
                 return true;
             case R.id.item3:
-                Intent k = new Intent(StatsAsOfToday.this, BedStatusChartsForDate.class);
+                Intent k = new Intent(StatsAsOfToday.this, BedStatusForDate.class);
                 startActivity(k);
                 return true;
             case R.id.item4:
