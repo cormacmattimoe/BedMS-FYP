@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
 import com.example.bedms.BedInfo;
+import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.OccupancyPerMonth;
 import com.example.bedms.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -291,27 +292,27 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         }
 
         open = totalCategory(0, allBedStatusbyWard);
-        allocated = totalCategory(1, allBedStatusbyWard);
-        occupied = totalCategory(2, allBedStatusbyWard);
+        occupied = totalCategory(1, allBedStatusbyWard);
+        allocated = totalCategory(2, allBedStatusbyWard);
         cleaning = totalCategory(3, allBedStatusbyWard);
         bedNotYetCreated = totalCategory(4, allBedStatusbyWard);
         bedCountatDate = allBedDetails.size() - bedNotYetCreated;
 
-        System.out.println("Totals " + open + " " + allocated + " " + occupied + " "  + cleaning +  " " + bedNotYetCreated + " and overall total on the date = " + bedCountatDate);
+        System.out.println("Totals " + open + " " + occupied + " " + allocated +  " "  + cleaning +  " " + bedNotYetCreated + " and overall total on the date = " + bedCountatDate);
 
 
         //Calculate Total Beds and Occupancy rate @ date and display on screen.
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        DecimalFormat decimalFormat = new DecimalFormat("#");
         float occ = (float) occupied;
         float aloc = (float) allocated;
         float bedC = (float) bedCountatDate;
         occRate = (((occ + aloc) / bedC) * (100f));
-        String str = String.format("%.02f", occRate);
+        String str = String.format("%.0f", occRate);
         totalbeds.setText(Integer.toString(bedCountatDate));
         occupanyRate.setText(str);
 
         // now build pie-chart.
-        buildPieChart(open, allocated, occupied, cleaning);
+        buildPieChart(open, occupied, allocated, cleaning);
 
     }
 
@@ -330,7 +331,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
     }
 
 
-    public void buildPieChart(int open, int allocated, int occupied, int cleaning ) {
+    public void buildPieChart(int open,int occupied, int allocated,  int cleaning ) {
         pieChart.getDescription().setEnabled(false);
         pieChart.setRotationEnabled(true);
         pieChart.setHoleColor(Color.WHITE);
@@ -346,8 +347,8 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         Log.d(TAG, "addDataSet started");
         ArrayList<PieEntry> yEntrys = new ArrayList<>();
         yEntrys.add(new PieEntry(open, "Open"));
-        yEntrys.add(new PieEntry(allocated, "Allocated"));
         yEntrys.add(new PieEntry(occupied, "Occupied"));
+        yEntrys.add(new PieEntry(allocated, "Allocated"));
         yEntrys.add(new PieEntry(cleaning, "Cleaning"));
         //Not Yet Created - not showing as it is deducted from total beds for that date.
 
@@ -409,12 +410,13 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                     bds.setLabel("Open");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat1)});
                     break;
+
                 case 1:
-                    bds.setLabel("Allocated");
+                    bds.setLabel("Occupied");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat2)});
                     break;
                 case 2:
-                    bds.setLabel("Occupied");
+                    bds.setLabel("Allocated");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat3)});
                     break;
                 case 3:
@@ -509,34 +511,37 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
         return true;
     }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected (MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Intent i = new Intent(BedStatusChartsForDate.this, StatsAsOfToday.class);
+                Intent i = new Intent(BedStatusChartsForDate.this, HospitalManagerHub.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
-                Intent z = new Intent(BedStatusChartsForDate.this, BedStatusForDate.class);
+                Intent z = new Intent(BedStatusChartsForDate.this, StatsAsOfToday.class);
                 startActivity(z);
                 return true;
             case R.id.item3:
+                Intent k = new Intent(BedStatusChartsForDate.this, BedStatusChartsForDate.class);
+                startActivity(k);
+                return true;
+            case R.id.item4:
                 Intent S = new Intent(BedStatusChartsForDate.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
-            case R.id.item4:
+            case R.id.item5:
                 Intent g = new Intent(BedStatusChartsForDate.this, CalculateWaitTime.class);
                 startActivity(g);
                 return true;
 
-            case R.id.item5:
+            case R.id.item6:
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent r = new Intent(BedStatusChartsForDate.this, login.class);
@@ -544,9 +549,6 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
-
-
-
-
 }

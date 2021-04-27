@@ -2,6 +2,7 @@ package com.example.bedms.Doctor;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
@@ -214,6 +216,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
                 .whereEqualTo("BedName", bedNameSelected)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
@@ -271,19 +274,6 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
                 finish();
                 Intent r = new Intent(AdmitPatient.this, login.class);
                 startActivity(r);
-                /*
-            case R.id.item3:
-                Toast.makeText(getApplicationContext(), "Allocate bed to ward Selected", Toast.LENGTH_LONG).show();
-                i = new Intent(this, AllocateBedToWard.class);
-                startActivity(i);
-                return true;
-            case R.id.item4:
-                Toast.makeText(getApplicationContext(), "View beds by ward", Toast.LENGTH_LONG).show();
-                i = new Intent(Inventoryofbeds.this, Inventoryofbeds.class);
-                startActivity(i);
-                return true;
-
-                 */
             default:
                 return super.onOptionsItemSelected(item);
         }

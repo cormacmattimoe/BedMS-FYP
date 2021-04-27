@@ -45,8 +45,6 @@ public class BedStatusForDate extends AppCompatActivity {
     CalendarView calV;
 
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +75,7 @@ public class BedStatusForDate extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please choose a date to continue", Toast.LENGTH_LONG).show();
                 } else {
                     Intent intent = new Intent(view.getContext(), BedStatusChartsForDate.class);
-                    intent.putExtra("All Beds",allBedsWithoutStatus);
+                    intent.putExtra("All Beds", allBedsWithoutStatus);
                     intent.putExtra("Date", dateSelectedString);
                     intent.putExtra("titleDate", titleDate);
                     view.getContext().startActivity(intent);
@@ -87,7 +85,7 @@ public class BedStatusForDate extends AppCompatActivity {
         });
     }
 
-    public void getAllBedDetails(Callbacka callback){
+    public void getAllBedDetails(Callbacka callback) {
         System.out.println("Get all bed details ");
         db.collection("bed")
                 .get()
@@ -104,40 +102,51 @@ public class BedStatusForDate extends AppCompatActivity {
                                 allBedsWithoutStatus.add(bifIn);
 
                             }
-                               callback.calla();
-                                                 }
+                            callback.calla();
+                        }
                     }
                 });
     }
 
+    // Callback function
+    public interface Callbacka {
+        void calla();
+    }
+
+
     @Override
-    public boolean onCreateOptionsMenu (Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected (MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Intent i = new Intent(BedStatusForDate.this, StatsAsOfToday.class);
+                Intent i = new Intent(BedStatusForDate.this, HospitalManagerHub.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
-                Intent z = new Intent(BedStatusForDate.this, BedStatusForDate.class);
+                Intent z = new Intent(BedStatusForDate.this, StatsAsOfToday.class);
                 startActivity(z);
                 return true;
             case R.id.item3:
+                Intent k = new Intent(BedStatusForDate.this, BedStatusChartsForDate.class);
+                startActivity(k);
+                return true;
+            case R.id.item4:
                 Intent S = new Intent(BedStatusForDate.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
-            case R.id.item4:
-                Intent g = new Intent(BedStatusForDate.this, CalculateWaitTime.class);
+            case R.id.item5:
+                Intent g = new Intent(BedStatusForDate.this, com.example.bedms.CalculateWaitTime.class);
                 startActivity(g);
                 return true;
 
-            case R.id.item5:
+            case R.id.item6:
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent r = new Intent(BedStatusForDate.this, login.class);
@@ -145,23 +154,6 @@ public class BedStatusForDate extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-    // Callback function
-    public interface Callbacka {
-        void calla();
+
     }
 }
-
-
-
-
-
-
-
-            /*
-            bedCount++;
-
-            totalNumberBedsInWard = bedCount;
-            totalbeds.setText(Integer.toString(totalNumberBedsInWard));
-
-          */

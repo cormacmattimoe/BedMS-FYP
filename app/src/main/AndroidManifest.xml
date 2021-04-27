@@ -49,7 +49,12 @@
         <activity android:name=".CalculateWaitTime" />
         <activity android:name=".StatsShown" />
         <activity android:name=".drawer" />
+        <activity android:name=".Admin.AdminHub" />
         <activity android:name=".HospitalManager.StatsAsOfToday" />
+        <activity android:name=".HospitalManager.BedStatusForDate" />
+        <activity android:name=".HospitalManager.BedStatusChartsForDate" />
+        <activity android:name=".HospitalManager.CalculateWaitTime" />
+        <activity android:name=".HospitalManager.HospitalManagerHub" />
         <activity android:name=".Doctor.dischargepatient" />
         <activity android:name=".Doctor.inventoryofpatientsinbeds" />
         <activity android:name=".Patient.inventoryofpatientsadmin" />

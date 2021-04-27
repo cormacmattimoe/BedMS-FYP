@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.bedms.Auth.login;
+import com.example.bedms.HospitalManager.HospitalManagerHub;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.BedHistoryEvent;
 import com.github.mikephil.charting.charts.BarChart;
@@ -66,12 +67,10 @@ public class OccupancyPerMonth extends AppCompatActivity implements
     ArrayAdapter<CharSequence> adapter;
     String dateSelected;
     BedStatusChartsForDate bscd;
-
     //  int monthsList = new ArrayList<>();
 
     float occRate;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
     ArrayList<BedInfo> allBeds = new ArrayList<BedInfo>();
     ArrayList<BedInfo> allBedsWithStatus = new ArrayList<BedInfo>();
@@ -421,12 +420,12 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         //System.out.println("Totals for day = " + day + " Open:" + open + " Allocated:" + allocated + " Occupied:" + occupied + " Cleaning:" + cleaning + " Bed Not yet Created:" + bedNotYetCreated + " and overall total on the date = " + bedCountatDate);
 
         //Calculate Total Beds and Occupancy rate @ date and display on screen.
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        DecimalFormat decimalFormat = new DecimalFormat("% ");
         float occ = (float) occupied;
         float aloc = (float) allocated;
         float bedC = (float) bedCountatDate;
         occRate = (((occ + aloc) / bedC) * (100f));
-        String str = String.format("%.02f", occRate);
+        String str = String.format(" %", occRate);
 
 
         // now store occupancy rate for the day and return.
@@ -605,10 +604,10 @@ public class OccupancyPerMonth extends AppCompatActivity implements
     public boolean onOptionsItemSelected (MenuItem item){
         int id = item.getItemId();
         switch (id) {
-//            case R.id.item1:
-//                Intent i = new Intent(OccupancyPerMonth.this, HospitalManagerHub.class);
-//                startActivity(i);
-//                return true;
+           case R.id.item1:
+                Intent i = new Intent(OccupancyPerMonth.this, HospitalManagerHub.class);
+               startActivity(i);
+               return true;
             case R.id.item2:
                 Intent z = new Intent(OccupancyPerMonth.this, BedStatusForDate.class);
                 startActivity(z);

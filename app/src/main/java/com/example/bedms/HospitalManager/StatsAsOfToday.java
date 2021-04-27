@@ -167,7 +167,7 @@ public class StatsAsOfToday extends AppCompatActivity {
                                float occ = (float) occupied;
                                float bed = (float) bedCount;
                                float aloc = (float) waitingPatient;
-                               String str = String.format("%.02f", occRate);
+                               String str = String.format("%.0f", occRate);
                                float occyRate = Float.parseFloat(str);
                                occRate = (((occ+aloc) /bed)) * (100f);
                                DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -459,23 +459,27 @@ public class StatsAsOfToday extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Intent i = new Intent(StatsAsOfToday.this, StatsAsOfToday.class);
+                Intent i = new Intent(StatsAsOfToday.this, HospitalManagerHub.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
-                Intent z = new Intent(StatsAsOfToday.this, BedStatusForDate.class);
+                Intent z = new Intent(StatsAsOfToday.this, StatsAsOfToday.class);
                 startActivity(z);
                 return true;
             case R.id.item3:
+                Intent k = new Intent(StatsAsOfToday.this, BedStatusChartsForDate.class);
+                startActivity(k);
+                return true;
+            case R.id.item4:
                 Intent S = new Intent(StatsAsOfToday.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
-            case R.id.item4:
+            case R.id.item5:
                 Intent g = new Intent(StatsAsOfToday.this, CalculateWaitTime.class);
                 startActivity(g);
                 return true;
 
-            case R.id.item5:
+            case R.id.item6:
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent r = new Intent(StatsAsOfToday.this, login.class);

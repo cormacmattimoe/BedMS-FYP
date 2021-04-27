@@ -9,6 +9,36 @@
 
 
     <TextView
+        android:id="@+id/textView24"
+        android:layout_width="160dp"
+        android:layout_height="42dp"
+        android:text="Role"
+        android:textColor="#FFEB3B"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.816"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.23" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="178dp"
+        android:layout_height="48dp"
+        android:gravity="center_horizontal"
+        android:text="Name"
+        android:textAlignment="textStart"
+        android:textColor="#FFEB3B"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.232" />
+
+    <TextView
         android:id="@+id/textView5"
         android:layout_width="209dp"
         android:layout_height="36dp"
@@ -26,8 +56,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvViewPatients"
-        android:layout_width="417dp"
-        android:layout_height="484dp"
+        android:layout_width="412dp"
+        android:layout_height="404dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.941"

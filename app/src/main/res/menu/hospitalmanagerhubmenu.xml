@@ -8,14 +8,17 @@
         android:title="Home"/>
     <item  android:id="@+id/item2"
         android:icon="@drawable/ic_baseline_playlist_add_24"
-        android:title="Bed Status For Date"/>
+        android:title="Stats Today"/>
     <item  android:id="@+id/item3"
-        android:icon="@drawable/ic_baseline_view_headline_24"
-        android:title="Occuppancy Rate for Month"/>
+        android:icon="@drawable/ic_baseline_playlist_add_24"
+        android:title="Bed Status For Date"/>
     <item  android:id="@+id/item4"
         android:icon="@drawable/ic_baseline_view_headline_24"
-        android:title="Other Stats"/>
+        android:title="Occuppancy Rate for Month"/>
     <item  android:id="@+id/item5"
+        android:icon="@drawable/ic_baseline_view_headline_24"
+        android:title="Other Stats"/>
+    <item  android:id="@+id/item6"
         android:icon="@drawable/ic_baseline_view_headline_24"
         android:title="Logout"/>
 

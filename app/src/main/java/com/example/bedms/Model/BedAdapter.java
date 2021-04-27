@@ -85,9 +85,9 @@ public class BedAdapter extends RecyclerView.Adapter<BedAdapter.MyViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), "Bed clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(view.getContext(), bedDetails.class);
-                intent.putExtra("Name", name);
+                intent.putExtra("BedName", name);
                 view.getContext().startActivity(intent); //start activity from another activity, here we are in MyAdapter class,
                 // need to call start from the activity within that viewholder
             }

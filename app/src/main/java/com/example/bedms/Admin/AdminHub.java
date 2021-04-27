@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bedms.Auth.login;
 import com.example.bedms.Auth.welcome;
 import com.example.bedms.Bed.managebeds;
 import com.example.bedms.Employees.manageemployees;
@@ -190,9 +191,9 @@ public class AdminHub extends AppCompatActivity {
             }
         });
 
-        MyTask mt = new MyTask(AdminHub.this, pIllness);
+    //    MyTask mt = new MyTask(AdminHub.this, pIllness);
 
-        mt.execute("https://api.infermedica.com/v2/conditions/");
+    //    mt.execute("https://api.infermedica.com/v2/conditions/");
     }
 
 
@@ -242,6 +243,11 @@ public class AdminHub extends AppCompatActivity {
         uph.updatePatientHistory(patId, "Patient checked into hospital");
 
 
+    }
+    public void logout(View view){
+        FirebaseAuth.getInstance().signOut(); //logout user
+        startActivity(new Intent(getApplicationContext(), login.class));
+        finish();
     }
 
 

@@ -57,16 +57,7 @@ public class Register extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-/*
-        Intent intent = getIntent();
-        String str;
-        String str2;
-        str = intent.getStringExtra("Welcome1");
-        str2 = intent.getStringExtra("Welcome2");
-        mFullName.setText(str);
-        mEmail.setText(str2);
 
- */
 
 
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {

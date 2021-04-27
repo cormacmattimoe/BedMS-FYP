@@ -334,42 +334,48 @@ public void returnTotalsToScreen(){
     }
 
 
-     @Override
-     public boolean onCreateOptionsMenu (Menu menu){
-         // Inflate the menu; this adds items to the action bar if it is present.
-         getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
-         return true;
-     }
-     @Override
-     public boolean onOptionsItemSelected (MenuItem item){
-         int id = item.getItemId();
-         switch (id) {
-             case R.id.item1:
-                 Intent i = new Intent(CalculateWaitTime.this, StatsAsOfToday.class);
-                 startActivity(i);
-                 return true;
-             case R.id.item2:
-                 Intent z = new Intent(CalculateWaitTime.this, BedStatusForDate.class);
-                 startActivity(z);
-                 return true;
-             case R.id.item3:
-                 Intent S = new Intent(CalculateWaitTime.this, OccupancyPerMonth.class);
-                 startActivity(S);
-                 return true;
-             case R.id.item4:
-                 Intent g = new Intent(CalculateWaitTime.this, CalculateWaitTime.class);
-                 startActivity(g);
-                 return true;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
+        return true;
+    }
 
-             case R.id.item5:
-                 FirebaseAuth.getInstance().signOut();
-                 finish();
-                 Intent r = new Intent(CalculateWaitTime.this, login.class);
-                 startActivity(r);
-             default:
-                 return super.onOptionsItemSelected(item);
-         }
-     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.item1:
+                Intent i = new Intent(CalculateWaitTime.this, HospitalManagerHub.class);
+                startActivity(i);
+                return true;
+            case R.id.item2:
+                Intent z = new Intent(CalculateWaitTime.this, StatsAsOfToday.class);
+                startActivity(z);
+                return true;
+            case R.id.item3:
+                Intent k = new Intent(CalculateWaitTime.this, BedStatusChartsForDate.class);
+                startActivity(k);
+                return true;
+            case R.id.item4:
+                Intent S = new Intent(CalculateWaitTime.this, OccupancyPerMonth.class);
+                startActivity(S);
+                return true;
+            case R.id.item5:
+                Intent g = new Intent(CalculateWaitTime.this, com.example.bedms.CalculateWaitTime.class);
+                startActivity(g);
+                return true;
+
+            case R.id.item6:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                Intent r = new Intent(CalculateWaitTime.this, login.class);
+                startActivity(r);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 }
 
 

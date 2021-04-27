@@ -7,8 +7,10 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.CleaningStaff.cleaningstaffhub;
+import com.example.bedms.HospitalManager.HospitalManagerHub;
 import com.example.bedms.OccupancyPerMonth;
 import com.example.bedms.R;
 
@@ -37,7 +39,7 @@ public class welcome extends AppCompatActivity {
         mHospitalManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), OccupancyPerMonth.class));
+                startActivity(new Intent(getApplicationContext(), HospitalManagerHub.class));
             }
         });
                 /*

@@ -75,7 +75,8 @@ public class bedDetailsclean extends AppCompatActivity {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         patientId = document.getId();
                                         counter = counter + 1;
-                                        */
+                                       */
+                db.collection("bed").document(bedId).update("PatientID", "");
                 db.collection("bed").document(bedId).update("Status", "Bed Cleaned ready for next patient");
                 db.collection("bed").document(bedId).update("Status", "Open");
 
@@ -84,31 +85,6 @@ public class bedDetailsclean extends AppCompatActivity {
                 ubh.updateBedHistory(bedId, "Bed is now open");
 
 
-          /*      String bedSearch = tvName.getText().toString();
-                db.collection("bed")
-                        .whereEqualTo("BedName", bedSearch)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    Bed tempBed = null;
-                                    int counter = 0;
-                                    task.getResult();
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        bedId = document.getId();
-                                        UpdateBedHistory ubh = new UpdateBedHistory();
-                                        ubh.updateBedHistory(bedId, "Patient in bed in ward");
-
-                                        db.collection("bed").document(bedId).update("Status", "Bed Occupied");
-
-                                    }
-
-                                }
-                            }
-                        });
-
-           */
                 Toast.makeText(getApplicationContext(), "Bed Cleaned", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(getApplicationContext(), cleaningstaffhub.class));
 
