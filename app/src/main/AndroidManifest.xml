@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
         <activity android:name=".testOfDate"></activity>
-        <activity android:name=".OccupancyPerMonth" />
+        <activity android:name=".HospitalManager.OccupancyPerMonth" />
 
         <activity android:name=".BedStatusForDate" />
         <activity android:name=".scannning" />

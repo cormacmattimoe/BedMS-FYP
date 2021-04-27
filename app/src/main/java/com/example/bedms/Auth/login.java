@@ -17,7 +17,6 @@ import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.CleaningStaff.cleaningstaffhub;
 import com.example.bedms.Doctor.doctorhub;
 import com.example.bedms.HospitalManager.HospitalManagerHub;
-import com.example.bedms.Nurse.nursehub;
 import com.example.bedms.Porter.porterhub;
 import com.example.bedms.R;
 import com.example.bedms.HospitalManager.StatsAsOfToday;

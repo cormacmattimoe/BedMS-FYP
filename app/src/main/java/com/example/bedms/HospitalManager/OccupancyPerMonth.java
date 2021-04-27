@@ -1,13 +1,11 @@
-package com.example.bedms;
+package com.example.bedms.HospitalManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -16,16 +14,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.example.bedms.Auth.login;
-import com.example.bedms.HospitalManager.HospitalManagerHub;
+import com.example.bedms.BedCache;
+import com.example.bedms.BedInfo;
+import com.example.bedms.BedStatusChartsForDate;
+import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.BedHistoryEvent;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -35,26 +32,21 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 public class OccupancyPerMonth extends AppCompatActivity implements
         OnChartGestureListener, OnChartValueSelectedListener , AdapterView.OnItemSelectedListener  {
@@ -593,41 +585,46 @@ public class OccupancyPerMonth extends AppCompatActivity implements
 
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu (Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected (MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-           case R.id.item1:
+            case R.id.item1:
                 Intent i = new Intent(OccupancyPerMonth.this, HospitalManagerHub.class);
-               startActivity(i);
-               return true;
+                startActivity(i);
+                return true;
             case R.id.item2:
-                Intent z = new Intent(OccupancyPerMonth.this, BedStatusForDate.class);
+                Intent z = new Intent(OccupancyPerMonth.this, StatsAsOfToday.class);
                 startActivity(z);
                 return true;
             case R.id.item3:
+                Intent k = new Intent(OccupancyPerMonth.this,BedStatusForDate.class);
+                startActivity(k);
+                return true;
+            case R.id.item4:
                 Intent S = new Intent(OccupancyPerMonth.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
-            case R.id.item4:
+            case R.id.item5:
                 Intent g = new Intent(OccupancyPerMonth.this, CalculateWaitTime.class);
                 startActivity(g);
                 return true;
 
-            case R.id.item5:
+            case R.id.item6:
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 Intent r = new Intent(OccupancyPerMonth.this, login.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);
-        }
+
+    }
     }
 }

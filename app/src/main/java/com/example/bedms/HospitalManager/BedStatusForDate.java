@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
 import com.example.bedms.BedInfo;
-import com.example.bedms.OccupancyPerMonth;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

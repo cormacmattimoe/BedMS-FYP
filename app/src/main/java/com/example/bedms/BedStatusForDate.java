@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
+import com.example.bedms.HospitalManager.OccupancyPerMonth;
 import com.example.bedms.HospitalManager.StatsAsOfToday;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

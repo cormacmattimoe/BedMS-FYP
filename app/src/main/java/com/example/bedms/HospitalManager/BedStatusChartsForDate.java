@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bedms.Auth.login;
 import com.example.bedms.BedInfo;
 import com.example.bedms.CalculateWaitTime;
-import com.example.bedms.OccupancyPerMonth;
 import com.example.bedms.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
