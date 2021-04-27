@@ -11,6 +11,7 @@
         android:layout_width="157dp"
         android:layout_height="25dp"
         android:text="Assign to ward"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
@@ -56,6 +57,7 @@
         android:layout_width="157dp"
         android:layout_height="25dp"
         android:text="Assign to bed"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
@@ -79,6 +81,7 @@
         android:layout_width="157dp"
         android:layout_height="25dp"
         android:text="Illness"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
@@ -91,6 +94,7 @@
         android:layout_width="157dp"
         android:layout_height="25dp"
         android:text="DOB"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
@@ -118,6 +122,7 @@
         android:gravity="center_horizontal"
         android:text="Admit Patient"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,6 +136,7 @@
         android:layout_width="157dp"
         android:layout_height="25dp"
         android:text="Name"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
@@ -164,7 +170,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.711" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/illnesEd"
         android:layout_width="151dp"
         android:layout_height="40dp"

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
+import com.example.bedms.ConditionCache;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
@@ -46,7 +48,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
     Spinner spinnyBeds, spinWards;
     String bedNameSelected, wardNameSelected;
     String paaId;
-    String bedId;
+    String bedId, illness;
     BottomNavigationView bottomnav;
     Button btnAdmit;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -79,9 +81,13 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         System.out.println("Ward List" + wardsList);
         bAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, bedList);
         bAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
         spinnyBeds.setAdapter(bAdapter);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, ConditionCache.conditionCache);
+        AutoCompleteTextView textView = (AutoCompleteTextView)
+                findViewById(R.id.illnesEd);
+        textView.setAdapter(adapter);
 
 
         getWards();
@@ -89,6 +95,8 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
 
 
         // getBedNamesByWard(wardNameSelected);
+
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -101,6 +109,8 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         paaId = intent.getStringExtra("PatientId");
         pName.setText(str);
         pDOB.setText(str2);
+
+        illness = pIllness.getText().toString();
 
 
         btnAdmit.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +161,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            bedList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String bedName = document.getString("BedName");
                                 if (bedList.contains(bedName)) {
@@ -226,6 +237,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 bedId = document.getId();
                                 UpdateBedHistory ubh = new UpdateBedHistory();
+                                db.collection("patient").document(paaId).update("Illness",illness);
                                 db.collection("patient").document(paaId).update("Status", "waiting for porter");
                                 db.collection("patient").document(paaId).update("WardName", wardNameSelected);
                                 db.collection("bed").document(bedId).update("PatientID", paaId);

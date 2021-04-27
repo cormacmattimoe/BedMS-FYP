@@ -39,7 +39,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class patientlistporterdetails extends AppCompatActivity {
     TextView tvName, tvDob, tvStatus, tvWard, tvBedName;
-    Chronometer ch;
+   // Chronometer ch;
     String patientId,bedId;
     String dateTime;
     Button btnDelivered;
@@ -61,9 +61,9 @@ public class patientlistporterdetails extends AppCompatActivity {
         tvWard = findViewById(R.id.tvWardPlace);
         tvBedName = findViewById(R.id.tvBedNameEd);
         btnDelivered = findViewById(R.id.deliveredBtn);
-        ch = findViewById(R.id.chrono);
+       // ch = findViewById(R.id.chrono);
 
-        ch.start();
+      //  ch.start();
 
 
         Intent intent = getIntent();

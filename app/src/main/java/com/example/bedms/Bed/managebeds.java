@@ -1,6 +1,7 @@
 package com.example.bedms.Bed;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.AdminHub;
@@ -130,11 +132,11 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
                         bed.put("Ward", "");
                         bed.put("PatientID", "");
                         bed.put("BedName", bedType + i);
-                        bed.put("QrId", "");
                         System.out.println("This is the bed" + bed);
                         db.collection("bed")
                             .add(bed)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());

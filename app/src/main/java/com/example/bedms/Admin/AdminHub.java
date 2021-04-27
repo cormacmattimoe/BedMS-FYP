@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bedms.Auth.login;
 import com.example.bedms.Auth.welcome;
 import com.example.bedms.Bed.managebeds;
+import com.example.bedms.ConditionCache;
 import com.example.bedms.Employees.manageemployees;
 import com.example.bedms.MyTask;
 import com.example.bedms.Patient.inventoryofpatientsadmin;
@@ -63,6 +66,12 @@ public class AdminHub extends AppCompatActivity {
         pNokRel = findViewById(R.id.nokRel);
         pIllness = findViewById(R.id.pIllnessEd);
         btnbAddPatient = findViewById(R.id.createPatient);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, ConditionCache.conditionCache);
+        AutoCompleteTextView textView = (AutoCompleteTextView)
+                findViewById(R.id.pIllnessEd);
+        textView.setAdapter(adapter);
         /*
         et_date1 = (TextView) findViewById(R.id.et_date1);
 

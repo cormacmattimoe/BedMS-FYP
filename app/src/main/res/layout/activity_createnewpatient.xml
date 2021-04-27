@@ -26,7 +26,7 @@
 
 
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/pIllnessEd"
         android:layout_width="320dp"
         android:layout_height="36dp"
@@ -100,7 +100,7 @@
         android:background="@drawable/rounded_edittext"
         android:ems="10"
         android:hint=" Next of Kin Phone Number"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:textColor="#000000"
         android:textColorHint="#807D7D"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -133,7 +133,7 @@
         android:background="@drawable/rounded_edittext"
         android:ems="10"
         android:hint=" Patient DOB"
-        android:inputType="textPersonName"
+        android:inputType="date|number"
         android:textColorHint="#807D7D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -149,7 +149,7 @@
         android:background="@drawable/rounded_edittext"
         android:ems="10"
         android:hint=" Patient Phone Number"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:textColor="#000000"
         android:textColorHint="#807D7D"
         app:layout_constraintBottom_toBottomOf="parent"
