@@ -15,8 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
+import com.example.bedms.BedCache;
 import com.example.bedms.BedInfo;
 import com.example.bedms.CalculateWaitTime;
+import com.example.bedms.Model.Bed;
+import com.example.bedms.Model.BedHistoryEvent;
 import com.example.bedms.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -46,10 +49,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 public class BedStatusChartsForDate extends AppCompatActivity  {
 
     private static String TAG = "MainActivity";
+    private Hashtable<String, Bed> bedCache;
     PieChart pieChart;
     BarChart chart;
     TextView totalbeds, occupanyRate;
@@ -58,7 +64,6 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
     float occRate;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     int categorySelected = 0;
-    int bedCountatDate = 0;
     int open;
     int occupied;
     int allocated;
@@ -83,6 +88,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         occupanyRate = findViewById(R.id.tvOccPercent);
         pieChart = findViewById(R.id.idPieChart);
         chart = findViewById(R.id.barchart);
+        bedCache = BedCache.bedCache;
 
         // logic for main onCreate Method:
         // 1. get date from calling screen using Intent.
@@ -102,25 +108,23 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         Intent intent = getIntent();
         dateFromDateSelected = intent.getStringExtra("Date");
         titleDate = intent.getStringExtra("titleDate");
-        allBedsWithoutStatus = (ArrayList<BedInfo>)getIntent().getSerializableExtra("All Beds");
-        System.out.println("These are date after intent " + dateFromDateSelected);
+
         setTitle("Bed Status as of:  " + titleDate);
-        // 99 is set for the first time through but after it will be whatever is clicked on the pie chart
-        for (int j = 0; j < allBedsWithoutStatus.size(); j++) {
-            System.out.println("All Beds without status after intent " + "  " + j + " " + allBedsWithoutStatus.get(j).getBedId() + allBedsWithoutStatus.get(j).getWard());
-        }
-        getBedHistory();
+
+        ClearTotals();
+        GetLatestBedStatusForDate(dateFromDateSelected);
+        buildPieChart(open, occupied, allocated, cleaning);
 
 
-        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-            }
-
-            @Override
-            public void onNothingSelected() {
-            }
-        });
+//        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+//            @Override
+//            public void onValueSelected(Entry e, Highlight h) {
+//            }
+//
+//            @Override
+//            public void onNothingSelected() {
+//            }
+//        });
 
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -137,105 +141,89 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
     }
 
-    public int getBedStatus(Task<QuerySnapshot> returnedHistory) {
-        int statusCode;
+    private void ClearTotals() {
+        open = allocated = occupied = cleaning = bedNotYetCreated = 0;
+        allBedStatusbyWard = new int[5][6];
+    }
 
-        String event = "";
-        String eventDateString = "";
-        Date eventDateFromDb = new Date();
-        Date dateSelectedFromScreen = new Date();
+    private void GetLatestBedStatusForDate(String dateSelected) {
+        //Get Latest Bed history per bed for a given day
 
-        for (QueryDocumentSnapshot history : returnedHistory.getResult()) {
-            eventDateString = history.getString("dateAndTime");
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            Enumeration<String> keys = bedCache.keys();
+            while(keys.hasMoreElements()){
+                String bedId = keys.nextElement();
+                Bed bed = bedCache.get(bedId);
+                BedHistoryEvent latestEvent = bed.getLatestBedHistoryForDay(dateSelected);
 
-            try {
-                eventDateFromDb = format.parse(eventDateString);
-                dateSelectedFromScreen = dateFormatter.parse(dateFromDateSelected);
-            } catch (ParseException e) {
-                e.printStackTrace();
+                //Have the latest Event for that Day so now we work out the occupancy rate.
+                if (latestEvent!= null){
+                    int bedStatusCode = latestEvent.getBedStatusFromEvent();
+
+                    //Change here to calculate occupancy rate.
+                    SumTotals(bedStatusCode,GetWardIndex(bed.getBedWard()));
+                }
             }
+        int bedCountAtDate = open+allocated+occupied+cleaning;
+        float occ = (float) occupied;
+        float aloc = (float) allocated;
+        float bedC = (float) bedCountAtDate;
+        occRate = (((occ + aloc) / bedC) * (100f));
+        String str = String.format("%.0f", occRate);
+        totalbeds.setText(Integer.toString(bedCountAtDate));
+        occupanyRate.setText(str);
+    }
 
-            //Storing the eventType for transactions before or equal to the selectedDate
-            if (eventDateFromDb.compareTo(dateSelectedFromScreen) <= 0) {
-                event = history.getString("eventType");
-            }
-        }
+    private int GetWardIndex(String bedWard) {
+        int wardCode;
+        switch (bedWard) {
+                case "St Johns":
+                    wardCode = 0;
+                    break;
+                case "St Marys":
+                    wardCode = 1;
+                    break;
+                case "St Pauls":
+                    wardCode = 2;
+                    break;
+                case "St Magz":
+                    wardCode = 3;
+                    break;
+                case "St Joes":
+                    wardCode = 4;
+                    break;
+                default:
+                    wardCode = 5;
+            }  // end Switch for Ward
+        return wardCode;
+    }
 
-        switch (event) {
-            case "Added bed":
-            case "Bed allocated to ward":
-            case "Bed is now open":
-            case "Bed is cleaned – ready for next patient":
-                statusCode = 0;
+    private void SumTotals(int bedStatusCode,int Ward) {
+        switch (bedStatusCode){
+            case 0:
+                open++;
+                allBedStatusbyWard[0][Ward]++;
                 break;
-            case "Bed allocated - patient on way":
-                statusCode = 1;
+            case 1:
+                occupied++;
+                allBedStatusbyWard[1][Ward]++;
                 break;
-            case "Patient in bed in ward":
-                statusCode = 2;
+            case 2:
+                allocated++;
+                allBedStatusbyWard[2][Ward]++;
                 break;
-            case "Bed ready for cleaning":
-                statusCode = 3;
+            case 3:
+                cleaning++;
+                allBedStatusbyWard[3][Ward]++;
+                break;
+            case 4:
+                bedNotYetCreated++;
+                allBedStatusbyWard[4][Ward]++;
                 break;
             default:
-                statusCode = 4;
                 break;
         }
-
-        return statusCode;
     }
 
-    public void getHistoryDetails(String bedId, int numberOfBeds, String ward) {
-        // Do database query for each bed ID to get the bed history back
-        db.collection("bed")
-                .document(bedId)
-                .collection("bedHistory4")
-                .orderBy("dateAndTime")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> returnedHistory) {
-                        if (returnedHistory.isSuccessful()) {
-                            System.out.println("count: " + count);
-                            System.out.println("BedId: " + bedId);
-                            BedInfo currentBed = new BedInfo();
-                            int bedStatus = getBedStatus(returnedHistory);
-                            currentBed.setCurrentStatus(bedStatus);
-                            currentBed.setBedId(bedId);
-                            currentBed.setWard(ward);
-                            allBedsWithStatus.add(currentBed);
-                            count++;
-
-                            if (count == numberOfBeds) {
-                                System.out.println("");
-                                buildTotals(allBedsWithStatus);
-                            }
-                        }
-                    }
-                });
-    }
-
-    public void getBedHistory() {
-        int statusCode = 0;
-        int numberOfBeds  = allBedsWithoutStatus.size();
-        for (int u = 0; u < allBedsWithoutStatus.size(); u++) {
-            bedIdString = allBedsWithoutStatus.get(u).getBedId();
-            wardIdString = allBedsWithoutStatus.get(u).getWard();
-            System.out.println("Before calculate This the bed id and ward id " + u + "  " + bedIdString + " " + wardIdString);
-            getHistoryDetails(bedIdString, numberOfBeds, wardIdString);
-        }
-    }
-
-
-    public int totalCategory(int category, int[][] allBeds2dtc) {
-        int totalCategory = 0;
-        for (int count = 0; count < 6; count++) {
-            totalCategory = totalCategory + allBeds2dtc[category][count];
-        }
-        return totalCategory;
-    }
 
 
     public void buildTotals(ArrayList <BedInfo> allBedDetails){
@@ -290,25 +278,25 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
             allBedStatusbyWard[codeStatus][codeWard] = allBedStatusbyWard[codeStatus][codeWard] + 1;
         }
 
-        open = totalCategory(0, allBedStatusbyWard);
-        occupied = totalCategory(1, allBedStatusbyWard);
-        allocated = totalCategory(2, allBedStatusbyWard);
-        cleaning = totalCategory(3, allBedStatusbyWard);
-        bedNotYetCreated = totalCategory(4, allBedStatusbyWard);
-        bedCountatDate = allBedDetails.size() - bedNotYetCreated;
-
-        System.out.println("Totals " + open + " " + occupied + " " + allocated +  " "  + cleaning +  " " + bedNotYetCreated + " and overall total on the date = " + bedCountatDate);
+       // System.out.println("Totals " + open + " " + occupied + " " + allocated +  " "  + cleaning +  " " + bedNotYetCreated + " and overall total on the date = " + bedCountatDate);
 
 
         //Calculate Total Beds and Occupancy rate @ date and display on screen.
         DecimalFormat decimalFormat = new DecimalFormat("#");
         float occ = (float) occupied;
         float aloc = (float) allocated;
-        float bedC = (float) bedCountatDate;
-        occRate = (((occ + aloc) / bedC) * (100f));
-        String str = String.format("%.0f", occRate);
-        totalbeds.setText(Integer.toString(bedCountatDate));
-        occupanyRate.setText(str);
+//        float bedC = (float) bedCountatDate;
+//        occRate = (((occ + aloc) / bedC) * (100f));
+//        String str = String.format("%.0f", occRate);
+//        totalbeds.setText(Integer.toString(bedCountatDate));
+//        occupanyRate.setText(str);
+
+
+        Hashtable<String, Bed> bedCache = BedCache.getBedCache();
+
+
+
+
 
         // now build pie-chart.
         buildPieChart(open, occupied, allocated, cleaning);
@@ -382,29 +370,29 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         pieChart.invalidate();
         //    pieChart.refreshDrawableState();
 
-        buildBarChart(categorySelected);
+      //  buildBarChart(categorySelected);
 
     }    // end buildPieChart
 
 
 
-    public ArrayList<BarEntry> buildBarChart( int categorySelected) {
+    public void buildBarChart( int bedStatus) {
         ArrayList<BarEntry> getBedsByStatusByWard = new ArrayList<BarEntry>();
         chart.setHighlightFullBarEnabled(true);
         chart.getDescription().setEnabled(false);
 
-            getBedsByStatusByWard.add(new BarEntry(0, allBedStatusbyWard[categorySelected][0]));
-            getBedsByStatusByWard.add(new BarEntry(1, allBedStatusbyWard[categorySelected][1]));
-            getBedsByStatusByWard.add(new BarEntry(2, allBedStatusbyWard[categorySelected][2]));
-            getBedsByStatusByWard.add(new BarEntry(3, allBedStatusbyWard[categorySelected][3]));
-            getBedsByStatusByWard.add(new BarEntry(4, allBedStatusbyWard[categorySelected][4]));
-            //getBedsByStatusByWard.add(new BarEntry(5, BedStatusbyWard[categorySelected][5]));
+            getBedsByStatusByWard.add(new BarEntry(0, allBedStatusbyWard[bedStatus][0]));
+            getBedsByStatusByWard.add(new BarEntry(1, allBedStatusbyWard[bedStatus][1]));
+            getBedsByStatusByWard.add(new BarEntry(2, allBedStatusbyWard[bedStatus][2]));
+            getBedsByStatusByWard.add(new BarEntry(3, allBedStatusbyWard[bedStatus][3]));
+            getBedsByStatusByWard.add(new BarEntry(4, allBedStatusbyWard[bedStatus][4]));
+            getBedsByStatusByWard.add(new BarEntry(5, allBedStatusbyWard[bedStatus][5]));
 
 
             String label = "";
             BarDataSet bds;
             bds = new BarDataSet(getBedsByStatusByWard, label);
-            switch (categorySelected) {
+            switch (bedStatus) {
                 case 0:
                     bds.setLabel("Open");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat1)});
@@ -423,7 +411,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                     bds.setColors(new int[]{getResources().getColor(R.color.cat4)});
                     break;
                 default:
-                    throw new IllegalStateException("Unexpected value: " + categorySelected);
+                    throw new IllegalStateException("Unexpected value: " + bedStatus);
             }
 
             bds.setValueTextSize(10f);
@@ -504,7 +492,6 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
             chart.setData(Data);
             chart.invalidate();
 
-        return getBedsByStatusByWard;
     }
 
 

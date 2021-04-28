@@ -19,31 +19,40 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class UpdateBedHistory {
-    private static final String TAG = "bedHistory" ;
+    private static final String TAG = "bedHistory4" ;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void updateBedHistory(String bedId, String eventType){
         Calendar calender;
         SimpleDateFormat simpledateformat;
-        String eventDate;
+        calender = Calendar.getInstance();
+        simpledateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String eventDate = simpledateformat.format(calender.getTime());
+        updateBedHistory(bedId,eventType,eventDate);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void updateBedHistory(String bedId, String eventType,String eventDate){
+
         BedHistoryEvent newEvent = new BedHistoryEvent();
         newEvent.setEventType(eventType);
 
-
-        calender = Calendar.getInstance();
-        simpledateformat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        eventDate = simpledateformat.format(calender.getTime());
         newEvent.setDateAndTime(eventDate);
 
         db.collection("bed")
                 .document(bedId)
-                .collection("bedHistory")
+                .collection(TAG)
                 .add(newEvent)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "Bed history updated for " + documentReference.getId());
+                        String newEventId = documentReference.getId();
+                        //Get bed, Add event to Cache
+                        BedCache.bedCache.get(bedId).getBedHistoryEventHashTable().put(newEventId,newEvent);
+
+                        Log.d(TAG, "Bed history updated for " + bedId + " EventID: " + newEventId);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

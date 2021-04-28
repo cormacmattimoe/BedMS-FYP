@@ -20,6 +20,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.AdminHub;
+import com.example.bedms.BedCache;
+import com.example.bedms.Model.Bed;
+import com.example.bedms.Model.BedHistoryEvent;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,7 +36,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,6 +132,11 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
                     final Map<String, Object> bed = new HashMap<>();
                     int startingPosition = count;
                     for (int i = startingPosition; i < numberOfNewBeds + startingPosition; i++) {
+                        Bed newBed = new Bed();
+                        newBed.setBedType(bedType);
+                        newBed.setBedStatus("Open");
+                        newBed.setBedName(bedType + i);
+
                         bed.put("BedType", bedType);
                         bed.put("Status", "Open");
                         bed.put("Ward", "");
@@ -139,11 +149,20 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
                                 @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                     bedId = documentReference.getId();
+                                    Log.d(TAG, "DocumentSnapshot written with ID: " + bedId);
+                                    Log.d(TAG, "Bed added with ID: " + bedId);
+                                    newBed.setBedId(bedId);
+
+                                    Calendar calender;
+                                    SimpleDateFormat simpledateformat;
+                                    calender = Calendar.getInstance();
+                                    simpledateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    String eventDate = simpledateformat.format(calender.getTime());
+                                    BedCache.bedCache.put(bedId,newBed);
+
                                     UpdateBedHistory ubh = new UpdateBedHistory();
-                                    ubh.updateBedHistory(bedId, "Added bed");
+                                    ubh.updateBedHistory(bedId, "Added bed",eventDate);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -157,6 +176,12 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
                 }
             }
         });
+
+
+
+
+
+
     }
 
 
