@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.BedHistoryEvent;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,7 +51,10 @@ public class UpdateBedHistory {
                     public void onSuccess(DocumentReference documentReference) {
                         String newEventId = documentReference.getId();
                         //Get bed, Add event to Cache
-                        BedCache.bedCache.get(bedId).getBedHistoryEventHashTable().put(newEventId,newEvent);
+                        Bed bed = BedCache.bedCache.get(bedId);
+                        if (bed.getBedHistoryEventHashTable()!= null){
+                            BedCache.bedCache.get(bedId).getBedHistoryEventHashTable().put(newEventId,newEvent);
+                        }
 
                         Log.d(TAG, "Bed history updated for " + bedId + " EventID: " + newEventId);
                     }

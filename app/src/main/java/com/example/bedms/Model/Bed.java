@@ -92,7 +92,12 @@ public class Bed {
 
     public void setBedHistoryEventHashTable(Hashtable<String,BedHistoryEvent> bedHistoryEventHashTable) { this.bedHistoryEventHashTable = bedHistoryEventHashTable;}
 
-    public Hashtable<String,BedHistoryEvent> getBedHistoryEventHashTable() { return bedHistoryEventHashTable; }
+    public Hashtable<String,BedHistoryEvent> getBedHistoryEventHashTable() {
+        if (bedHistoryEventHashTable != null ){
+            return bedHistoryEventHashTable;
+        } else
+            return null;
+    }
 
     public BedHistoryEvent getLatestBedHistoryForDay( String dateSelectedAsString) {
 

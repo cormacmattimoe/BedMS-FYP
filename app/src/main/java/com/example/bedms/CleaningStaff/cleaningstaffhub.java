@@ -123,9 +123,6 @@ protected void onCreate(Bundle savedInstanceState) {
                                     bedList.add(tempBed);
                                     counter = counter + 1;
                                     bAdaptClean.notifyItemInserted(bedList.size() - 1);
-
-                                UpdateBedHistory ubh = new UpdateBedHistory();
-                                ubh.updateBedHistory(bedName, "Beds to be cleaned");
                                 }
                             }
                          else {
