@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import com.example.bedms.Admin.qrcodetesting;
 import com.example.bedms.Auth.login;
 import com.example.bedms.CleaningStaff.bedDetailsCleaner;
+import com.example.bedms.CleaningStaff.bedDetailsclean;
 import com.example.bedms.CleaningStaff.cleaningstaffhub;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -85,14 +86,11 @@ public class qrMainScreen extends AppCompatActivity implements View.OnClickListe
                 // messageText.setText(intentResult.getContents());
                 String bedName = intentResult.getContents();
 
-                // Intent intent = getIntent();
-                //  String str;
-                // str = intent.getStringExtra(bedName);
-                //  messageText.setText(str);
-                //   messageFormat.setText(intentResult.getFormatName());
-                Intent i = new Intent(qrMainScreen.this, bedDetailsCleaner.class);
-                i.putExtra("BedName", bedName);
+
+                Intent i = new Intent(qrMainScreen.this, bedDetailsclean.class);
+                i.putExtra("Name", bedName);
                 startActivity(i);
+
                 finish();
             }
         } else {

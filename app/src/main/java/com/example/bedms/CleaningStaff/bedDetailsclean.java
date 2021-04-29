@@ -46,6 +46,12 @@ public class bedDetailsclean extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beddetailsclean);
         setTitle("Bed Details");
+
+        Intent intent = getIntent();
+        String bedName;
+        bedName = intent.getStringExtra("Name");
+
+
         tvName = findViewById(R.id.tvName);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
