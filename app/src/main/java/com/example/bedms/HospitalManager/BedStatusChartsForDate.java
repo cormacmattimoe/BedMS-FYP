@@ -5,6 +5,7 @@ package com.example.bedms.HospitalManager;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
@@ -48,6 +50,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -158,8 +162,13 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
                 //Have the latest Event for that Day so now we work out the occupancy rate.
                 if (latestEvent!= null){
+                    if (bedId.equals("JOzWQGBlnsB4Ca2RZca6")){
+                        System.out.println("Here");
+                    }
                     int bedStatusCode = BedHistoryEventHelper.getBedStatusFromEvent(latestEvent);
-
+                if (bedStatusCode == 1){
+                        System.out.println("Here");
+                    }
                     //Change here to calculate occupancy rate.
                     SumTotals(bedStatusCode,GetWardIndex(bed.getBedWard()));
                 }
@@ -205,11 +214,11 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                 allBedStatusbyWard[0][Ward]++;
                 break;
             case 1:
-                occupied++;
+                allocated++;
                 allBedStatusbyWard[1][Ward]++;
                 break;
             case 2:
-                allocated++;
+                occupied++;
                 allBedStatusbyWard[2][Ward]++;
                 break;
             case 3:
@@ -400,12 +409,12 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                     break;
 
                 case 1:
-                    bds.setLabel("Occupied");
-                    bds.setColors(new int[]{getResources().getColor(R.color.cat2)});
-                    break;
-                case 2:
                     bds.setLabel("Allocated");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat3)});
+                    break;
+                case 2:
+                    bds.setLabel("Occupied");
+                    bds.setColors(new int[]{getResources().getColor(R.color.cat2)});
                     break;
                 case 3:
                     bds.setLabel("Cleaning");
@@ -503,6 +512,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
         return true;
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         int id = item.getItemId();
@@ -511,10 +521,18 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                 Intent i = new Intent(BedStatusChartsForDate.this, HospitalManagerHub.class);
                 startActivity(i);
                 return true;
-            case R.id.item2:
-                Intent z = new Intent(BedStatusChartsForDate.this, StatsAsOfToday.class);
-                startActivity(z);
+            case R.id.item2: // For todays date we go to the same class as any other day but we specify today's date
+                Intent intent = new Intent(BedStatusChartsForDate.this, BedStatusChartsForDate.class);
+                intent.putExtra("All Beds", allBedsWithoutStatus);
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String today = dtf.format(LocalDateTime.now());
+                intent.putExtra("Date", today+ " " + "23" + ":" + "59" + ":" + "59");
+                intent.putExtra("titleDate", "Today");
+                startActivity(intent);
                 return true;
+//                Intent z = new Intent(BedStatusChartsForDate.this, StatsAsOfToday.class);
+//                startActivity(z);
+//                return true;
             case R.id.item3:
                 Intent k = new Intent(BedStatusChartsForDate.this, BedStatusForDate.class);
                 startActivity(k);

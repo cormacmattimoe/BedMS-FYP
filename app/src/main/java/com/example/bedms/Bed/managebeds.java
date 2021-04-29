@@ -52,9 +52,12 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     BottomNavigationView bottomnav;
     Spinner spinBedType;
+    Spinner spinWardType;
     int numberOfBedsAlreadyExisting;
     ArrayAdapter<String> bAdapter;
+    ArrayAdapter<String> wAdapter;
     ArrayList<String> bedTypes = new ArrayList<>();
+    ArrayList<String> wards = new ArrayList<>();
 
 
     @Override
@@ -65,12 +68,23 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
         addBedsbtn = findViewById(R.id.addBeds);
         spinBedType = findViewById(R.id.spinBeds);
         spinBedType.setOnItemSelectedListener(this);
+        spinWardType = findViewById(R.id.spinWards);
+        spinWardType.setOnItemSelectedListener(this);
+        wards.add("St Johns");
+        wards.add("St Marys");
+        wards.add("St Pauls");
+        wards.add("St Magz");
+        wards.add("St Joes");
 
         //Creating the ArrayAdapter instance having the country list
         bAdapter  = new ArrayAdapter(this,android.R.layout.simple_spinner_item,bedTypes);
+        wAdapter  = new ArrayAdapter(this,android.R.layout.simple_spinner_item,wards);
         bAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        wAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         //Setting the ArrayAdapter data on the Spinner
         spinBedType.setAdapter(bAdapter);
+        spinWardType.setAdapter(wAdapter);
 
         getBedType();
 
@@ -114,6 +128,7 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
 
     public void createBeds() {
         final String bedType = spinBedType.getSelectedItem().toString();
+        final String ward = spinWardType.getSelectedItem().toString();
         final String bedQuan = numberOfBeds.getText().toString();
         // final int[] totalNumberOfBedsType = {0};
         final int numberOfNewBeds = Integer.parseInt(bedQuan);
@@ -132,16 +147,17 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
                     final Map<String, Object> bed = new HashMap<>();
                     int startingPosition = count;
                     for (int i = startingPosition; i < numberOfNewBeds + startingPosition; i++) {
+                        String bedName = bedType + i;
                         Bed newBed = new Bed();
                         newBed.setBedType(bedType);
                         newBed.setBedStatus("Open");
-                        newBed.setBedName(bedType + i);
+                        newBed.setBedName(bedName);
 
                         bed.put("BedType", bedType);
                         bed.put("Status", "Open");
-                        bed.put("Ward", "");
+                        bed.put("Ward", ward);
                         bed.put("PatientID", "");
-                        bed.put("BedName", bedType + i);
+                        bed.put("BedName", bedName);
                         System.out.println("This is the bed" + bed);
                         db.collection("bed")
                             .add(bed)
@@ -153,7 +169,9 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
                                     Log.d(TAG, "DocumentSnapshot written with ID: " + bedId);
                                     Log.d(TAG, "Bed added with ID: " + bedId);
                                     newBed.setBedId(bedId);
-
+                                    newBed.setBedStatus("Open");
+                                    newBed.setBedWard(ward);
+                                    newBed.setBedName(bedName);
                                     Calendar calender;
                                     SimpleDateFormat simpledateformat;
                                     calender = Calendar.getInstance();
@@ -214,8 +232,8 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
         //  String text =  (String) parent.getItemAtPosition(position);
         //  Toast.makeText(getApplicationContext(),text , Toast.LENGTH_LONG).show();
         // Toast.makeText(this, bedTypes.get(position), Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onItemSelected:  " + this);
-        Log.d(TAG, "onItemSelected: with pos " + bedTypes.get(position));
+//        Log.d(TAG, "onItemSelected:  " + this);
+//        Log.d(TAG, "onItemSelected: with pos " + bedTypes.get(position));
         // An item was selected. You can retrieve the selected item using
         //parent.getItemAtPosition(pos)
     }

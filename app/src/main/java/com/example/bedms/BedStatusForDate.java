@@ -69,7 +69,7 @@ public class BedStatusForDate extends AppCompatActivity {
         calV.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                dateSelectedString = (dayOfMonth + "-" + "0" + (month + 1) + "-" + year + " " + "00" + ":" + "00" + ":" + "00");
+                dateSelectedString = (dayOfMonth + "-" + "0" + (month + 1) + "-" + year + " " + "23" + ":" + "59" + ":" + "59");
                 titleDate = (dayOfMonth + "-" + "0" + (month + 1) + "-" + year);
 
                 if (dateSelectedString == null) {
