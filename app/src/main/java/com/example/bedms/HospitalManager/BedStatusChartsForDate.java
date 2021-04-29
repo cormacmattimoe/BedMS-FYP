@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.login;
 import com.example.bedms.BedCache;
+import com.example.bedms.BedHistoryEventHelper;
 import com.example.bedms.BedInfo;
 import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.Model.Bed;
@@ -157,7 +158,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
                 //Have the latest Event for that Day so now we work out the occupancy rate.
                 if (latestEvent!= null){
-                    int bedStatusCode = latestEvent.getBedStatusFromEvent();
+                    int bedStatusCode = BedHistoryEventHelper.getBedStatusFromEvent(latestEvent);
 
                     //Change here to calculate occupancy rate.
                     SumTotals(bedStatusCode,GetWardIndex(bed.getBedWard()));
@@ -370,7 +371,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
         pieChart.invalidate();
         //    pieChart.refreshDrawableState();
 
-      //  buildBarChart(categorySelected);
+        buildBarChart(categorySelected);
 
     }    // end buildPieChart
 

@@ -16,6 +16,7 @@ import android.widget.Spinner;
 
 import com.example.bedms.Auth.login;
 import com.example.bedms.BedCache;
+import com.example.bedms.BedHistoryEventHelper;
 import com.example.bedms.BedStatusChartsForDate;
 import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.Model.Bed;
@@ -188,7 +189,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
 
                 //Have the latest Event for that Day so now we work out the occupancy rate.
                 if (latestEvent!= null){
-                    int bedStatusCode = latestEvent.getBedStatusFromEvent();
+                    int bedStatusCode = BedHistoryEventHelper.getBedStatusFromEvent(latestEvent);
 
                     //Change here to calculate occupancy rate.
                     AddToTotalOccupiedBeds(bedStatusCode, day);

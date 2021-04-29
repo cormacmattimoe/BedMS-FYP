@@ -37,34 +37,4 @@ public class BedHistoryEvent {
         this.dateAndTime = dateAndTime;
     }
 
-public int getBedStatusFromEvent() {
-
-        if (this == null){
-            return 4;
-        }
-
-        int statusCode;
-
-        switch (this.getEventType()) {
-            case "Added bed":
-            case "Bed allocated to ward":
-            case "Bed is now open":
-            case "Bed is cleaned – ready for next patient":
-                statusCode = 0;
-                break;
-            case "Bed allocated - patient on way":
-                statusCode = 1;
-                break;
-            case "Patient in bed in ward":
-                statusCode = 2;
-                break;
-            case "Bed ready for cleaning":
-                statusCode = 3;
-                break;
-            default:
-                statusCode = 4;
-                break;
-        }
-        return statusCode;
-    }
 }
