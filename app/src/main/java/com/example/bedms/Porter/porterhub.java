@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bedms.Auth.login;
+import com.example.bedms.Doctor.doctorhub;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.Model.PorterPatientAdapter;
 import com.example.bedms.R;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,12 +33,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class porterhub extends AppCompatActivity {
-            TextView title;
-            BottomNavigationView bottomnav;
-            RecyclerView rcvPatientsWaiting;
-            ArrayList<Patient> patientList = new ArrayList<Patient>();
-            PorterPatientAdapter papAdapter;
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+    TextView title;
+    BottomNavigationView bottomnav;
+    RecyclerView rcvPatientsWaiting;
+    ArrayList<Patient> patientList = new ArrayList<Patient>();
+    PorterPatientAdapter papAdapter;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth mAuth;
+
+    FirebaseUser user;
 
             private static final String TAG = "Patient List";
 
@@ -46,6 +51,11 @@ protected void onCreate(Bundle savedInstanceState) {
     setContentView(R.layout.activity_porter);
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     setTitle("Porters Home");
+    mAuth = FirebaseAuth.getInstance();
+
+    //get current user
+    user = FirebaseAuth.getInstance().getCurrentUser();
+    user.getEmail().toString();
 
     rcvPatientsWaiting = findViewById(R.id.rcvBedsCleaning);
 
@@ -103,11 +113,6 @@ protected void onCreate(Bundle savedInstanceState) {
 
 
 
-public void logout(View view){
-        FirebaseAuth.getInstance().signOut(); //logout user
-        startActivity(new Intent(getApplicationContext(), login.class));
-        finish();
-        }
 
 @Override
 public boolean onCreateOptionsMenu (Menu menu){
@@ -127,7 +132,12 @@ public boolean onOptionsItemSelected (MenuItem item) {
 
         case R.id.item2:
             Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
-            FirebaseAuth.getInstance().signOut();
+            if (user != null){
+                mAuth.signOut();
+                Toast.makeText(this, user.getEmail()+ " Sign out!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
+            }
             finish();
             Intent r = new Intent(porterhub.this, login.class);
             startActivity(r);

@@ -40,6 +40,7 @@ public class login extends AppCompatActivity {
     TextView title;
     ProgressBar progressBar;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,9 @@ public class login extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         mLoginBtn = findViewById(R.id.bLogin);
         mCreateBtn = findViewById(R.id.createAc);
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+        user.getEmail();
 
 
 

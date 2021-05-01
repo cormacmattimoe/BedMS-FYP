@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,12 +39,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class cleaningstaffhub extends AppCompatActivity {
-            TextView title;
-            BottomNavigationView bottomnav;
-            RecyclerView rcvBedsForCleaning;
-            ArrayList<Bed> bedList = new ArrayList<Bed>();
-            BedAdapterCleaning bAdaptClean;
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+    TextView title;
+    BottomNavigationView bottomnav;
+    RecyclerView rcvBedsForCleaning;
+    ArrayList<Bed> bedList = new ArrayList<Bed>();
+    BedAdapterCleaning bAdaptClean;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth mAuth;
+
+    FirebaseUser user;
 
             private static final String TAG = "Beds for cleaning";
 
@@ -54,6 +58,12 @@ protected void onCreate(Bundle savedInstanceState) {
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     setTitle("Cleaning staff Home");
     title = findViewById(R.id.title22);
+    mAuth = FirebaseAuth.getInstance();
+
+    //get current user
+    user = FirebaseAuth.getInstance().getCurrentUser();
+    user.getEmail().toString();
+
 
     // Intent intent = getIntent();
    // String str;

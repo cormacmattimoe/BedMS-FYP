@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Auth.login;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.Model.PatientAdapter;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,12 +33,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class doctorhub extends AppCompatActivity {
-            TextView title;
-            BottomNavigationView bottomnav;
-            RecyclerView rcvPatients;
-            ArrayList<Patient> patientList = new ArrayList<Patient>();
-            PatientAdapter paAdapter;
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+    TextView title;
+    BottomNavigationView bottomnav;
+    RecyclerView rcvPatients;
+    ArrayList<Patient> patientList = new ArrayList<Patient>();
+    PatientAdapter paAdapter;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth mAuth;
+
+    FirebaseUser user;
 
             private static final String TAG = "Patient List";
 
@@ -47,6 +52,11 @@ protected void onCreate(Bundle savedInstanceState) {
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     setTitle("Doctors Home");
     title = findViewById(R.id.title22);
+    mAuth = FirebaseAuth.getInstance();
+
+    //get current user
+    user = FirebaseAuth.getInstance().getCurrentUser();
+    user.getEmail().toString();
 
     Intent intent = getIntent();
     String str;
@@ -150,9 +160,16 @@ public boolean onOptionsItemSelected (MenuItem item) {
             return true;
 
         case R.id.item2:
-            FirebaseAuth.getInstance().signOut(); //logout user
-            startActivity(new Intent(getApplicationContext(), login.class));
+            Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
+            if (user != null){
+                mAuth.signOut();
+                Toast.makeText(this, user.getEmail()+ " Sign out!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
+            }
             finish();
+            Intent r = new Intent(doctorhub.this, login.class);
+            startActivity(r);
 
         default:
             return super.onOptionsItemSelected(item);

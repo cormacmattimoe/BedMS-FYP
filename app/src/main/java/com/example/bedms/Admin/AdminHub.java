@@ -31,6 +31,7 @@ import com.example.bedms.R;
 import com.example.bedms.UpdatePatientHistory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -48,6 +49,9 @@ public class AdminHub extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener mDateSetListner1, mDateSetListner2;
     TextView et_date1;
     static final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    FirebaseAuth mAuth;
+
+    FirebaseUser user;
 
 
 
@@ -66,7 +70,11 @@ public class AdminHub extends AppCompatActivity {
         pNokRel = findViewById(R.id.nokRel);
         pIllness = findViewById(R.id.pIllnessEd);
         btnbAddPatient = findViewById(R.id.createPatient);
+        mAuth = FirebaseAuth.getInstance();
 
+        //get current user
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        user.getEmail().toString();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, ConditionCache.conditionCache);
         AutoCompleteTextView textView = (AutoCompleteTextView)
@@ -279,9 +287,14 @@ public class AdminHub extends AppCompatActivity {
 
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
-                FirebaseAuth.getInstance().signOut();
+                if (user != null){
+                    mAuth.signOut();
+                    Toast.makeText(this, user.getEmail()+ " Sign out!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
+                }
                 finish();
-                Intent r = new Intent(AdminHub.this, welcome.class);
+                Intent r = new Intent(AdminHub.this, login.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);
