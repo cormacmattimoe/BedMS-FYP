@@ -449,7 +449,7 @@ public class StatsAsOfToday extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
+        getMenuInflater().inflate(R.menu.hospitalmanagerhubmainmenu, menu);
         return true;
     }
     @Override
@@ -476,12 +476,6 @@ public class StatsAsOfToday extends AppCompatActivity {
                 Intent g = new Intent(StatsAsOfToday.this, CalculateWaitTime.class);
                 startActivity(g);
                 return true;
-
-            case R.id.item6:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                Intent r = new Intent(StatsAsOfToday.this, login.class);
-                startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);
         }

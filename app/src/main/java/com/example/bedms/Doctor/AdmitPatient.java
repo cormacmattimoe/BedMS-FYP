@@ -268,7 +268,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.hospital_menu, menu);
+        getMenuInflater().inflate(R.menu.adminhospital_menu, menu);
         return true;
     }
     @Override
@@ -280,12 +280,6 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
                 Intent i = new Intent(AdmitPatient.this, doctorhub.class);
                 startActivity(i);
                 return true;
-            case R.id.item2:
-                Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                Intent r = new Intent(AdmitPatient.this, login.class);
-                startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);
         }

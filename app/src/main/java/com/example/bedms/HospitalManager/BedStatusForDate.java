@@ -116,7 +116,7 @@ public class BedStatusForDate extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.hospitalmanagerhubmenu, menu);
+        getMenuInflater().inflate(R.menu.hospitalmanagerhubmainmenu, menu);
         return true;
     }
 
@@ -145,11 +145,6 @@ public class BedStatusForDate extends AppCompatActivity {
                 startActivity(g);
                 return true;
 
-            case R.id.item6:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                Intent r = new Intent(BedStatusForDate.this, login.class);
-                startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);
         }

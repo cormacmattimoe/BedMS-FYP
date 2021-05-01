@@ -144,7 +144,7 @@ public class Inventoryofemployees extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.hospital_menu, menu);
+        getMenuInflater().inflate(R.menu.adminhospital_menu, menu);
         return true;
     }
     @Override
@@ -157,11 +157,6 @@ public class Inventoryofemployees extends AppCompatActivity {
                 startActivity(i);
                 return true;
 
-            case R.id.item2:
-                Toast.makeText(getApplicationContext(), "Create Patient" , Toast.LENGTH_LONG).show();
-                i = new Intent(Inventoryofemployees.this, AdminHub.class);
-                startActivity(i);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

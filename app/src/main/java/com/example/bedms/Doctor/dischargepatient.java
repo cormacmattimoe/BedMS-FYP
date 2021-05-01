@@ -148,7 +148,7 @@ public class dischargepatient extends AppCompatActivity implements AdapterView.O
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.hospital_menu, menu);
+        getMenuInflater().inflate(R.menu.adminhospital_menu, menu);
         return true;
     }
     @Override
@@ -160,25 +160,6 @@ public class dischargepatient extends AppCompatActivity implements AdapterView.O
                 Intent i = new Intent(dischargepatient.this, doctorhub.class);
                 startActivity(i);
                 return true;
-            case R.id.item2:
-                Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                Intent r = new Intent(dischargepatient.this, login.class);
-                startActivity(r);
-                /*
-            case R.id.item3:
-                Toast.makeText(getApplicationContext(), "Allocate bed to ward Selected", Toast.LENGTH_LONG).show();
-                i = new Intent(this, AllocateBedToWard.class);
-                startActivity(i);
-                return true;
-            case R.id.item4:
-                Toast.makeText(getApplicationContext(), "View beds by ward", Toast.LENGTH_LONG).show();
-                i = new Intent(Inventoryofbeds.this, Inventoryofbeds.class);
-                startActivity(i);
-                return true;
-
-                 */
             default:
                 return super.onOptionsItemSelected(item);
         }

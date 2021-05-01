@@ -122,7 +122,7 @@ public class inventoryofpatientsinbeds extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.hospital_menu, menu);
+        getMenuInflater().inflate(R.menu.adminhospital_menu, menu);
         return true;
     }
     @Override
@@ -134,11 +134,6 @@ public class inventoryofpatientsinbeds extends AppCompatActivity {
                 Intent i = new Intent(inventoryofpatientsinbeds.this, doctorhub.class);
                 startActivity(i);
                 return true;
-
-            case R.id.item2:
-                FirebaseAuth.getInstance().signOut(); //logout user
-                startActivity(new Intent(getApplicationContext(), login.class));
-                finish();
 
             default:
                 return super.onOptionsItemSelected(item);

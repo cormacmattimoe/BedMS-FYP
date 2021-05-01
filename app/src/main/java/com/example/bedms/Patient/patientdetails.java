@@ -116,7 +116,7 @@ public class patientdetails extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.hospital_menu, menu);
+        getMenuInflater().inflate(R.menu.adminhospital_menu, menu);
         return true;
     }
 
@@ -129,12 +129,6 @@ public class patientdetails extends AppCompatActivity {
                 Intent i = new Intent(patientdetails.this, doctorhub.class);
                 startActivity(i);
                 return true;
-            case R.id.item2:
-                Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                Intent r = new Intent(patientdetails.this, AdminHub.class);
-                startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);
         }
