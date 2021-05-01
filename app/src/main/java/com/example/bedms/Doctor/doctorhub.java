@@ -137,11 +137,6 @@ protected void onCreate(Bundle savedInstanceState) {
 
 
 
-public void logout(View view){
-        FirebaseAuth.getInstance().signOut(); //logout user
-        startActivity(new Intent(getApplicationContext(), login.class));
-        finish();
-        }
 
 @Override
 public boolean onCreateOptionsMenu (Menu menu){
@@ -160,10 +155,10 @@ public boolean onOptionsItemSelected (MenuItem item) {
             return true;
 
         case R.id.item2:
-            Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
+
             if (user != null){
                 mAuth.signOut();
-                Toast.makeText(this, user.getEmail()+ " Sign out!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, user.getEmail()+ " Logged out!", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
             }

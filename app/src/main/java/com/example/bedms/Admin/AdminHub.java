@@ -286,10 +286,9 @@ public class AdminHub extends AppCompatActivity {
                 return true;
 
             case R.id.item2:
-                Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
                 if (user != null){
                     mAuth.signOut();
-                    Toast.makeText(this, user.getEmail()+ " Sign out!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, user.getEmail()+ " Logged out!", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
                 }

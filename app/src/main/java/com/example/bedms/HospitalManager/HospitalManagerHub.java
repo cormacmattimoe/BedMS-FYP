@@ -3,15 +3,19 @@ package com.example.bedms.HospitalManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.bedms.Auth.login;
+import com.example.bedms.Doctor.doctorhub;
 import com.example.bedms.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +26,7 @@ public class HospitalManagerHub extends AppCompatActivity implements NavigationV
 
 
     ImageButton imgStatsOfToday, imgButtonCharts, imgCalculate, imgOccupancy;
-    FirebaseAuth auth;
+    FirebaseAuth mAuth;
     FirebaseUser user;
     FirebaseAuth.AuthStateListener mAuthStateListener;
     private DrawerLayout drawerLayout;
@@ -30,11 +34,19 @@ public class HospitalManagerHub extends AppCompatActivity implements NavigationV
     private NavigationView navigationView;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hoshub);
         setTitle("Manager Hub");
+
+        mAuth = FirebaseAuth.getInstance();
+
+        //get current user
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        user.getEmail().toString();
     }
 
     @Override
@@ -63,6 +75,40 @@ public class HospitalManagerHub extends AppCompatActivity implements NavigationV
         imgOccupancy = findViewById(R.id.imgBtnOccup);
         startActivity(new Intent(HospitalManagerHub.this, OccupancyPerMonth.class));
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.hospital_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.item1:
+                Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(HospitalManagerHub.this, HospitalManagerHub.class);
+                startActivity(i);
+                return true;
+
+            case R.id.item2:
+
+                if (user != null){
+                    mAuth.signOut();
+                    Toast.makeText(this, user.getEmail()+ " Logged out!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
+                }
+                finish();
+                Intent r = new Intent(HospitalManagerHub.this, login.class);
+                startActivity(r);
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

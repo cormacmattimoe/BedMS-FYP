@@ -54,7 +54,7 @@ public class login extends AppCompatActivity {
         mCreateBtn = findViewById(R.id.createAc);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        user.getEmail();
+        //user.getEmail();
 
 
 
