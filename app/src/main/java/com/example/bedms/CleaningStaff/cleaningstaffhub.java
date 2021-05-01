@@ -24,6 +24,7 @@ import com.example.bedms.Doctor.doctorhub;
 import com.example.bedms.Doctor.inventoryofpatientsinbeds;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.BedAdapterCleaning;
+import com.example.bedms.Porter.porterhub;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
 import com.example.bedms.qrMainScreen;
@@ -169,8 +170,12 @@ public boolean onOptionsItemSelected (MenuItem item) {
             return true;
 
         case R.id.item2:
-            Toast.makeText(getApplicationContext(), "Log out", Toast.LENGTH_LONG).show();
-            FirebaseAuth.getInstance().signOut();
+            if (user != null){
+                mAuth.signOut();
+                Toast.makeText(this, user.getEmail()+ " Logged out!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
+            }
             finish();
             Intent r = new Intent(cleaningstaffhub.this, login.class);
             startActivity(r);
