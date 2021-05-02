@@ -61,7 +61,7 @@
         <activity android:name=".Patient.patientlistadmindetails" />
         <activity android:name=".Patient.patientlistporterdetails" />
         <activity android:name=".Patient.patientlistinbeddetails" />
-        <activity android:name=".Patient.patientdetails" />
+        <activity android:name=".Patient.patientdetailsdoctorscreen" />
         <activity android:name=".Porter.porterhub" />
         <activity android:name=".CleaningStaff.cleaningstaffhub" />
         <activity android:name=".Nurse.nursehub" />
