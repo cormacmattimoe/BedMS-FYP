@@ -10,7 +10,7 @@
         android:id="@+id/tvStatus5"
         android:layout_width="130dp"
         android:layout_height="42dp"
-        android:text="Time waiting"
+        android:text="Last Updated:"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         android:textSize="18sp"
@@ -140,6 +140,21 @@
             android:background="?android:attr/windowBackground"
             app:menu="@menu/patientoptionsmenu" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/timeWaitingTextView"
+        android:layout_width="198dp"
+        android:layout_height="42dp"
+        android:text="Time waiting"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.632"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

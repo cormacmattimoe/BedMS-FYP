@@ -19,11 +19,14 @@ import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.common.base.Stopwatch;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Timer;
 
 public class PatientDetailsDoctorScreen extends AppCompatActivity {
     TextView tvName, tvDob, tvStatus, tvWard;
@@ -35,7 +38,6 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,8 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
         tvDob = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
-        //ch = findViewById(R.id.chrono);
+
+        TextView timeWaitingTextView = findViewById(R.id.timeWaitingTextView);
 
         Intent intent = getIntent();
         final String str, str2, str3;
@@ -53,11 +56,6 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
         str2 = intent.getStringExtra("Dob");
         tvName.setText(str);
         tvDob.setText(str2);
-        // showObstructionDetails();
-
-
-
-       // ch.start();
 
 
         String nameSearch = tvName.getText().toString();
@@ -75,9 +73,25 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
                             task.getResult();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 patientId = document.getId();
-                                counter = counter + 1;
                                 tvStatus.setText(document.getString("Status"));
                             }
+                            db.collection("patient")
+                            .document(patientId)
+                            .collection("patientHistory")
+                            .orderBy("dateAndTime")
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                               @Override
+                               public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                   if (task.isSuccessful()) {
+                                       for (QueryDocumentSnapshot document : task.getResult()) {
+                                           timeWaitingTextView.setText(document.getString("dateAndTime"));
+                                       }
+                                   }
+                               }
+                           });
+
+
                         }
                     }
                 });
@@ -106,10 +120,6 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
         });
 
     }
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
