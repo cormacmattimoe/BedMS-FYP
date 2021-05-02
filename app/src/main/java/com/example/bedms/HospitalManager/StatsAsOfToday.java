@@ -470,7 +470,7 @@ public class StatsAsOfToday extends AppCompatActivity {
                 startActivity(S);
                 return true;
             case R.id.item5:
-                Intent g = new Intent(StatsAsOfToday.this, CalculateWaitTimeaa.class);
+                Intent g = new Intent(StatsAsOfToday.this, CalculateWaitTime.class);
                 startActivity(g);
                 return true;
             default:

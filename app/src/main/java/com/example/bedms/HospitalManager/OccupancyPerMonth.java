@@ -45,7 +45,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
     String monthSelected;
     ArrayAdapter<CharSequence> adapter;
     String dateSelected;
-    BedStatusChartsForDateg bscd;
+    BedStatusChartsForDate bscd;
     //  int monthsList = new ArrayList<>();
 
     float occRate;
@@ -346,7 +346,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 startActivity(S);
                 return true;
             case R.id.item5:
-                Intent g = new Intent(OccupancyPerMonth.this, CalculateWaitTimeaa.class);
+                Intent g = new Intent(OccupancyPerMonth.this, CalculateWaitTime.class);
                 startActivity(g);
                 return true;
             default:

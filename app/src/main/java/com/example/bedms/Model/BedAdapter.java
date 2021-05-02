@@ -10,8 +10,8 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bedms.AdminBedDetails;
 import com.example.bedms.R;
-import com.example.bedms.bedDetails;
 
 import java.util.ArrayList;
 
@@ -85,7 +85,7 @@ public class BedAdapter extends RecyclerView.Adapter<BedAdapter.MyViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), bedDetails.class);
+                Intent intent = new Intent(view.getContext(), AdminBedDetails.class);
                 intent.putExtra("BedName", name);
                 view.getContext().startActivity(intent); //start activity from another activity, here we are in MyAdapter class,
                 // need to call start from the activity within that viewholder

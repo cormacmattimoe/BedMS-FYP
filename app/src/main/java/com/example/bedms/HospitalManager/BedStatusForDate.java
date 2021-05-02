@@ -139,7 +139,7 @@ public class BedStatusForDate extends AppCompatActivity {
                 startActivity(S);
                 return true;
             case R.id.item5:
-                Intent g = new Intent(BedStatusForDate.this, CalculateWaitTimeaa.class);
+                Intent g = new Intent(BedStatusForDate.this, CalculateWaitTime.class);
                 startActivity(g);
                 return true;
 
