@@ -11,8 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.AdminHub;
-import com.example.bedms.Doctor.doctorhub;
+import com.example.bedms.Doctor.AdmitPatient;
+import com.example.bedms.Doctor.DischargePatient;
+import com.example.bedms.Doctor.DoctorHub;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,34 +25,39 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class patientlistadmindetails extends AppCompatActivity {
+public class PatientDetailsDoctorScreen extends AppCompatActivity {
     TextView tvName, tvDob, tvStatus, tvWard;
-    String patientId;
+    //Chronometer ch;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     Button dischargeBtn;
+    String patientId;
     BottomNavigationView bottomnav;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patientadmindetails);
+        setContentView(R.layout.activity_patientdetailsdoctorscreen);
         setTitle("Patient Details");
         tvName = findViewById(R.id.tvName);
         tvDob = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
-
-
-
+        //ch = findViewById(R.id.chrono);
 
         Intent intent = getIntent();
-        final String str,str2,str3;
+        final String str, str2, str3;
         str = intent.getStringExtra("Name");
         str2 = intent.getStringExtra("Dob");
         tvName.setText(str);
         tvDob.setText(str2);
+        // showObstructionDetails();
+
+
+
+       // ch.start();
 
 
         String nameSearch = tvName.getText().toString();
@@ -75,8 +81,32 @@ public class patientlistadmindetails extends AppCompatActivity {
                         }
                     }
                 });
+        bottomnav = findViewById(R.id.viewNav);
+        bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.admitPatient:
+                        Intent intent = new Intent(PatientDetailsDoctorScreen.this, AdmitPatient.class);
+                        intent.putExtra("Name", str);
+                        intent.putExtra("Dob", str2);
+                        intent.putExtra("PatientId", patientId);
+                        startActivity(intent);
+                        break;
+                    case R.id.dischargePatient:
+                        Intent i = new Intent(PatientDetailsDoctorScreen.this, DischargePatient.class);
+                        i.putExtra("Name", str);
+                        i.putExtra("Dob", str2);
+                        i.putExtra("PatientId", patientId);
+                        startActivity(i);
+                        break;
+                }
+                return false;
+            }
+        });
 
     }
+
 
 
 
@@ -94,7 +124,7 @@ public class patientlistadmindetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(patientlistadmindetails.this, AdminHub.class);
+                Intent i = new Intent(PatientDetailsDoctorScreen.this, DoctorHub.class);
                 startActivity(i);
                 return true;
             default:

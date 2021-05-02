@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Auth.login;
 import com.example.bedms.ConditionCache;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.Patient;
@@ -124,7 +123,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
                 paaId = intent.getStringExtra("PatientId");
                 bedNameSelected = spinnyBeds.getSelectedItem().toString();
                 patientCheckin(paaId, bedNameSelected);
-                startActivity(new Intent(getApplicationContext(), doctorhub.class));
+                startActivity(new Intent(getApplicationContext(), DoctorHub.class));
 
             }
         });
@@ -277,7 +276,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(AdmitPatient.this, doctorhub.class);
+                Intent i = new Intent(AdmitPatient.this, DoctorHub.class);
                 startActivity(i);
                 return true;
             default:

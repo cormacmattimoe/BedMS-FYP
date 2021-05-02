@@ -23,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class patientlistbeddetails extends AppCompatActivity {
+public class PatientListAdminDetails extends AppCompatActivity {
     TextView tvName, tvDob, tvStatus, tvWard;
     String patientId;
     Button dischargeBtn;
@@ -93,7 +93,7 @@ public class patientlistbeddetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(patientlistbeddetails.this, AdminHub.class);
+                Intent i = new Intent(PatientListAdminDetails.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

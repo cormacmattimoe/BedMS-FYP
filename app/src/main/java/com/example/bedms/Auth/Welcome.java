@@ -7,11 +7,11 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.CleaningStaff.cleaningstaffhub;
+import com.example.bedms.CleaningStaff.Cleaningstaffhub;
 import com.example.bedms.HospitalManager.HospitalManagerHub;
 import com.example.bedms.R;
 
-public class welcome extends AppCompatActivity {
+public class Welcome extends AppCompatActivity {
     Button mAdmin, mHospitalManager,mTestdoctor,mPorter,mCleaning, mRegister, mLogin;
 
     @Override
@@ -50,7 +50,7 @@ public class welcome extends AppCompatActivity {
         mPorter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), porterhub.class));
+                startActivity(new Intent(getApplicationContext(), PorterHub.class));
             }
         });
 
@@ -58,7 +58,7 @@ public class welcome extends AppCompatActivity {
         mCleaning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), cleaningstaffhub.class));
+                startActivity(new Intent(getApplicationContext(), Cleaningstaffhub.class));
             }
         });
 
@@ -74,7 +74,7 @@ public class welcome extends AppCompatActivity {
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
             }
         });
     }

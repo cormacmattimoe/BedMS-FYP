@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bedms.Patient.patientlistporterdetails;
+import com.example.bedms.Patient.PatientListPorterDetails;
 import com.example.bedms.R;
 
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class PorterPatientAdapter extends RecyclerView.Adapter<PorterPatientAdap
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(view.getContext(), patientlistporterdetails.class);
+                Intent intent = new Intent(view.getContext(), PatientListPorterDetails.class);
                 intent.putExtra("Name", name);
                 intent.putExtra("Dob", dob);
                 view.getContext().startActivity(intent); //start activity from another activity, here we are in MyAdapter class,

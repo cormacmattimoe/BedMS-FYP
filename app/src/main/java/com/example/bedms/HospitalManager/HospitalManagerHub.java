@@ -14,8 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.bedms.Auth.login;
-import com.example.bedms.Doctor.doctorhub;
+import com.example.bedms.Auth.Login;
 import com.example.bedms.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -100,10 +99,10 @@ public class HospitalManagerHub extends AppCompatActivity implements NavigationV
                     mAuth.signOut();
                     Toast.makeText(this, user.getEmail()+ " Logged out!", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "You aren't Login Yet!", Toast.LENGTH_SHORT).show();
                 }
                 finish();
-                Intent r = new Intent(HospitalManagerHub.this, login.class);
+                Intent r = new Intent(HospitalManagerHub.this, Login.class);
                 startActivity(r);
 
             default:

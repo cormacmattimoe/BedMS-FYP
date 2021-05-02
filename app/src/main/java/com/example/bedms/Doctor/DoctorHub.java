@@ -1,33 +1,24 @@
-package com.example.bedms.CleaningStaff;
+package com.example.bedms.Doctor;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.example.bedms.Auth.login;
-import com.example.bedms.Doctor.doctorhub;
-import com.example.bedms.Doctor.inventoryofpatientsinbeds;
-import com.example.bedms.Model.Bed;
-import com.example.bedms.Model.BedAdapterCleaning;
-import com.example.bedms.Porter.porterhub;
+import com.example.bedms.Auth.Login;
+import com.example.bedms.Model.Patient;
+import com.example.bedms.Model.PatientAdapter;
 import com.example.bedms.R;
-import com.example.bedms.UpdateBedHistory;
-import com.example.bedms.qrMainScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,25 +30,25 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class cleaningstaffhub extends AppCompatActivity {
+public class DoctorHub extends AppCompatActivity {
     TextView title;
     BottomNavigationView bottomnav;
-    RecyclerView rcvBedsForCleaning;
-    ArrayList<Bed> bedList = new ArrayList<Bed>();
-    BedAdapterCleaning bAdaptClean;
+    RecyclerView rcvPatients;
+    ArrayList<Patient> patientList = new ArrayList<Patient>();
+    PatientAdapter paAdapter;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
 
     FirebaseUser user;
 
-            private static final String TAG = "Beds for cleaning";
+            private static final String TAG = "Patient List";
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_cleaningstaff);
+    setContentView(R.layout.activity_doctor);
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-    setTitle("Cleaning staff Home");
+    setTitle("Doctors Home");
     title = findViewById(R.id.title22);
     mAuth = FirebaseAuth.getInstance();
 
@@ -65,93 +56,85 @@ protected void onCreate(Bundle savedInstanceState) {
     user = FirebaseAuth.getInstance().getCurrentUser();
     user.getEmail().toString();
 
+    Intent intent = getIntent();
+    String str;
+    str = intent.getStringExtra("Welcome");
+    title.setText(str);
+    rcvPatients = findViewById(R.id.rcvPatientsDoctorScreen);
 
-    // Intent intent = getIntent();
-   // String str;
-    //str = intent.getStringExtra("Welcome");
-    //title.setText(str);
+
+    LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+    rcvPatients.setLayoutManager(mLayoutManager);
 
 
+    paAdapter = new PatientAdapter(patientList);
+    //Add the divider line
+    paAdapter.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+    rcvPatients.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+    rcvPatients.setHasFixedSize(true);
 
+
+    rcvPatients.setAdapter(paAdapter);
+    patientList.clear(); // clear list
+    paAdapter.notifyDataSetChanged();
+   // if (patientList.isEmpty())
+   // {
+    //    Toast toast = Toast.makeText(getApplicationContext(),"There is no patients waiting", Toast.LENGTH_LONG);
+     //   toast.setGravity(Gravity.CENTER, 0, 0);
+     //   toast.show();
+   // }else{
+        retrievePatientsWaiting();
+    //}
 
     bottomnav = findViewById(R.id.viewNav);
     bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.scanBed:
-                    Intent a = new Intent(cleaningstaffhub.this, qrMainScreen.class);
+                case R.id.viewPatientsInBed:
+                    Intent a = new Intent(DoctorHub.this, InventoryOfPatientsInBeds.class);
                     startActivity(a);
                     break;
             }
             return false;
         }
     });
-
-    rcvBedsForCleaning = findViewById(R.id.rcvBedsCleaning);
-
-
-    LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-    rcvBedsForCleaning.setLayoutManager(mLayoutManager);
-
-
-    bAdaptClean = new BedAdapterCleaning(bedList);
-    //Add the divider line
-    bAdaptClean.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-    rcvBedsForCleaning.setHasFixedSize(true);
-
-
-    rcvBedsForCleaning.setAdapter(bAdaptClean);
-    bedList.clear(); // clear list
-    bAdaptClean.notifyDataSetChanged();
-    retrieveBedsForCleaning();
-
-
 }
 
-    public ArrayList<Bed> retrieveBedsForCleaning(){
-        db.collection("bed")
-                .whereEqualTo("Status", "waiting for cleaning")
+    public ArrayList<Patient> retrievePatientsWaiting(){
+        db.collection("patient")
+                .whereEqualTo("Status", "waiting to see doctor")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            Bed tempBed = null;
+                            Patient tempPatient = null;
                             int counter = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                //    if (document.getString("Status") == "waiting to see doctor") {
                                     Log.d(TAG, "getName: " + document.getString("tag"));
-                                    tempBed = new Bed();
-                                //    String bedName = document.getString("Bed Name");
-                                    String bedName = document.getString("BedName");
-                                    String ward = document.getString("Ward");
-                                    String status = document.getString("Status");
-                                    tempBed.setBedName(bedName);
-                                    tempBed.setBedWard(ward);
-                                    tempBed.setBedStatus(status);
-
-                                    bedList.add(tempBed);
+                                    tempPatient = new Patient();
+                                    String name = document.getString("Name");
+                                    String Dob = document.getString("DOB");
+                                    tempPatient.setpName(name);
+                                    tempPatient.setpDOB(Dob);
+                                    patientList.add(tempPatient);
                                     counter = counter + 1;
-                                    bAdaptClean.notifyItemInserted(bedList.size() - 1);
+                                    paAdapter.notifyItemInserted(patientList.size() - 1);
                                 }
-                            }
+                        }
                          else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
 
                     }
                 });
-        return bedList;
+        return patientList;
     }
 
 
 
-public void logout(View view){
-        FirebaseAuth.getInstance().signOut(); //logout user
-        startActivity(new Intent(getApplicationContext(), login.class));
-        finish();
-        }
 
 @Override
 public boolean onCreateOptionsMenu (Menu menu){
@@ -165,20 +148,22 @@ public boolean onOptionsItemSelected (MenuItem item) {
     switch (id) {
         case R.id.item1:
             Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-            Intent i = new Intent(cleaningstaffhub.this, cleaningstaffhub.class);
+            Intent i = new Intent(DoctorHub.this, DoctorHub.class);
             startActivity(i);
             return true;
 
         case R.id.item2:
+
             if (user != null){
                 mAuth.signOut();
                 Toast.makeText(this, user.getEmail()+ " Logged out!", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You aren't Login Yet!", Toast.LENGTH_SHORT).show();
             }
             finish();
-            Intent r = new Intent(cleaningstaffhub.this, login.class);
+            Intent r = new Intent(DoctorHub.this, Login.class);
             startActivity(r);
+
         default:
             return super.onOptionsItemSelected(item);
     }

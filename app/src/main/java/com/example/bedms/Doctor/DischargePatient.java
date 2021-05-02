@@ -2,6 +2,7 @@ package com.example.bedms.Doctor;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,9 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Auth.login;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
@@ -32,7 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class dischargepatient extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class DischargePatient extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "testing";
     TextView pName;
     TextView pDOB;
@@ -76,6 +77,7 @@ public class dischargepatient extends AppCompatActivity implements AdapterView.O
                         .whereEqualTo("PatientId", patientId)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
@@ -87,7 +89,7 @@ public class dischargepatient extends AppCompatActivity implements AdapterView.O
                                         UpdateBedHistory ubh = new UpdateBedHistory();
                                         db.collection("bed").document(bedId).update("Status", "waiting for cleaning");
                                         ubh.updateBedHistory(bedId, "Bed is ready for cleaning ");
-                                        startActivity(new Intent(getApplicationContext(), dischargepatient.class));
+                                        startActivity(new Intent(getApplicationContext(), DischargePatient.class));
                                     }
                                 }
                             }
@@ -116,7 +118,7 @@ public class dischargepatient extends AppCompatActivity implements AdapterView.O
                         });
 
                 Toast.makeText(getApplicationContext(), "Patient discharged" , Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), doctorhub.class));
+                startActivity(new Intent(getApplicationContext(), DoctorHub.class));
 
             }
         });
@@ -157,7 +159,7 @@ public class dischargepatient extends AppCompatActivity implements AdapterView.O
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(dischargepatient.this, doctorhub.class);
+                Intent i = new Intent(DischargePatient.this, DoctorHub.class);
                 startActivity(i);
                 return true;
             default:

@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Doctor.doctorhub;
+import com.example.bedms.Doctor.DoctorHub;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class porterpatientdetails extends AppCompatActivity {
+public class PorterPatientDetails extends AppCompatActivity {
     TextView tvName, tvDob, tvStatus, tvWard;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Button dischargeBtn;
@@ -83,14 +83,14 @@ public class porterpatientdetails extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.admitPatient:
-                        Intent intent = new Intent(porterpatientdetails.this, AdmitPatient.class);
+                        Intent intent = new Intent(PorterPatientDetails.this, AdmitPatient.class);
                         intent.putExtra("Name", str);
                         intent.putExtra("Dob", str2);
                         intent.putExtra("PatientId", patientId);
                         startActivity(intent);
                         break;
                     case R.id.dischargePatient:
-                        Intent i = new Intent(porterpatientdetails.this, dischargepatient.class);
+                        Intent i = new Intent(PorterPatientDetails.this, DischargePatient.class);
                         i.putExtra("Name", str);
                         i.putExtra("Dob", str2);
                         i.putExtra("PatientId", patientId);
@@ -122,7 +122,7 @@ public class porterpatientdetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(porterpatientdetails.this, doctorhub.class);
+                Intent i = new Intent(PorterPatientDetails.this, DoctorHub.class);
                 startActivity(i);
                 return true;
             default:

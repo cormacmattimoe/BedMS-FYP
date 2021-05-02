@@ -14,12 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.AdminHub;
-import com.example.bedms.CleaningStaff.cleaningstaffhub;
-import com.example.bedms.Doctor.doctorhub;
+import com.example.bedms.CleaningStaff.Cleaningstaffhub;
+import com.example.bedms.Doctor.DoctorHub;
 import com.example.bedms.HospitalManager.HospitalManagerHub;
-import com.example.bedms.Porter.porterhub;
+import com.example.bedms.Porter.PorterHub;
 import com.example.bedms.R;
-import com.example.bedms.HospitalManager.StatsAsOfToday;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,7 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button mLoginBtn;
     TextView mCreateBtn;
@@ -88,7 +87,7 @@ public class login extends AppCompatActivity {
                /* user = fAuth.getCurrentUser();
 
                 if (user != null) {
-                    Toast.makeText(login.this, "You are logged in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "You are logged in", Toast.LENGTH_SHORT).show();
                 }
 
                 */
@@ -110,29 +109,29 @@ public class login extends AppCompatActivity {
 
                                                 switch (employeeRole) {
                                                     case "Doctor":
-                                                        Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                                        Intent myIntent = new Intent(login.this, doctorhub.class);
-                                                        login.this.startActivity(myIntent);
+                                                        Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                        Intent myIntent = new Intent(Login.this, DoctorHub.class);
+                                                        Login.this.startActivity(myIntent);
                                                         break;
                                                     case "Porter":
-                                                        Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                                        Intent i = new Intent(login.this, porterhub.class);
-                                                        login.this.startActivity(i);
+                                                        Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                        Intent i = new Intent(Login.this, PorterHub.class);
+                                                        Login.this.startActivity(i);
                                                         break;
                                                     case "Admin":
-                                                        Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                                        Intent z = new Intent(login.this, AdminHub.class);
-                                                        login.this.startActivity(z);
+                                                        Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                        Intent z = new Intent(Login.this, AdminHub.class);
+                                                        Login.this.startActivity(z);
                                                         break;
                                                     case "Cleaning Staff":
-                                                        Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                                        Intent j = new Intent(login.this, cleaningstaffhub.class);
-                                                        login.this.startActivity(j);
+                                                        Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                        Intent j = new Intent(Login.this, Cleaningstaffhub.class);
+                                                        Login.this.startActivity(j);
                                                         break;
                                                     case "Hospital Manager":
-                                                        Toast.makeText(login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                                        Intent n = new Intent(login.this, HospitalManagerHub.class);
-                                                        login.this.startActivity(n);
+                                                        Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                                        Intent n = new Intent(Login.this, HospitalManagerHub.class);
+                                                        Login.this.startActivity(n);
                                                         break;
 
                                                 }
@@ -140,8 +139,8 @@ public class login extends AppCompatActivity {
                                         }
                                     });
                         } else {
-                            Toast.makeText(login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), login.class));
+                            Toast.makeText(Login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), Login.class));
 
                         }
                     }

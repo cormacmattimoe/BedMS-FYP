@@ -3,7 +3,6 @@ package com.example.bedms.Employees;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,16 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.AdminHub;
-import com.example.bedms.Bed.Inventoryofbedsallocate;
-import com.example.bedms.Bed.managebeds;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -37,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class manageemployees extends AppCompatActivity {
+public class ManageEmployees extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth fAuth;
     EditText mFullName, mEmail,mDob;
@@ -74,7 +68,7 @@ public class manageemployees extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.viewEmployees:
-                        Intent a = new Intent(manageemployees.this, Inventoryofemployees.class);
+                        Intent a = new Intent(ManageEmployees.this, InventoryOfEmployees.class);
                         startActivity(a);
                         break;
                 }
@@ -147,7 +141,7 @@ public class manageemployees extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home ", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(manageemployees.this, AdminHub.class);
+                Intent i = new Intent(ManageEmployees.this, AdminHub.class);
                 startActivity(i);
                 return true;
 

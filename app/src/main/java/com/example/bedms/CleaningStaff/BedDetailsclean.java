@@ -16,10 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Model.Bed;
-import com.example.bedms.Porter.porterhub;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
-import com.example.bedms.UpdatePatientHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,9 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-
-public class bedDetailsclean extends AppCompatActivity {
+public class BedDetailsclean extends AppCompatActivity {
     private static final String TAG = "updateobs";
     TextView tvName, tvPatientId, tvStatus, tvWard;
     BottomNavigationView bottomnav;
@@ -92,7 +88,7 @@ public class bedDetailsclean extends AppCompatActivity {
 
 
                 Toast.makeText(getApplicationContext(), "Bed Cleaned", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), cleaningstaffhub.class));
+                startActivity(new Intent(getApplicationContext(), Cleaningstaffhub.class));
 
             }
         });
@@ -137,7 +133,7 @@ public class bedDetailsclean extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(bedDetailsclean.this, AdminHub.class);
+                Intent i = new Intent(BedDetailsclean.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

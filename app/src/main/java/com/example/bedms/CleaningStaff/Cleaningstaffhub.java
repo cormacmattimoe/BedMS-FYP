@@ -1,6 +1,7 @@
-package com.example.bedms.Porter;
+package com.example.bedms.CleaningStaff;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,17 +12,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bedms.Admin.AdminHub;
-import com.example.bedms.Auth.login;
-import com.example.bedms.Doctor.doctorhub;
-import com.example.bedms.Model.Patient;
-import com.example.bedms.Model.PorterPatientAdapter;
+
+import com.example.bedms.Auth.Login;
+import com.example.bedms.Model.Bed;
+import com.example.bedms.Model.BedAdapterCleaning;
 import com.example.bedms.R;
+import com.example.bedms.qrMainScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,87 +35,119 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class porterhub extends AppCompatActivity {
+public class Cleaningstaffhub extends AppCompatActivity {
     TextView title;
     BottomNavigationView bottomnav;
-    RecyclerView rcvPatientsWaiting;
-    ArrayList<Patient> patientList = new ArrayList<Patient>();
-    PorterPatientAdapter papAdapter;
+    RecyclerView rcvBedsForCleaning;
+    ArrayList<Bed> bedList = new ArrayList<Bed>();
+    BedAdapterCleaning bAdaptClean;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
 
     FirebaseUser user;
 
-            private static final String TAG = "Patient List";
+            private static final String TAG = "Beds for cleaning";
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_porter);
+    setContentView(R.layout.activity_cleaningstaff);
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-    setTitle("Porters Home");
+    setTitle("Cleaning staff Home");
+    title = findViewById(R.id.title22);
     mAuth = FirebaseAuth.getInstance();
 
     //get current user
     user = FirebaseAuth.getInstance().getCurrentUser();
     user.getEmail().toString();
 
-    rcvPatientsWaiting = findViewById(R.id.rcvBedsCleaning);
+
+    // Intent intent = getIntent();
+   // String str;
+    //str = intent.getStringExtra("Welcome");
+    //title.setText(str);
+
+
+
+
+    bottomnav = findViewById(R.id.viewNav);
+    bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.scanBed:
+                    Intent a = new Intent(Cleaningstaffhub.this, qrMainScreen.class);
+                    startActivity(a);
+                    break;
+            }
+            return false;
+        }
+    });
+
+    rcvBedsForCleaning = findViewById(R.id.rcvPatientsDoctorScreen);
 
 
     LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-    rcvPatientsWaiting.setLayoutManager(mLayoutManager);
+    rcvBedsForCleaning.setLayoutManager(mLayoutManager);
 
 
-    papAdapter = new PorterPatientAdapter(patientList);
+    bAdaptClean = new BedAdapterCleaning(bedList);
     //Add the divider line
-    papAdapter.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-    rcvPatientsWaiting.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-    rcvPatientsWaiting.setHasFixedSize(true);
+    bAdaptClean.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+    rcvBedsForCleaning.setHasFixedSize(true);
 
 
-    rcvPatientsWaiting.setAdapter(papAdapter);
-    patientList.clear(); // clear list
-    papAdapter.notifyDataSetChanged();
-    retrievePatientsWaiting();
+    rcvBedsForCleaning.setAdapter(bAdaptClean);
+    bedList.clear(); // clear list
+    bAdaptClean.notifyDataSetChanged();
+    retrieveBedsForCleaning();
 
 
 }
 
-    public ArrayList<Patient> retrievePatientsWaiting(){
-        db.collection("patient")
-                .whereEqualTo("Status", "waiting for porter")
+    public ArrayList<Bed> retrieveBedsForCleaning(){
+        db.collection("bed")
+                .whereEqualTo("Status", "waiting for cleaning")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            Patient tempPatient = null;
+                            Bed tempBed = null;
                             int counter = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d(TAG, "getName: " + document.getString("tag"));
-                                    tempPatient = new Patient();
-                                    String name = document.getString("Name");
-                                    String Dob = document.getString("DOB");
-                                    tempPatient.setpName(name);
-                                    tempPatient.setpDOB(Dob);
-                                    patientList.add(tempPatient);
+                                    tempBed = new Bed();
+                                //    String bedName = document.getString("Bed Name");
+                                    String bedName = document.getString("BedName");
+                                    String ward = document.getString("Ward");
+                                    String status = document.getString("Status");
+                                    tempBed.setBedName(bedName);
+                                    tempBed.setBedWard(ward);
+                                    tempBed.setBedStatus(status);
+
+                                    bedList.add(tempBed);
                                     counter = counter + 1;
-                                    papAdapter.notifyItemInserted(patientList.size() - 1);
+                                    bAdaptClean.notifyItemInserted(bedList.size() - 1);
                                 }
                             }
-
                          else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
 
                     }
                 });
-        return patientList;
+        return bedList;
     }
 
 
 
+public void logout(View view){
+        FirebaseAuth.getInstance().signOut(); //logout user
+        startActivity(new Intent(getApplicationContext(), Login.class));
+        finish();
+        }
 
 @Override
 public boolean onCreateOptionsMenu (Menu menu){
@@ -127,7 +161,7 @@ public boolean onOptionsItemSelected (MenuItem item) {
     switch (id) {
         case R.id.item1:
             Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-            Intent i = new Intent(porterhub.this, porterhub.class);
+            Intent i = new Intent(Cleaningstaffhub.this, Cleaningstaffhub.class);
             startActivity(i);
             return true;
 
@@ -136,10 +170,10 @@ public boolean onOptionsItemSelected (MenuItem item) {
                 mAuth.signOut();
                 Toast.makeText(this, user.getEmail()+ " Logged out!", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You aren't Login Yet!", Toast.LENGTH_SHORT).show();
             }
             finish();
-            Intent r = new Intent(porterhub.this, login.class);
+            Intent r = new Intent(Cleaningstaffhub.this, Login.class);
             startActivity(r);
         default:
             return super.onOptionsItemSelected(item);

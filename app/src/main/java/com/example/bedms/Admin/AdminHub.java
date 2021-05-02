@@ -20,13 +20,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Auth.login;
-import com.example.bedms.Auth.welcome;
-import com.example.bedms.Bed.managebeds;
+import com.example.bedms.Auth.Login;
+import com.example.bedms.Bed.Managebeds;
 import com.example.bedms.ConditionCache;
-import com.example.bedms.Employees.manageemployees;
-import com.example.bedms.MyTask;
-import com.example.bedms.Patient.inventoryofpatientsadmin;
+import com.example.bedms.Employees.ManageEmployees;
+import com.example.bedms.Patient.InventoryOfPatientsAdmin;
 import com.example.bedms.R;
 import com.example.bedms.UpdatePatientHistory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -129,15 +127,15 @@ public class AdminHub extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.manageBed:
-                        Intent a = new Intent(AdminHub.this, managebeds.class);
+                        Intent a = new Intent(AdminHub.this, Managebeds.class);
                         startActivity(a);
                         break;
                     case R.id.manageEmployees:
-                        Intent b = new Intent(AdminHub.this, manageemployees.class);
+                        Intent b = new Intent(AdminHub.this, ManageEmployees.class);
                         startActivity(b);
                         break;
                     case R.id.viewPatientList:
-                        Intent c = new Intent(AdminHub.this, inventoryofpatientsadmin.class);
+                        Intent c = new Intent(AdminHub.this, InventoryOfPatientsAdmin.class);
                         startActivity(c);
                         break;
                 }
@@ -263,7 +261,7 @@ public class AdminHub extends AppCompatActivity {
     }
     public void logout(View view){
         FirebaseAuth.getInstance().signOut(); //logout user
-        startActivity(new Intent(getApplicationContext(), login.class));
+        startActivity(new Intent(getApplicationContext(), Login.class));
         finish();
     }
 
@@ -290,10 +288,10 @@ public class AdminHub extends AppCompatActivity {
                     mAuth.signOut();
                     Toast.makeText(this, user.getEmail()+ " Logged out!", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "You aren't Login Yet!", Toast.LENGTH_SHORT).show();
                 }
                 finish();
-                Intent r = new Intent(AdminHub.this, login.class);
+                Intent r = new Intent(AdminHub.this, Login.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);

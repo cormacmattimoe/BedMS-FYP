@@ -94,7 +94,7 @@ public class Inventoryofbeds extends AppCompatActivity implements AdapterView.On
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.manageBeds:
-                        Intent a = new Intent(Inventoryofbeds.this, managebeds.class);
+                        Intent a = new Intent(Inventoryofbeds.this, Managebeds.class);
                         startActivity(a);
                         break;
                     case R.id.allocateBeds:

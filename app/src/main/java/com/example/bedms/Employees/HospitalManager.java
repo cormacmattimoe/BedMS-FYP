@@ -14,7 +14,7 @@ import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class hospitalmanager extends AppCompatActivity {
+public class HospitalManager extends AppCompatActivity {
     BottomNavigationView bottomnav;
 
     @Override
@@ -28,15 +28,15 @@ public class hospitalmanager extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.addEmp:
-                        Intent a = new Intent(hospitalmanager.this, manageemployees.class);
+                        Intent a = new Intent(HospitalManager.this, ManageEmployees.class);
                         startActivity(a);
                         break;
                     case R.id.createPatient:
-                        Intent b = new Intent(hospitalmanager.this, AdminHub.class);
+                        Intent b = new Intent(HospitalManager.this, AdminHub.class);
                         startActivity(b);
                         break;
                     case R.id.viewEmployees:
-                        Intent c = new Intent(hospitalmanager.this, Inventoryofemployees.class);
+                        Intent c = new Intent(HospitalManager.this, InventoryOfEmployees.class);
                         startActivity(c);
                         break;
                 }
@@ -56,13 +56,13 @@ public class hospitalmanager extends AppCompatActivity {
             switch (id) {
                 case R.id.item1:
                     Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(hospitalmanager.this, hospitalmanager.class);
+                    Intent i = new Intent(HospitalManager.this, HospitalManager.class);
                     startActivity(i);
                     return true;
 
                 case R.id.item2:
                     Toast.makeText(getApplicationContext(), "Create Patient" , Toast.LENGTH_LONG).show();
-                    i = new Intent(hospitalmanager.this, AdminHub.class);
+                    i = new Intent(HospitalManager.this, AdminHub.class);
                     startActivity(i);
                     return true;
                 default:

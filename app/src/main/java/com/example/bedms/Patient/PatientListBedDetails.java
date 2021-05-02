@@ -1,17 +1,19 @@
-package com.example.bedms;
+package com.example.bedms.Patient;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Auth.login;
-import com.example.bedms.Model.Bed;
+import com.example.bedms.Admin.AdminHub;
+import com.example.bedms.Model.Patient;
+import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,58 +23,60 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class bedDetailsPorter extends AppCompatActivity {
-    private static final String TAG = "updateobs";
-    TextView tvType, tvPatientId, tvStatus, tvWard;
+public class PatientListBedDetails extends AppCompatActivity {
+    TextView tvName, tvDob, tvStatus, tvWard;
+    String patientId;
+    Button dischargeBtn;
     BottomNavigationView bottomnav;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    String bedId;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_beddetailsporter);
-        setTitle("Bed Details");
-        tvType = findViewById(R.id.tvName);
-        tvPatientId = findViewById(R.id.tvPatientId);
+        setContentView(R.layout.activity_patientadmindetails);
+        setTitle("Patient Details");
+        tvName = findViewById(R.id.tvName);
+        tvDob = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
 
 
 
+
         Intent intent = getIntent();
-        String bedName;
-        bedName = intent.getStringExtra("Name");
-        tvType.setText(bedName);
-        // showObstructionDetails();
-        Intent i = getIntent();
-        bedName = i.getStringExtra("BedName");
-        tvType.setText(bedName);
+        final String str,str2,str3;
+        str = intent.getStringExtra("Name");
+        str2 = intent.getStringExtra("Dob");
+        tvName.setText(str);
+        tvDob.setText(str2);
 
 
-        db.collection("bed")
-                .whereEqualTo("BedName", bedName)
+        String nameSearch = tvName.getText().toString();
+        String dobSearch = tvDob.getText().toString();
+        db.collection("patient")
+                .whereEqualTo("Name", nameSearch)
+                .whereEqualTo("DOB", dobSearch)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            Bed tempBed = null;
+                            Patient tempPatient = null;
                             int counter = 0;
                             task.getResult();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                bedId = document.getId();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                patientId = document.getId();
                                 counter = counter + 1;
                                 tvStatus.setText(document.getString("Status"));
-                                tvWard.setText(document.getString("Ward"));
-                                tvPatientId.setText(document.getString("PatientID"));
                             }
                         }
                     }
                 });
 
     }
+
 
 
 
@@ -89,7 +93,7 @@ public class bedDetailsPorter extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(bedDetailsPorter.this, qrMainScreen.class);
+                Intent i = new Intent(PatientListBedDetails.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

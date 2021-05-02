@@ -1,18 +1,15 @@
 package com.example.bedms;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Model.Bed;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,18 +19,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 
-import static com.example.bedms.Admin.qrcodetesting.QRCodeHeight;
-import static com.example.bedms.Admin.qrcodetesting.QRCodeWidth;
-
-public class AdminBedDetails extends AppCompatActivity {
+public class BedDetailsPorter extends AppCompatActivity {
     private static final String TAG = "updateobs";
     TextView tvType, tvPatientId, tvStatus, tvWard;
-    ImageView iv;
     BottomNavigationView bottomnav;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     String bedId;
@@ -42,13 +31,14 @@ public class AdminBedDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bed_details);
+        setContentView(R.layout.activity_beddetailsporter);
         setTitle("Bed Details");
         tvType = findViewById(R.id.tvName);
         tvPatientId = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
-        iv = findViewById(R.id.image);
+
+
 
         Intent intent = getIntent();
         String bedName;
@@ -76,14 +66,6 @@ public class AdminBedDetails extends AppCompatActivity {
                                 tvStatus.setText(document.getString("Status"));
                                 tvWard.setText(document.getString("Ward"));
                                 tvPatientId.setText(document.getString("PatientID"));
-
-                            Bitmap bitmap = null;
-                            try {
-                                bitmap = textToImageEncode(document.getString("BedName"));
-                            } catch (WriterException e) {
-                                e.printStackTrace();
-                            }
-                            iv.setImageBitmap(bitmap);
                             }
                         }
                     }
@@ -106,37 +88,11 @@ public class AdminBedDetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(AdminBedDetails.this, AdminHub.class);
+                Intent i = new Intent(BedDetailsPorter.this, qrMainScreen.class);
                 startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-        private Bitmap textToImageEncode(String value) throws WriterException {
-        BitMatrix bitMatrix;
-
-        try {
-            bitMatrix = new MultiFormatWriter().encode(value,
-                    BarcodeFormat.DATA_MATRIX.QR_CODE, QRCodeWidth, QRCodeHeight, null);
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-
-        int bitMatrixWidth = bitMatrix.getWidth();
-        int bitMatrixHeight = bitMatrix.getHeight();
-        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
-
-        for (int y = 0; y < bitMatrixHeight; y++) {
-            int offSet = y * bitMatrixWidth;
-            for (int x = 0; x < bitMatrixWidth; x++) {
-                pixels[offSet + x] = bitMatrix.get(x, y) ?
-                        getResources().getColor(R.color.black) : getResources().getColor(R.color.white);
-            }
-        }
-        Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
-        bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
-        return bitmap;
     }
 }

@@ -5,12 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bedms.AdminBedDetails;
+import com.example.bedms.Admin.AdminBedDetails;
 import com.example.bedms.R;
 
 import java.util.ArrayList;

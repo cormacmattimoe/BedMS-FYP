@@ -16,10 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.bedms.Auth.login;
-import com.example.bedms.CleaningStaff.bedDetailsclean;
-import com.example.bedms.CleaningStaff.cleaningstaffhub;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.bedms.CleaningStaff.BedDetailsclean;
+import com.example.bedms.CleaningStaff.Cleaningstaffhub;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -83,7 +81,7 @@ public class qrMainScreen extends AppCompatActivity implements View.OnClickListe
                 String bedName = intentResult.getContents();
 
 
-                Intent i = new Intent(qrMainScreen.this, bedDetailsclean.class);
+                Intent i = new Intent(qrMainScreen.this, BedDetailsclean.class);
                 i.putExtra("Name", bedName);
                 startActivity(i);
 
@@ -115,7 +113,7 @@ public class qrMainScreen extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Intent i = new Intent(qrMainScreen.this, cleaningstaffhub.class);
+                Intent i = new Intent(qrMainScreen.this, Cleaningstaffhub.class);
                 startActivity(i);
                 return true;
             default:

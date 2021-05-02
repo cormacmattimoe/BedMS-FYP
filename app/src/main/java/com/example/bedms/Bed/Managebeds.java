@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.BedCache;
 import com.example.bedms.Model.Bed;
-import com.example.bedms.Model.BedHistoryEvent;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class managebeds extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Managebeds extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "actMain";
     TextView ccuTx, icuTx, medTx, surgTx;
     EditText numberOfBeds;
@@ -96,15 +95,15 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.allocateBed:
-                        Intent b = new Intent(managebeds.this, AllocateBedToWard.class);
+                        Intent b = new Intent(Managebeds.this, AllocateBedToWard.class);
                         startActivity(b);
                         break;
                     case R.id.viewBedsByWard:
-                        Intent c = new Intent(managebeds.this, Inventoryofbeds.class);
+                        Intent c = new Intent(Managebeds.this, Inventoryofbeds.class);
                         startActivity(c);
                         break;
                     case R.id.viewBedsInventory:
-                        Intent d = new Intent(managebeds.this, Inventoryofbedsallocate.class);
+                        Intent d = new Intent(Managebeds.this, Inventoryofbedsallocate.class);
                         startActivity(d);
                         break;
 
@@ -119,8 +118,8 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
             public void onClick(View v) {
 
                 createBeds();
-                Toast.makeText(managebeds.this, "Beds added successfully ", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(),managebeds.class));
+                Toast.makeText(Managebeds.this, "Beds added successfully ", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(), Managebeds.class));
             }
         });
     }
@@ -254,7 +253,7 @@ public class managebeds extends AppCompatActivity implements AdapterView.OnItemS
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(managebeds.this, AdminHub.class);
+                Intent i = new Intent(Managebeds.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

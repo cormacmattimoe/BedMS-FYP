@@ -29,7 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class Inventoryofemployees extends AppCompatActivity {
+public class InventoryOfEmployees extends AppCompatActivity {
 
     private static final String TAG = "actMain";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -83,7 +83,7 @@ public class Inventoryofemployees extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.manageEmployees:
-                        Intent c = new Intent(Inventoryofemployees.this, manageemployees.class);
+                        Intent c = new Intent(InventoryOfEmployees.this, ManageEmployees.class);
                         startActivity(c);
                         break;
                 }
@@ -153,7 +153,7 @@ public class Inventoryofemployees extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(Inventoryofemployees.this, AdminHub.class);
+                Intent i = new Intent(InventoryOfEmployees.this, AdminHub.class);
                 startActivity(i);
                 return true;
 

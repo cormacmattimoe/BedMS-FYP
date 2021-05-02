@@ -14,28 +14,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Doctor.AdmitPatient;
-import com.example.bedms.Doctor.dischargepatient;
-import com.example.bedms.Doctor.doctorhub;
+import com.example.bedms.Doctor.DoctorHub;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.Patient;
+import com.example.bedms.Porter.PorterHub;
 import com.example.bedms.R;
 import com.example.bedms.UpdateBedHistory;
 import com.example.bedms.UpdatePatientHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class patientlistinbeddetails extends AppCompatActivity {
+public class PatientListPorterDetails extends AppCompatActivity {
     TextView tvName, tvDob, tvStatus, tvWard, tvBedName;
+   // Chronometer ch;
     String patientId,bedId;
+    String dateTime;
+    Button btnDelivered;
     Button dischargeBtn;
     BottomNavigationView bottomnav;
+    FirebaseAnalytics fba;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -43,14 +47,18 @@ public class patientlistinbeddetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patientinbeddetails);
+        setContentView(R.layout.activity_patientporterdetails);
         setTitle("Patient Details");
         tvName = findViewById(R.id.tvName);
         tvDob = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
-        tvWard = findViewById(R.id.tvWardName);
-        tvBedName =findViewById(R.id.tvBedName);
-        dischargeBtn = findViewById(R.id.discharge);
+        tvWard = findViewById(R.id.tvWardPlace);
+        tvBedName = findViewById(R.id.tvBedNameEd);
+        btnDelivered = findViewById(R.id.deliveredBtn);
+       // ch = findViewById(R.id.chrono);
+
+      //  ch.start();
+
 
         Intent intent = getIntent();
         final String str, str2, str3;
@@ -59,37 +67,81 @@ public class patientlistinbeddetails extends AppCompatActivity {
         tvName.setText(str);
         tvDob.setText(str2);
 
-        getPatientdetails();
+
+        String nameSearch = tvName.getText().toString();
+        String dobSearch = tvDob.getText().toString();
+        //Getting the information from the patient record using the dob and name.
+        db.collection("patient")
+                .whereEqualTo("Name", nameSearch)
+                .whereEqualTo("DOB", dobSearch)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Patient tempPatient = null;
+                            int counter = 0;
+                            task.getResult();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                patientId = document.getId();
+                                counter = counter + 1;
+                                tvStatus.setText(document.getString("Status"));
+                                tvWard.setText(document.getString("WardName"));
+                                tvBedName.setText(document.getString("BedName"));
+                            }
+                        }
+                    }
+                });
+        /*
 
 
+        //To retrieve the time the patient was allocated to the porter from the patients history
+        db.collection("patient")
+                .document(patientId)
+                .collection("patientHistory")
+                .whereEqualTo("eventType", "Admitted - waiting for porter")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                   @Override
+                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                       if (task.isSuccessful()) {
+                           for (QueryDocumentSnapshot document : task.getResult()) {
+                               //
+                           }
+                       }
+                   }
+               });
 
-        dischargeBtn.setOnClickListener(new View.OnClickListener() {
+         */
+
+        btnDelivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String nameSearch = tvName.getText().toString();
+                String dobSearch = tvDob.getText().toString();
+                /*
                 db.collection("patient")
-                        .whereEqualTo("Name", str)
-                        .whereEqualTo("DOB", str2)
+                        .whereEqualTo("Name", nameSearch)
+                        .whereEqualTo("DOB", dobSearch)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    Patient temPatient = null;
+                                    Patient tempPatient = null;
                                     int counter = 0;
                                     task.getResult();
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         patientId = document.getId();
-                                        UpdatePatientHistory uph = new UpdatePatientHistory();
-                                        db.collection("patient").document(patientId).update("Status", "Discharged");
-                                        uph.updatePatientHistory(patientId, "Patient discharged");
-                                    }
-                                }
-                            }
-                        });
+                                        counter = counter + 1;
+                                        */
+                db.collection("patient").document(patientId).update("Status", "Patient in bed in ward");
+                UpdatePatientHistory uph = new UpdatePatientHistory();
+                uph.updatePatientHistory(patientId, "Patient delivered to bed");
 
+                String bedSearch = tvBedName.getText().toString();
                 db.collection("bed")
-                        .whereEqualTo("PatientID", patientId)
+                        .whereEqualTo("BedName", bedSearch)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -102,54 +154,21 @@ public class patientlistinbeddetails extends AppCompatActivity {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         bedId = document.getId();
                                         UpdateBedHistory ubh = new UpdateBedHistory();
-                                        db.collection("bed").document(bedId).update("Status", "waiting for cleaning");
-                                        ubh.updateBedHistory(bedId, "Bed is ready for cleaning");
+                                        ubh.updateBedHistory(bedId, "Patient in bed in ward");
+
+                                        db.collection("bed").document(bedId).update("Status", "Bed Occupied");
+
                                     }
+
                                 }
                             }
                         });
-
-
-
-                Toast.makeText(getApplicationContext(), "Patient discharged", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), doctorhub.class));
+                Toast.makeText(getApplicationContext(), "Patient Delivered", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(), PorterHub.class));
 
             }
         });
-
-
-
     }
-
-        public void getPatientdetails() {
-
-            String nameSearch = tvName.getText().toString();
-            String dobSearch = tvDob.getText().toString();
-            db.collection("patient")
-                    .whereEqualTo("Name", nameSearch)
-                    .whereEqualTo("DOB", dobSearch)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                Patient tempPatient = null;
-                                int counter = 0;
-                                task.getResult();
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    patientId = document.getId();
-                                    counter = counter + 1;
-                                  //  tvName.setText(document.getString("Name"));
-                                 //   tvDob.setText(document.getString("DOB"));
-                                    tvStatus.setText(document.getString("Status"));
-                                    tvWard.setText(document.getString("WardName"));
-                                    tvBedName.setText(document.getString("BedName"));
-
-                                }
-                            }
-                        }
-                    });
-        }
 
 
 
@@ -168,7 +187,7 @@ public class patientlistinbeddetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(patientlistinbeddetails.this, doctorhub.class);
+                Intent i = new Intent(PatientListPorterDetails.this, DoctorHub.class);
                 startActivity(i);
                 return true;
             default:

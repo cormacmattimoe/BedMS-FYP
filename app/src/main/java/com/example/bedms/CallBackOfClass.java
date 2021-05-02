@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Auth.login;
+import com.example.bedms.Auth.Login;
 import com.example.bedms.HospitalManager.hospitalmanagerhub;
 import com.example.bedms.Model.Bed;
 import com.github.mikephil.charting.charts.BarChart;
@@ -628,7 +628,7 @@ public class BedStatusChartsForDateg extends AppCompatActivity {
             case R.id.item5:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent r = new Intent(BedStatusChartsForDateg.this, login.class);
+                Intent r = new Intent(BedStatusChartsForDateg.this, Login.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);

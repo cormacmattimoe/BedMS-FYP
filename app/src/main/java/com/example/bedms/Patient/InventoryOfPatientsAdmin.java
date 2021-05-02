@@ -28,7 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class inventoryofpatientsadmin extends AppCompatActivity {
+public class InventoryOfPatientsAdmin extends AppCompatActivity {
 
     private static final String TAG = "actMain";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -137,7 +137,7 @@ public class inventoryofpatientsadmin extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(inventoryofpatientsadmin.this, AdminHub.class);
+                Intent i = new Intent(InventoryOfPatientsAdmin.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bedms.Auth.login;
+import com.example.bedms.Auth.Login;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.Model.PatientInBedsAdapter;
 import com.example.bedms.R;
@@ -30,7 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class inventoryofpatientsinbeds extends AppCompatActivity {
+public class InventoryOfPatientsInBeds extends AppCompatActivity {
     TextView title;
     BottomNavigationView bottomnav;
     RecyclerView rcvPatients;
@@ -48,7 +48,7 @@ public class inventoryofpatientsinbeds extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setTitle("Doctors Home");
 
-        rcvPatients = findViewById(R.id.rcvBedsCleaning);
+        rcvPatients = findViewById(R.id.rcvPatientsDoctorScreen);
 
 
 
@@ -115,7 +115,7 @@ public class inventoryofpatientsinbeds extends AppCompatActivity {
 
     public void logout(View view){
         FirebaseAuth.getInstance().signOut(); //logout user
-        startActivity(new Intent(getApplicationContext(), login.class));
+        startActivity(new Intent(getApplicationContext(), Login.class));
         finish();
     }
 
@@ -131,7 +131,7 @@ public class inventoryofpatientsinbeds extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(inventoryofpatientsinbeds.this, doctorhub.class);
+                Intent i = new Intent(InventoryOfPatientsInBeds.this, DoctorHub.class);
                 startActivity(i);
                 return true;
 

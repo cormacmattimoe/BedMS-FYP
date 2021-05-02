@@ -37,7 +37,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".qrMainScreen" />
         <activity android:name=".Admin.qrcodetesting" />
-        <activity android:name=".bedDetailsPorter" />
+        <activity android:name=".BedDetailsPorter" />
 
         <activity android:name=".StatsShown" />
         <activity android:name=".Admin.AdminHub" />
@@ -46,30 +46,29 @@
         <activity android:name=".HospitalManager.BedStatusChartsForDate" />
         <activity android:name=".HospitalManager.CalculateWaitTime" />
         <activity android:name=".HospitalManager.HospitalManagerHub" />
-        <activity android:name=".Doctor.dischargepatient" />
-        <activity android:name=".Doctor.inventoryofpatientsinbeds" />
-        <activity android:name=".Patient.inventoryofpatientsadmin" />
-        <activity android:name=".Patient.patientlistadmindetails" />
-        <activity android:name=".Patient.patientlistporterdetails" />
-        <activity android:name=".Patient.patientlistinbeddetails" />
-        <activity android:name=".Patient.patientdetailsdoctorscreen" />
-        <activity android:name=".Porter.porterhub" />
-        <activity android:name=".CleaningStaff.cleaningstaffhub" />
+        <activity android:name=".Doctor.DischargePatient" />
+        <activity android:name=".Doctor.InventoryOfPatientsInBeds" />
+        <activity android:name=".Patient.InventoryOfPatientsAdmin" />
+        <activity android:name=".Patient.PatientListAdminDetails" />
+        <activity android:name=".Patient.PatientListPorterDetails" />
+        <activity android:name=".Patient.PatientListinBedDetails" />
+        <activity android:name=".Patient.PatientDetailsDoctorScreen" />
+        <activity android:name=".Porter.PorterHub" />
+        <activity android:name=".CleaningStaff.Cleaningstaffhub" />
         <activity android:name=".Nurse.nursehub" />
-        <activity android:name=".Patient.inventoryofpatients" />
-        <activity android:name=".CleaningStaff.bedDetailsclean" />
+        <activity android:name=".Patient.InventoryOfPatients" />
+        <activity android:name=".CleaningStaff.BedDetailsclean" />
         <activity android:name=".bedDetails" />
-        <activity android:name=".Employees.Inventoryofemployees" />
-        <activity android:name=".Doctor.doctorhub" />
-        <activity android:name=".Employees.hospitalmanager" />
+        <activity android:name=".Employees.InventoryOfEmployees" />
+        <activity android:name=".Doctor.DoctorHub" />
+        <activity android:name=".Employees.HospitalManager" />
         <activity android:name=".Doctor.AdmitPatient" />
         <activity android:name=".Bed.Inventoryofbedsallocate" />
         <activity android:name=".Bed.Inventoryofbeds" />
         <activity android:name=".Bed.AllocateBedToWard" />
-        <activity android:name=".Bed.managebeds" />
-        <activity android:name=".Bed.centraladminhub" />
-        <activity android:name=".Auth.login" />
-        <activity android:name=".Employees.manageemployees" />
+        <activity android:name=".Bed.Managebeds" />
+        <activity android:name=".Auth.Login" />
+        <activity android:name=".Employees.ManageEmployees" />
         <activity android:name=".Auth.Register" />
         <activity android:name=".SplashScreen">
             <intent-filter>
@@ -78,7 +77,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Auth.welcome"/>
+        <activity android:name=".Auth.Welcorm"/>
 
         <meta-data
             android:name="preloaded_fonts"
