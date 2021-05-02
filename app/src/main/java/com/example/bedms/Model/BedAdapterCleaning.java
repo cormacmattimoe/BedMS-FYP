@@ -1,19 +1,14 @@
 package com.example.bedms.Model;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bedms.CleaningStaff.bedDetailsCleaner;
-import com.example.bedms.CleaningStaff.bedDetailsclean;
 import com.example.bedms.R;
-import com.example.bedms.bedDetails;
 
 import java.util.ArrayList;
 

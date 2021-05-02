@@ -30,7 +30,7 @@ import com.google.zxing.common.BitMatrix;
 import static com.example.bedms.Admin.qrcodetesting.QRCodeHeight;
 import static com.example.bedms.Admin.qrcodetesting.QRCodeWidth;
 
-public class bedDetails extends AppCompatActivity {
+public class AdminBedDetails extends AppCompatActivity {
     private static final String TAG = "updateobs";
     TextView tvType, tvPatientId, tvStatus, tvWard;
     ImageView iv;
@@ -106,7 +106,7 @@ public class bedDetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(bedDetails.this, AdminHub.class);
+                Intent i = new Intent(AdminBedDetails.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

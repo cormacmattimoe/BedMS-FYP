@@ -39,7 +39,7 @@ public class patientdetailsdoctorscreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patientdetails);
+        setContentView(R.layout.activity_patientdetailsdoctorscreen);
         setTitle("Patient Details");
         tvName = findViewById(R.id.tvName);
         tvDob = findViewById(R.id.tvPatientId);

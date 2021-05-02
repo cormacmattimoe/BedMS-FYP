@@ -1,6 +1,5 @@
 package com.example.bedms;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,15 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.bedms.Admin.qrcodetesting;
 import com.example.bedms.Auth.login;
-import com.example.bedms.CleaningStaff.bedDetailsCleaner;
 import com.example.bedms.CleaningStaff.bedDetailsclean;
 import com.example.bedms.CleaningStaff.cleaningstaffhub;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.journeyapps.barcodescanner.CaptureActivity;
 
 public class qrMainScreen extends AppCompatActivity implements View.OnClickListener {
     //vars

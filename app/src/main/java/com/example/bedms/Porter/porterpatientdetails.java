@@ -11,9 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.AdminHub;
-import com.example.bedms.Doctor.AdmitPatient;
-import com.example.bedms.Doctor.dischargepatient;
 import com.example.bedms.Doctor.doctorhub;
 import com.example.bedms.Model.Patient;
 import com.example.bedms.R;
@@ -39,7 +36,7 @@ public class porterpatientdetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patientdetails);
+        setContentView(R.layout.activity_patientdetailsdoctorscreen);
         setTitle("Patient Details");
         tvName = findViewById(R.id.tvName);
         tvDob = findViewById(R.id.tvPatientId);

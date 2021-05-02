@@ -57,7 +57,7 @@ import java.util.Map;
 
 import javax.security.auth.callback.Callback;
 
-public class BedStatusChartsForDate extends AppCompatActivity {
+public class BedStatusChartsForDateg extends AppCompatActivity {
 
     private static String TAG = "MainActivity";
     PieChart pieChart;
@@ -609,26 +609,26 @@ public class BedStatusChartsForDate extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                Intent i = new Intent(BedStatusChartsForDate.this, hospitalmanagerhub.class);
+                Intent i = new Intent(BedStatusChartsForDateg.this, hospitalmanagerhub.class);
                 startActivity(i);
                 return true;
             case R.id.item2:
-                Intent z = new Intent(BedStatusChartsForDate.this, BedStatusForDate.class);
+                Intent z = new Intent(BedStatusChartsForDateg.this, BedStatusForDatess.class);
                 startActivity(z);
                 return true;
             case R.id.item3:
-                Intent S = new Intent(BedStatusChartsForDate.this, OccupancyPerMonth.class);
+                Intent S = new Intent(BedStatusChartsForDateg.this, OccupancyPerMonth.class);
                 startActivity(S);
                 return true;
             case R.id.item4:
-                Intent g = new Intent(BedStatusChartsForDate.this, CalculateWaitTime.class);
+                Intent g = new Intent(BedStatusChartsForDateg.this, CalculateWaitTimeaa.class);
                 startActivity(g);
                 return true;
 
             case R.id.item5:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent r = new Intent(BedStatusChartsForDate.this, login.class);
+                Intent r = new Intent(BedStatusChartsForDateg.this, login.class);
                 startActivity(r);
             default:
                 return super.onOptionsItemSelected(item);

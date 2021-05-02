@@ -14,11 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
-import com.example.bedms.Auth.login;
 import com.example.bedms.BedCache;
 import com.example.bedms.BedHistoryEventHelper;
-import com.example.bedms.BedStatusChartsForDate;
-import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.BedHistoryEvent;
 import com.github.mikephil.charting.charts.LineChart;
@@ -32,7 +29,6 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.example.bedms.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -49,7 +45,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
     String monthSelected;
     ArrayAdapter<CharSequence> adapter;
     String dateSelected;
-    BedStatusChartsForDate bscd;
+    BedStatusChartsForDateg bscd;
     //  int monthsList = new ArrayList<>();
 
     float occRate;
@@ -350,7 +346,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 startActivity(S);
                 return true;
             case R.id.item5:
-                Intent g = new Intent(OccupancyPerMonth.this, CalculateWaitTime.class);
+                Intent g = new Intent(OccupancyPerMonth.this, CalculateWaitTimeaa.class);
                 startActivity(g);
                 return true;
             default:

@@ -12,15 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Auth.login;
 import com.example.bedms.BedCache;
 import com.example.bedms.BedHistoryEventHelper;
 import com.example.bedms.BedInfo;
-import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.Model.BedHistoryEvent;
 import com.example.bedms.R;
@@ -40,20 +37,12 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -530,7 +519,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                 intent.putExtra("titleDate", "Today");
                 startActivity(intent);
                 return true;
-//                Intent z = new Intent(BedStatusChartsForDate.this, StatsAsOfToday.class);
+//                Intent z = new Intent(BedStatusChartsForDateg.this, StatsAsOfToday.class);
 //                startActivity(z);
 //                return true;
             case R.id.item3:
@@ -542,7 +531,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                 startActivity(S);
                 return true;
             case R.id.item5:
-                Intent g = new Intent(BedStatusChartsForDate.this, CalculateWaitTime.class);
+                Intent g = new Intent(BedStatusChartsForDate.this, CalculateWaitTimeaa.class);
                 startActivity(g);
                 return true;
             default:

@@ -12,8 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Auth.login;
-import com.example.bedms.CalculateWaitTime;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -34,7 +32,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -473,7 +470,7 @@ public class StatsAsOfToday extends AppCompatActivity {
                 startActivity(S);
                 return true;
             case R.id.item5:
-                Intent g = new Intent(StatsAsOfToday.this, CalculateWaitTime.class);
+                Intent g = new Intent(StatsAsOfToday.this, CalculateWaitTimeaa.class);
                 startActivity(g);
                 return true;
             default:

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bedapp"
-    tools:context=".BedStatusForDate">
+    tools:context=".BedStatusForDatess">
 
     <CalendarView
         android:id="@+id/calendarView"

@@ -16,12 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Auth.login;
 import com.example.bedms.BedInfo;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -141,7 +139,7 @@ public class BedStatusForDate extends AppCompatActivity {
                 startActivity(S);
                 return true;
             case R.id.item5:
-                Intent g = new Intent(BedStatusForDate.this, com.example.bedms.CalculateWaitTime.class);
+                Intent g = new Intent(BedStatusForDate.this, CalculateWaitTimeaa.class);
                 startActivity(g);
                 return true;
 
