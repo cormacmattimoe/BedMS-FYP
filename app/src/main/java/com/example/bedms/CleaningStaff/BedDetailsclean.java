@@ -36,6 +36,7 @@ public class BedDetailsclean extends AppCompatActivity {
     String bedId;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String str, str2, str3;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +53,11 @@ public class BedDetailsclean extends AppCompatActivity {
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
         cleanBtn = findViewById(R.id.cleanBtn);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         getBedsForCleaning();
 
 
-        // showObstructionDetails();
         cleanBtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -81,6 +82,7 @@ public class BedDetailsclean extends AppCompatActivity {
                 db.collection("bed").document(bedId).update("PatientID", "");
                 db.collection("bed").document(bedId).update("Status", "Bed Cleaned ready for next patient");
                 db.collection("bed").document(bedId).update("Status", "Open");
+                db.collection("bed").document(bedId).update("CleanedBy: ",user);
 
                 UpdateBedHistory ubh = new UpdateBedHistory();
                 ubh.updateBedHistory(bedId, "Bed is cleaned and ready for next patient");

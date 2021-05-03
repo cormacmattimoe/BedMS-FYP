@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,6 +72,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 
     bottomnav = findViewById(R.id.viewNav);
+    bottomnav.getMenu().setGroupCheckable(0, false, true);
     bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -131,6 +133,11 @@ protected void onCreate(Bundle savedInstanceState) {
                                     counter = counter + 1;
                                     bAdaptClean.notifyItemInserted(bedList.size() - 1);
                                 }
+                            if (bedList.size() == 0) {
+                                Toast toast = Toast.makeText(getApplicationContext(), "There is no beds to be cleaned", Toast.LENGTH_LONG);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
+                            }
                             }
                          else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

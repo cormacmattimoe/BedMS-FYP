@@ -21,7 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Auth.Login;
-import com.example.bedms.Bed.Managebeds;
+import com.example.bedms.Bed.ManageBeds;
 import com.example.bedms.ConditionCache;
 import com.example.bedms.Employees.ManageEmployees;
 import com.example.bedms.Patient.InventoryOfPatientsAdmin;
@@ -121,13 +121,14 @@ public class AdminHub extends AppCompatActivity {
 
         bottomnav = findViewById(R.id.viewNav);
         //bottomnav.setOnNavigationItemSelectedListener(navListener);
+        bottomnav.getMenu().setGroupCheckable(0, false, true);
 
         bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.manageBed:
-                        Intent a = new Intent(AdminHub.this, Managebeds.class);
+                        Intent a = new Intent(AdminHub.this, ManageBeds.class);
                         startActivity(a);
                         break;
                     case R.id.manageEmployees:
@@ -238,14 +239,6 @@ public class AdminHub extends AppCompatActivity {
         patient.put("Doctor", "");
 
 
-        //   patient.put("Illness", illness);
-      /*  patient.put("bedNumber", " ");
-
-        patient.put("Doctor", " ");
-        patient.put("Date", "");
-        patient.put("Time", " ");
-
-       */
 
         String patId = db.collection("patient").document().getId();
         db.collection("patient").document(patId)

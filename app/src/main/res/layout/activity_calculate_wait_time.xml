@@ -13,11 +13,11 @@
         style="@style/Widget.AppCompat.Spinner.Underlined"
         android:layout_width="367dp"
         android:layout_height="43dp"
-        android:background="#3084E7"
+        android:background="#C2CBD5"
         android:entries="@array/statsWanted"
-        android:popupBackground="@drawable/bedapp"
+        android:popupBackground="#C2CBD5"
         android:spinnerMode="dropdown"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textColorHint="#D3BEBE" />
 
 

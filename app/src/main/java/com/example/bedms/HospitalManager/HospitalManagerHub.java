@@ -27,10 +27,7 @@ public class HospitalManagerHub extends AppCompatActivity implements NavigationV
     ImageButton imgStatsOfToday, imgButtonCharts, imgCalculate, imgOccupancy;
     FirebaseAuth mAuth;
     FirebaseUser user;
-    FirebaseAuth.AuthStateListener mAuthStateListener;
-    private DrawerLayout drawerLayout;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
+
 
 
 

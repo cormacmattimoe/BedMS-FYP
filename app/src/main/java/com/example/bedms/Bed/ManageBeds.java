@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Managebeds extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ManageBeds extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "actMain";
     TextView ccuTx, icuTx, medTx, surgTx;
     EditText numberOfBeds;
@@ -89,6 +89,7 @@ public class Managebeds extends AppCompatActivity implements AdapterView.OnItemS
 
 
         bottomnav = findViewById(R.id.viewNav);
+        bottomnav.getMenu().setGroupCheckable(0, false, true);
         //bottomnav.setOnNavigationItemSelectedListener(navListener);
         bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -99,11 +100,11 @@ public class Managebeds extends AppCompatActivity implements AdapterView.OnItemS
                         startActivity(b);
                         break;
                     case R.id.viewBedsByWard:
-                        Intent c = new Intent(Managebeds.this, InventoryOfBeds.class);
+                        Intent c = new Intent(ManageBeds.this, InventoryOfBeds.class);
                         startActivity(c);
                         break;
                     case R.id.viewBedsInventory:
-                        Intent d = new Intent(Managebeds.this, InventoryOfBedsAllocate.class);
+                        Intent d = new Intent(ManageBeds.this, InventoryOfBedsAllocate.class);
                         startActivity(d);
                         break;
 
@@ -118,8 +119,8 @@ public class Managebeds extends AppCompatActivity implements AdapterView.OnItemS
             public void onClick(View v) {
 
                 createBeds();
-                Toast.makeText(Managebeds.this, "Beds added successfully ", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), Managebeds.class));
+                Toast.makeText(ManageBeds.this, "Beds added successfully ", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(), ManageBeds.class));
             }
         });
     }
@@ -180,6 +181,7 @@ public class Managebeds extends AppCompatActivity implements AdapterView.OnItemS
 
                                     UpdateBedHistory ubh = new UpdateBedHistory();
                                     ubh.updateBedHistory(bedId, "Added bed",eventDate);
+                                  //  ubh.updateBedHistory(bedId, "Bed allocated to ward", eventDate);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -253,7 +255,7 @@ public class Managebeds extends AppCompatActivity implements AdapterView.OnItemS
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(Managebeds.this, AdminHub.class);
+                Intent i = new Intent(ManageBeds.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:
