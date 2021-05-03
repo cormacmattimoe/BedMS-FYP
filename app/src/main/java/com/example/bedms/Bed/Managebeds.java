@@ -180,6 +180,7 @@ public class Managebeds extends AppCompatActivity implements AdapterView.OnItemS
 
                                     UpdateBedHistory ubh = new UpdateBedHistory();
                                     ubh.updateBedHistory(bedId, "Added bed",eventDate);
+                                  //  ubh.updateBedHistory(bedId, "Bed allocated to ward", eventDate);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

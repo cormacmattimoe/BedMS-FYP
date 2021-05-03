@@ -238,14 +238,6 @@ public class AdminHub extends AppCompatActivity {
         patient.put("Doctor", "");
 
 
-        //   patient.put("Illness", illness);
-      /*  patient.put("bedNumber", " ");
-
-        patient.put("Doctor", " ");
-        patient.put("Date", "");
-        patient.put("Time", " ");
-
-       */
 
         String patId = db.collection("patient").document().getId();
         db.collection("patient").document(patId)

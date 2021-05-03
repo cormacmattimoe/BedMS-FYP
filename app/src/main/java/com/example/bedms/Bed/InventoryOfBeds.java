@@ -63,10 +63,9 @@ public class InventoryOfBeds extends AppCompatActivity implements AdapterView.On
         rcvViewBeds = findViewById(R.id.rcvViewbedsOfWard);
 
 
-
         spinWards = findViewById(R.id.spinBvWards);
         spinWards.setOnItemSelectedListener(this);
-        lAdapter  = new ArrayAdapter(this,android.R.layout.simple_spinner_item,wards);
+        lAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, wards);
         lAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinWards.setAdapter(lAdapter);
 
@@ -105,56 +104,7 @@ public class InventoryOfBeds extends AppCompatActivity implements AdapterView.On
                 return false;
             }
         });
-/*
-     //   wardNameBtn.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-      //      public void onClick(View v) {
-             //   String spinText = wards.get(spinny);
-             //   Log.d(TAG, "onClick: "+ spinText);
-      //          Log.d(TAG, "onClick: Hello");
-             //   String unitSelected = spinWards.getSelectedItem().toString();
-
-                    //assign total beds in ward to output field
-
-                //  rcvViewBeds.setAdapter(adapter);
-
-                //   retrieveAllBedsFromDb(wardName);
-                Toast.makeText(InventoryOfBeds.this, "Viewing beds", Toast.LENGTH_LONG).show();
-//          }
-        });
-
- */
     }
-
-
-/*
-
-    public void retrieveAllWards(){
-        db.collection("wards")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                  for (QueryDocumentSnapshot document : task.getResult()) {
-                      wards.add(document.getId());
-                      Log.d(TAG, "onComplete: " + document.getId());
-
-
-                      //    mAdapter.notifyItemInserted(wards.size()-1);
-                      Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-            
-        });
-
-    }
-
- */
 public List<String> getwards() {
     spinWards.setAdapter(lAdapter);
     db.collection("wards")

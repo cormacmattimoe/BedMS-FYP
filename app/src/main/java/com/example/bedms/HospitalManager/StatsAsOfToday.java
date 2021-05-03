@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bedms.BedCache;
 import com.example.bedms.Model.Bed;
 import com.example.bedms.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -38,6 +39,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class StatsAsOfToday extends AppCompatActivity {
 
@@ -52,6 +54,8 @@ public class StatsAsOfToday extends AppCompatActivity {
     float occRate;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<Integer> getTotals = new ArrayList<Integer>();
+    private Hashtable<String, Bed> bedCache;
+
 
 
     ArrayList NoOfBeds = new ArrayList();
@@ -69,6 +73,7 @@ public class StatsAsOfToday extends AppCompatActivity {
         occupanyRate = findViewById(R.id.tvOccPercent);
         pieChart = (PieChart) findViewById(R.id.idPieChart);
         chart = findViewById(R.id.barchart);
+        bedCache = BedCache.bedCache;
 
 
         chart.setHighlightFullBarEnabled(true);

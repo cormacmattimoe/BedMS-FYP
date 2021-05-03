@@ -87,8 +87,8 @@ public class DischargePatient extends AppCompatActivity implements AdapterView.O
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         bedId = document.getId();
                                         UpdateBedHistory ubh = new UpdateBedHistory();
-                                        db.collection("bed").document(bedId).update("Status", "waiting for cleaning");
-                                        ubh.updateBedHistory(bedId, "Bed is ready for cleaning ");
+                                        db.collection("bed").document(bedId).update("Status", "Bed ready for cleaning");
+                                        ubh.updateBedHistory(bedId, "Bed ready for cleaning");
                                         startActivity(new Intent(getApplicationContext(), DischargePatient.class));
                                     }
                                 }
