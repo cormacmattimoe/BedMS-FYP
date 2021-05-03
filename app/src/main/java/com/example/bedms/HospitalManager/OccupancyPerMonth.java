@@ -1,9 +1,11 @@
 package com.example.bedms.HospitalManager;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +33,11 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.example.bedms.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormatSymbols;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -43,6 +49,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
     SeekBar seekBarX, seekBarY;
     Spinner spinMonths;
     String monthSelected;
+    int monthSelectedAsInt;
     ArrayAdapter<CharSequence> adapter;
     String dateSelected;
     BedStatusChartsForDate bscd;
@@ -92,6 +99,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
 
 
         spinMonths.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -129,6 +137,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void createOccupancyTotalsForMonth(String monthSelected) {
 
         String month = "";
@@ -158,6 +167,10 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 numberOfDays = 31;
                 month = "05";
                 break;
+            case ("June"):
+                numberOfDays = 30;
+                month = "06";
+                break;
             default:
                 return;
         }
@@ -165,7 +178,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         occupancyRate = new int[numberOfDays+1];
         occupiedBeds = new int[numberOfDays+1];
         bedTotals = new int[numberOfDays+1];
-
+        monthSelectedAsInt = Integer.parseInt(month);
 
 
         for (int day = 1; day <= numberOfDays; day++) {
@@ -229,15 +242,29 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void createNewLineChart() {
         //occupancyRate Array contains rate per day for the month........
 
         ArrayList<Entry> yValues = new ArrayList<>();
-
         yValues.clear();
-        for (int i = 1; i <= numberOfDays ; i++) {
-            yValues.add(new Entry(i, occupancyRate[i]));
+
+        //Todays Date
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        String currentMonth = getMonthForInt(localDate.getMonthValue());
+        if (monthSelectedAsInt > localDate.getMonthValue()){
+            yValues.add(new Entry(0, 0));
+        } else if (monthSelectedAsInt == localDate.getMonthValue()){
+            for (int i = 1; i <= localDate.getDayOfMonth() ; i++) {
+                yValues.add(new Entry(i, occupancyRate[i]));
+            }
+        } else {
+            for (int i = 1; i <= numberOfDays ; i++) {
+                yValues.add(new Entry(i, occupancyRate[i]));
+            }
         }
+
         //chart.setOnChartValueSelectedListener(this);
 
         // enable scaling and dragging
@@ -265,13 +292,22 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         chart.getAxisLeft().setAxisMaximum(100);
         chart.getAxisRight().setAxisMinimum(0);
         chart.getAxisRight().setAxisMaximum(100);
-
+        chart.getXAxis().setAxisMinimum(0);
+        chart.getXAxis().setAxisMaximum(numberOfDays);
 
         chart.setData(dataLine);
         chart.invalidate();
     }
 
-
+    String getMonthForInt(int num) {
+        String month = "wrong";
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getMonths();
+        if (num >= 0 && num <= 11 ) {
+            month = months[num-1];
+        }
+        return month;
+    }
     @Override
     public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
 
