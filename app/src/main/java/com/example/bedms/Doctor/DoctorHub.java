@@ -78,14 +78,7 @@ protected void onCreate(Bundle savedInstanceState) {
     rcvPatients.setAdapter(paAdapter);
     patientList.clear(); // clear list
     paAdapter.notifyDataSetChanged();
-   if (patientList.isEmpty())
-   {
-        Toast toast = Toast.makeText(getApplicationContext(),"There is no patients waiting", Toast.LENGTH_LONG);
-       toast.setGravity(Gravity.CENTER, 0, 0);
-          toast.show();
-     }else{
-        retrievePatientsWaiting();
-        }
+    retrievePatientsWaiting();
 
     bottomnav = findViewById(R.id.viewNav);
     bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -102,7 +95,7 @@ protected void onCreate(Bundle savedInstanceState) {
     });
 }
 
-    public ArrayList<Patient> retrievePatientsWaiting(){
+    public void retrievePatientsWaiting(){
         db.collection("patient")
                 .whereEqualTo("Status", "waiting to see doctor")
                 .get()
@@ -124,6 +117,11 @@ protected void onCreate(Bundle savedInstanceState) {
                                     counter = counter + 1;
                                     paAdapter.notifyItemInserted(patientList.size() - 1);
                                 }
+                                if (patientList.size() == 0) {
+                                    Toast toast = Toast.makeText(getApplicationContext(), "There is no patients waiting", Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                }
                         }
                          else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -131,7 +129,6 @@ protected void onCreate(Bundle savedInstanceState) {
 
                     }
                 });
-        return patientList;
     }
 
 
