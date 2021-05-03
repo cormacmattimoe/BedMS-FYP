@@ -27,6 +27,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class BedDetailsclean extends AppCompatActivity {
     private static final String TAG = "updateobs";
     TextView tvName, tvPatientId, tvStatus, tvWard;
@@ -37,6 +41,9 @@ public class BedDetailsclean extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String str, str2, str3;
     FirebaseUser user;
+    TextView tvTime;
+    //Get Current Date
+    Date now = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,7 @@ public class BedDetailsclean extends AppCompatActivity {
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
         cleanBtn = findViewById(R.id.cleanBtn);
+        tvTime = findViewById(R.id.timeWaitingTextView);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         getBedsForCleaning();
@@ -115,6 +123,36 @@ public class BedDetailsclean extends AppCompatActivity {
                                 tvStatus.setText(document.getString("Status"));
                                 tvWard.setText(document.getString("Ward"));
                             }
+
+                            db.collection("bed")
+                                    .document(bedId)
+                                    .collection("bedHistory4")
+                                    .orderBy("dateAndTime")
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    String eventTime = document.getString("dateAndTime");
+                                                    try {
+                                                        SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                                        Date eventTimeAsDate = dtf.parse(eventTime);
+                                                        long time = now.getTime() - eventTimeAsDate.getTime();
+                                                        Date elapsedTime = new Date(time);
+                                                        if (time > 86400000) {
+                                                            tvTime.setText(dtf.format(elapsedTime));
+                                                        } else {
+                                                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                                                            tvTime.setText(sdf.format(elapsedTime));
+                                                        }
+                                                    } catch (ParseException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
                         }
                     }
                 });

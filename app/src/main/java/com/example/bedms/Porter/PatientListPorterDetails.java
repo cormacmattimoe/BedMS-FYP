@@ -30,6 +30,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class PatientListPorterDetails extends AppCompatActivity {
     TextView tvName, tvDob, tvStatus, tvWard, tvBedName, tvTime;
    // Chronometer ch;
@@ -42,6 +46,9 @@ public class PatientListPorterDetails extends AppCompatActivity {
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    //Get Current Date
+    Date now = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +106,21 @@ public class PatientListPorterDetails extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    tvTime.setText(document.getString("dateAndTime"));
+                                                    String eventTime = document.getString("dateAndTime");
+                                                    try {
+                                                        SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                                        Date eventTimeAsDate = dtf.parse(eventTime);
+                                                        long time = now.getTime() - eventTimeAsDate.getTime();
+                                                        Date elapsedTime = new Date(time);
+                                                        if (time > 86400000) {
+                                                            tvTime.setText(dtf.format(elapsedTime));
+                                                        } else {
+                                                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                                                            tvTime.setText(sdf.format(elapsedTime));
+                                                        }
+                                                    } catch (ParseException e) {
+                                                        e.printStackTrace();
+                                                    }
                                                 }
                                             }
                                         }
