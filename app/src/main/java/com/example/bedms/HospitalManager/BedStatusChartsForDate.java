@@ -203,11 +203,11 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                 allBedStatusbyWard[0][Ward]++;
                 break;
             case 1:
-                allocated++;
+                occupied++;
                 allBedStatusbyWard[1][Ward]++;
                 break;
             case 2:
-                occupied++;
+                allocated++;
                 allBedStatusbyWard[2][Ward]++;
                 break;
             case 3:
@@ -222,100 +222,6 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                 break;
         }
     }
-
-
-
-    public void buildTotals(ArrayList <BedInfo> allBedDetails){
-        /*
-          We are using two arrays to describe bed stats.
-
-          First we use bedStats to show stats for a single bed. This is a 2 element array as follows:
-              first element = Status  and is :  0 = open, [1]  = allocated, [2]   = occupied, [3]  = cleaning, [4] = no history for that date - bed not yet created.
-              Second element is the Ward the bed is in
-                         open =                   [0][w]
-                         allocated =              [1][w]
-                         occupied =               [2][w]
-                         cleaning =               [3][w]
-                         notcreatedyet =          [4][w]       This will be set if event = "".
-                         Ward name =                 [w]   0 = "St Johns":1 = "St Marys":2 = "St Pauls":3 = "St Magz":4 = "St Joes":5 = other Ward (default)
-
-          Second we use allBedsStatusbyWard to show stats for all beds. This is a 5 X 6 array showing total by Status and Ward combination :
-              Status  and is :  0 = open, [1]  = allocated, [2]   = occupied, [3]  = cleaning, [4] = no history for that date - bed not yet created.
-              Ward the bed is in
-                  Example:  allBedsStatusbyWard[2][3] = total of beds which have status 2 (occupied) and ward 3 (St Mags).
-
-         */
-        int[] bedStats = new int[]{0, 0};
-        String wardString;
-        int codeStatus, codeWard;
-        for (int k = 0; k < allBedDetails.size(); k++) {
-            wardString = allBedDetails.get(k).getWard();
-            bedStats[0] = allBedDetails.get(k).getCurrentStatus();
-            codeStatus = allBedDetails.get(k).getCurrentStatus();
-            System.out.println("In build totals all bed details  " + k + " " + wardString + " " + allBedDetails.get(k).getCurrentStatus());
-            switch (wardString) {
-                case "St Johns":
-                    codeWard = 0;
-                    break;
-                case "St Marys":
-                    codeWard = 1;
-                    break;
-                case "St Pauls":
-                    codeWard = 2;
-                    break;
-                case "St Magz":
-                    codeWard = 3;
-                    break;
-                case "St Joes":
-                    codeWard = 4;
-                    break;
-                default:
-                    codeWard = 5;
-            }  // end Switch for Ward
-            bedStats[1] = codeWard;
-            System.out.println("This is the the bed id inside build totals = " + allBedDetails.get(k).getBedId() + " " + "Ward id = " + wardString + "Ward Code =  " + codeWard + "Status = " + codeStatus);
-            allBedStatusbyWard[codeStatus][codeWard] = allBedStatusbyWard[codeStatus][codeWard] + 1;
-        }
-
-       // System.out.println("Totals " + open + " " + occupied + " " + allocated +  " "  + cleaning +  " " + bedNotYetCreated + " and overall total on the date = " + bedCountatDate);
-
-
-        //Calculate Total Beds and Occupancy rate @ date and display on screen.
-        DecimalFormat decimalFormat = new DecimalFormat("#");
-        float occ = (float) occupied;
-        float aloc = (float) allocated;
-//        float bedC = (float) bedCountatDate;
-//        occRate = (((occ + aloc) / bedC) * (100f));
-//        String str = String.format("%.0f", occRate);
-//        totalbeds.setText(Integer.toString(bedCountatDate));
-//        occupanyRate.setText(str);
-
-
-        Hashtable<String, Bed> bedCache = BedCache.getBedCache();
-
-
-
-
-
-        // now build pie-chart.
-        buildPieChart(open, occupied, allocated, cleaning);
-
-    }
-
-
-    public class MyXAxisValueFormatter extends ValueFormatter implements IAxisValueFormatter {
-        private String[] mValues;
-
-        public MyXAxisValueFormatter(String[] values) {
-            this.mValues = values;
-        }
-
-        @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            return mValues[(int) value];
-        }
-    }
-
 
     public void buildPieChart(int open,int occupied, int allocated,  int cleaning ) {
         pieChart.getDescription().setEnabled(false);
@@ -398,12 +304,12 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                     break;
 
                 case 1:
-                    bds.setLabel("Allocated");
-                    bds.setColors(new int[]{getResources().getColor(R.color.cat3)});
-                    break;
-                case 2:
                     bds.setLabel("Occupied");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat2)});
+                    break;
+                case 2:
+                    bds.setLabel("Allocated");
+                    bds.setColors(new int[]{getResources().getColor(R.color.cat3)});
                     break;
                 case 3:
                     bds.setLabel("Cleaning");

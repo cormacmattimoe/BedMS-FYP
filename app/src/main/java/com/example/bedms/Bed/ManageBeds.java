@@ -96,7 +96,7 @@ public class ManageBeds extends AppCompatActivity implements AdapterView.OnItemS
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.allocateBed:
-                        Intent b = new Intent(Managebeds.this, AllocateBedToWard.class);
+                        Intent b = new Intent(ManageBeds.this, AllocateBedToWard.class);
                         startActivity(b);
                         break;
                     case R.id.viewBedsByWard:
