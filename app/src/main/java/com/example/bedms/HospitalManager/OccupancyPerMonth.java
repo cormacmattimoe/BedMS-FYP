@@ -154,6 +154,10 @@ public class OccupancyPerMonth extends AppCompatActivity implements
                 numberOfDays = 30;
                 month = "04";
                 break;
+            case ("May"):
+                numberOfDays = 31;
+                month = "05";
+                break;
             default:
                 return;
         }

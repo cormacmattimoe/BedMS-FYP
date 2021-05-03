@@ -3,6 +3,7 @@ package com.example.bedms.Doctor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -77,14 +78,14 @@ protected void onCreate(Bundle savedInstanceState) {
     rcvPatients.setAdapter(paAdapter);
     patientList.clear(); // clear list
     paAdapter.notifyDataSetChanged();
-   // if (patientList.isEmpty())
-   // {
-    //    Toast toast = Toast.makeText(getApplicationContext(),"There is no patients waiting", Toast.LENGTH_LONG);
-     //   toast.setGravity(Gravity.CENTER, 0, 0);
-     //   toast.show();
-   // }else{
+   if (patientList.isEmpty())
+   {
+        Toast toast = Toast.makeText(getApplicationContext(),"There is no patients waiting", Toast.LENGTH_LONG);
+       toast.setGravity(Gravity.CENTER, 0, 0);
+          toast.show();
+     }else{
         retrievePatientsWaiting();
-    //}
+        }
 
     bottomnav = findViewById(R.id.viewNav);
     bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

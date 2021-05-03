@@ -109,7 +109,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         pName.setText(str);
         pDOB.setText(str2);
 
-        illness = pIllness.getText().toString();
+
 
 
         btnAdmit.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +179,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
 
 
     public void patientCheckin(final String pId, final String bed) {
+        String illness = pIllness.getText().toString();
         //On admission of patient
         // 1. update p.history to show they are admitted
         // 2. Update p.status to show they are admitted waiting on porter.
