@@ -77,7 +77,7 @@ public class AllocateBedToWard extends AppCompatActivity implements AdapterView.
                         startActivity(a);
                         break;
                     case R.id.viewBeds:
-                        Intent b = new Intent(AllocateBedToWard.this, Inventoryofbeds.class);
+                        Intent b = new Intent(AllocateBedToWard.this, InventoryOfBeds.class);
                         startActivity(b);
                         break;
                 }

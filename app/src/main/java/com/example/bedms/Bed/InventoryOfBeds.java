@@ -33,7 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventoryofbeds extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
+public class InventoryOfBeds extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
 
     private static final String TAG = "actMain";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -94,11 +94,11 @@ public class Inventoryofbeds extends AppCompatActivity implements AdapterView.On
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.manageBeds:
-                        Intent a = new Intent(Inventoryofbeds.this, Managebeds.class);
+                        Intent a = new Intent(InventoryOfBeds.this, Managebeds.class);
                         startActivity(a);
                         break;
                     case R.id.allocateBeds:
-                        Intent b = new Intent(Inventoryofbeds.this, AllocateBedToWard.class);
+                        Intent b = new Intent(InventoryOfBeds.this, AllocateBedToWard.class);
                         startActivity(b);
                         break;
                 }
@@ -119,7 +119,7 @@ public class Inventoryofbeds extends AppCompatActivity implements AdapterView.On
                 //  rcvViewBeds.setAdapter(adapter);
 
                 //   retrieveAllBedsFromDb(wardName);
-                Toast.makeText(Inventoryofbeds.this, "Viewing beds", Toast.LENGTH_LONG).show();
+                Toast.makeText(InventoryOfBeds.this, "Viewing beds", Toast.LENGTH_LONG).show();
 //          }
         });
 
@@ -246,7 +246,7 @@ public List<String> getwards() {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(Inventoryofbeds.this, AdminHub.class);
+                Intent i = new Intent(InventoryOfBeds.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:

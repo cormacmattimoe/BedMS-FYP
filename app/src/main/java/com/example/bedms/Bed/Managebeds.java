@@ -99,11 +99,11 @@ public class Managebeds extends AppCompatActivity implements AdapterView.OnItemS
                         startActivity(b);
                         break;
                     case R.id.viewBedsByWard:
-                        Intent c = new Intent(Managebeds.this, Inventoryofbeds.class);
+                        Intent c = new Intent(Managebeds.this, InventoryOfBeds.class);
                         startActivity(c);
                         break;
                     case R.id.viewBedsInventory:
-                        Intent d = new Intent(Managebeds.this, Inventoryofbedsallocate.class);
+                        Intent d = new Intent(Managebeds.this, InventoryOfBedsAllocate.class);
                         startActivity(d);
                         break;
 

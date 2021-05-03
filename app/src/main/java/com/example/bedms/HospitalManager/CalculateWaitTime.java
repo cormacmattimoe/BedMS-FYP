@@ -362,6 +362,7 @@ public void returnTotalsToScreen(){
                 Intent g = new Intent(CalculateWaitTime.this, CalculateWaitTime.class);
                 startActivity(g);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

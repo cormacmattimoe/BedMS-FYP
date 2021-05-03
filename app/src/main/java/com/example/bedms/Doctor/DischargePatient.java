@@ -55,7 +55,7 @@ public class DischargePatient extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_dischargepatient);
         pName = findViewById(R.id.pNameEd);
         pDOB = findViewById(R.id.edDatePicker);
-        pIllness = findViewById(R.id.illnesEd);
+        pIllness = findViewById(R.id.illnessEd);
         btnDischarge = findViewById(R.id.btnAdmit);
         mAuth = FirebaseAuth.getInstance();
 

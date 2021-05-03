@@ -171,7 +171,7 @@
         app:layout_constraintVertical_bias="0.711" />
 
     <AutoCompleteTextView
-        android:id="@+id/illnesEd"
+        android:id="@+id/illnessEd"
         android:layout_width="151dp"
         android:layout_height="40dp"
         android:ems="10"

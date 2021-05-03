@@ -50,8 +50,8 @@
         <activity android:name=".Doctor.InventoryOfPatientsInBeds" />
         <activity android:name=".Patient.InventoryOfPatientsAdmin" />
         <activity android:name=".Patient.PatientListAdminDetails" />
-        <activity android:name=".Patient.PatientListPorterDetails" />
-        <activity android:name=".Patient.PatientListinBedDetails" />
+        <activity android:name=".Porter.PatientListPorterDetails" />
+        <activity android:name=".Patient.PatientListinBedsDetails" />
         <activity android:name=".Patient.PatientDetailsDoctorScreen" />
         <activity android:name=".Porter.PorterHub" />
         <activity android:name=".CleaningStaff.Cleaningstaffhub" />
@@ -63,8 +63,8 @@
         <activity android:name=".Doctor.DoctorHub" />
         <activity android:name=".Employees.HospitalManager" />
         <activity android:name=".Doctor.AdmitPatient" />
-        <activity android:name=".Bed.Inventoryofbedsallocate" />
-        <activity android:name=".Bed.Inventoryofbeds" />
+        <activity android:name=".Bed.InventoryOfBedsAllocate" />
+        <activity android:name=".Bed.InventoryOfBeds" />
         <activity android:name=".Bed.AllocateBedToWard" />
         <activity android:name=".Bed.Managebeds" />
         <activity android:name=".Auth.Login" />
@@ -77,7 +77,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Auth.Welcorm"/>
+        <activity android:name=".Auth.Welcome"/>
 
         <meta-data
             android:name="preloaded_fonts"

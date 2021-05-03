@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bedms.Patient.PatientListPorterDetails;
+import com.example.bedms.Porter.PatientListPorterDetails;
 import com.example.bedms.R;
 
 import java.util.ArrayList;

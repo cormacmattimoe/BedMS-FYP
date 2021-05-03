@@ -66,7 +66,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_admitpatient);
         pName = findViewById(R.id.pNameEd);
         pDOB = findViewById(R.id.edDatePicker);
-        pIllness = findViewById(R.id.illnesEd);
+        pIllness = findViewById(R.id.illnessEd);
         btnAdmit = findViewById(R.id.btnAdmit);
         spinnyBeds = findViewById(R.id.spinBeds);
         spinWards = findViewById(R.id.spinWards);
@@ -85,7 +85,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, ConditionCache.conditionCache);
         AutoCompleteTextView textView = (AutoCompleteTextView)
-                findViewById(R.id.illnesEd);
+                findViewById(R.id.illnessEd);
         textView.setAdapter(adapter);
 
 
@@ -197,6 +197,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
 
                         UpdatePatientHistory ph = new UpdatePatientHistory();
                         ph.updatePatientHistory(paaId, "Admitted - waiting for porter");
+
 
 
                         UpdatePatientHistory uph = new UpdatePatientHistory();

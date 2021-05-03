@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.bedms.Auth.Welcorm;
+import com.example.bedms.Auth.Welcome;
 
 
 public class SplashScreen extends Activity {
@@ -21,7 +21,7 @@ public class SplashScreen extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(SplashScreen.this, Welcorm.class);
+                Intent intent=new Intent(SplashScreen.this, Welcome.class);
                 startActivity(intent);
                 BedCache.SetupCache();
                 ConditionCache.SetupCache();

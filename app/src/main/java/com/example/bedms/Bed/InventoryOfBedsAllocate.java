@@ -31,7 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class Inventoryofbedsallocate extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class InventoryOfBedsAllocate extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "actMain";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -139,7 +139,7 @@ public class Inventoryofbedsallocate extends AppCompatActivity implements Adapte
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(Inventoryofbedsallocate.this, AdminHub.class);
+                Intent i = new Intent(InventoryOfBedsAllocate.this, AdminHub.class);
                 startActivity(i);
                 return true;
             default:
