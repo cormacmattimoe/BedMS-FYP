@@ -80,51 +80,45 @@ public class Register extends AppCompatActivity {
                 }
 
                 db.collection("employees")
-                .whereEqualTo("Email", email)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
+                        .whereEqualTo("Email", email)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
 
-                            if (task.getResult() == null) {
-                                Toast.makeText(Register.this, "Error ! " + "Sorry you are not registered please contact admin", Toast.LENGTH_SHORT).show();
-                            } else {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                            fAuth.createUserWithEmailAndPassword(email, password)
-                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if (task.isSuccessful()) {
-                                                FirebaseUser fuser = fAuth.getCurrentUser();
-                                                fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Toast.makeText(Register.this, "Please check your emails to verify your account", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
-                                                    }
-                                                });
+                                    if (task.getResult() == null) {
+                                        Toast.makeText(Register.this, "Error ! " + "Sorry you are not registered please contact admin", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            fAuth.createUserWithEmailAndPassword(email, password)
+                                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                                            if (task.isSuccessful()) {
+                                                                FirebaseUser fuser = fAuth.getCurrentUser();
+                                                                Toast.makeText(Register.this, "You are now registered ", Toast.LENGTH_SHORT).show();
 
-                                                db.collection("employees").document(email)
-                                                        .update("Registered", true);
-                                            } else {
-                                                Toast.makeText(Register.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                            }
+
+
+                                                                db.collection("employees").document(email)
+                                                                        .update("Registered", true);
+
+                                                            } else {
+                                                                Toast.makeText(Register.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                            }
+                                                        }
+
+                                                    });
                                         }
-
-                                    });
+                                    }
                                 }
                             }
-                        }
-                    }
-                });
-    }
-});
+                        });
+            }
+        });
 
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {

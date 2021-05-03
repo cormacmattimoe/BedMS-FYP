@@ -97,13 +97,8 @@ public class ManageEmployees extends AppCompatActivity {
                 .set(employee);
               //  String str = mFullName.getText().toString();
                 String str2 = mEmail.getText().toString();
-                Log.i("Send email", "");
+                Toast.makeText(getApplicationContext(), "Employee awaiting registery", Toast.LENGTH_LONG).show();
 
-                Intent sendEmail = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"+ str2)); // enter an email id here
-                sendEmail.putExtra(Intent.EXTRA_SUBJECT, "Approval Message : Register"); //subject of the email
-                sendEmail.putExtra(Intent.EXTRA_TEXT, "Hi, you are now able to Register in app."); //body of the email
-                startActivity(Intent.createChooser(sendEmail, "Choose an email client from..."));
-                return;
             }
 
         });

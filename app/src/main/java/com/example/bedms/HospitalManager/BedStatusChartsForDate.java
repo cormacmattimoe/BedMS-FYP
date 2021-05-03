@@ -304,11 +304,11 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
                     break;
 
                 case 1:
-                    bds.setLabel("Allocated");
+                    bds.setLabel("Occupied");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat2)});
                     break;
                 case 2:
-                    bds.setLabel("Occupied");
+                    bds.setLabel("Allocated");
                     bds.setColors(new int[]{getResources().getColor(R.color.cat3)});
                     break;
                 case 3:

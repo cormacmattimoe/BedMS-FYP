@@ -1,4 +1,4 @@
-package com.example.bedms;
+package com.example.bedms.HospitalManager;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,20 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Admin.AdminHub;
 import com.example.bedms.Model.Bed;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.bedms.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -33,65 +30,56 @@ import static com.example.bedms.Admin.qrcodetesting.QRCodeWidth;
 
 public class CalculateScreenBedDetails extends AppCompatActivity {
     private static final String TAG = "updateobs";
-    TextView tvType, tvPatientId, tvStatus, tvWard;
+    TextView tvBedId, tvBedName, tvPatientId, tvStatus, tvWard;
     ImageView iv;
     BottomNavigationView bottomnav;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     String bedId;
+    String bedIdTrans;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    DocumentSnapshot document;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bed_detailscal);
         setTitle("Bed Details");
-        tvType = findViewById(R.id.tvName);
+        tvBedName = findViewById(R.id.tvBedNamecal);
+        tvBedId = findViewById(R.id.tvBedIdCal);
         tvPatientId = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
         iv = findViewById(R.id.image);
 
         Intent intent = getIntent();
-        String bedIdTrans;
+
         bedIdTrans = intent.getStringExtra("BedId");
-        tvType.setText(bedIdTrans);
-        // showObstructionDetails();
-        Intent i = getIntent();
-        bedId = i.getStringExtra("BedName");
-        tvType.setText(bedIdTrans);
-
-
+        tvBedId.setText(bedIdTrans);
 
 
         db.collection("bed")
-                .whereEqualTo(bedIdTrans, bedId)
+                .document(bedIdTrans)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            Bed tempBed = null;
-                            int counter = 0;
-                            task.getResult();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                bedId = document.getId();
-                                counter = counter + 1;
-                                tvStatus.setText(document.getString("Status"));
-                                tvWard.setText(document.getString("Ward"));
-                                tvPatientId.setText(document.getString("PatientID"));
+                    public void onSuccess(final DocumentSnapshot documentSnapshot) {
+                        Bed tempBed = null;
+                        int counter = 0;
+                        counter = counter + 1;
+                        tvBedName.setText(documentSnapshot.getString("BedName"));
+                        tvStatus.setText(documentSnapshot.getString("Status"));
+                        tvWard.setText(documentSnapshot.getString("Ward"));
+                        tvPatientId.setText(documentSnapshot.getString("PatientID"));
 
-                            Bitmap bitmap = null;
-                            try {
-                                bitmap = textToImageEncode(document.getId());
-                            } catch (WriterException e) {
-                                e.printStackTrace();
-                            }
-                            iv.setImageBitmap(bitmap);
-                            }
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = textToImageEncode(documentSnapshot.getId());
+                        } catch (WriterException e) {
+                            e.printStackTrace();
                         }
+                        iv.setImageBitmap(bitmap);
                     }
                 });
-
     }
 
 

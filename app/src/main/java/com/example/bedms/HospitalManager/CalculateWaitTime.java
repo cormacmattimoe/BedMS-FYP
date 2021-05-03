@@ -14,9 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bedms.Admin.AdminBedDetails;
 import com.example.bedms.BedInfo;
-import com.example.bedms.CalculateScreenBedDetails;
 import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -108,7 +106,15 @@ public class CalculateWaitTime extends AppCompatActivity {
                     v.getContext().startActivity(intent);
                 }
             });
+            tvShortId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    Intent intent = new Intent(v.getContext(), CalculateScreenBedDetails.class);
+                    intent.putExtra("BedId", shortestWaitID);
+                    v.getContext().startActivity(intent);
+                }
+            });
                 statsWanted.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
