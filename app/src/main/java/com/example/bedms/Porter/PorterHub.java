@@ -3,6 +3,7 @@ package com.example.bedms.Porter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -98,6 +99,12 @@ protected void onCreate(Bundle savedInstanceState) {
                                     counter = counter + 1;
                                     papAdapter.notifyItemInserted(patientList.size() - 1);
                                 }
+
+                            if (patientList.size() == 0) {
+                                Toast toast = Toast.makeText(getApplicationContext(), "There is no patients waiting", Toast.LENGTH_LONG);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
+                            }
                             }
 
                          else {

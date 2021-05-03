@@ -56,7 +56,6 @@ public class BedDetailsclean extends AppCompatActivity {
         getBedsForCleaning();
 
 
-        // showObstructionDetails();
         cleanBtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
