@@ -1,6 +1,7 @@
 package com.example.bedms.Patient;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bedms.Doctor.AdmitPatient;
@@ -26,6 +28,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Timer;
 
 public class PatientDetailsDoctorScreen extends AppCompatActivity {
@@ -38,6 +45,7 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +57,10 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
         tvWard = findViewById(R.id.tvWard);
 
         TextView timeWaitingTextView = findViewById(R.id.timeWaitingTextView);
+
+        //Get Current Date
+         Date now = new Date();
+
 
         Intent intent = getIntent();
         final String str, str2, str3;
@@ -85,7 +97,18 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                    if (task.isSuccessful()) {
                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                           timeWaitingTextView.setText(document.getString("dateAndTime"));
+                                           String eventTime = document.getString("dateAndTime");
+                                           try {
+                                               SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                               Date eventTimeAsDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(eventTime);
+                                                long time = now.getTime() - eventTimeAsDate.getTime();
+
+                                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                                               Date elapsedTime = new Date(time);
+                                               timeWaitingTextView.setText(sdf.format(elapsedTime));
+                                           } catch (ParseException e) {
+                                               e.printStackTrace();
+                                           }
                                        }
                                    }
                                }
