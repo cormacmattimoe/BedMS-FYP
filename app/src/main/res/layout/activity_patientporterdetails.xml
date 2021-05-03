@@ -25,7 +25,7 @@
         android:id="@+id/time2"
         android:layout_width="130dp"
         android:layout_height="42dp"
-        android:text="Time Admitted:"
+        android:text="Time Waiting:"
         android:textColor="#000000"
         android:textColorHint="#FFFFFF"
         android:textSize="18sp"
