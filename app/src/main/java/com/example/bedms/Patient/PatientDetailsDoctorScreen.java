@@ -100,12 +100,15 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
                                            String eventTime = document.getString("dateAndTime");
                                            try {
                                                SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                                               Date eventTimeAsDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(eventTime);
+                                               Date eventTimeAsDate = dtf.parse(eventTime);
                                                 long time = now.getTime() - eventTimeAsDate.getTime();
-
-                                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                                               Date elapsedTime = new Date(time);
-                                               timeWaitingTextView.setText(sdf.format(elapsedTime));
+                                                Date elapsedTime = new Date(time);
+                                                if (time > 86400000) {
+                                                    timeWaitingTextView.setText(dtf.format(elapsedTime));
+                                                } else {
+                                                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                                                    timeWaitingTextView.setText(sdf.format(elapsedTime));
+                                                }
                                            } catch (ParseException e) {
                                                e.printStackTrace();
                                            }
