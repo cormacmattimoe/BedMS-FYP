@@ -62,6 +62,7 @@ public class ManageEmployees extends AppCompatActivity {
 
         getRole();
         bottomnav = findViewById(R.id.viewNav);
+        bottomnav.getMenu().setGroupCheckable(0, false, true);
         //bottomnav.setOnNavigationItemSelectedListener(navListener);
         bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

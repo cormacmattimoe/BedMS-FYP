@@ -87,13 +87,14 @@ public class InventoryOfBeds extends AppCompatActivity implements AdapterView.On
         // in content do not change the layout size of the RecyclerView
 
         bottomnav = findViewById(R.id.viewNav);
+        bottomnav.getMenu().setGroupCheckable(0, false, true);
         //bottomnav.setOnNavigationItemSelectedListener(navListener);
         bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.manageBeds:
-                        Intent a = new Intent(InventoryOfBeds.this, Managebeds.class);
+                        Intent a = new Intent(InventoryOfBeds.this, ManageBeds.class);
                         startActivity(a);
                         break;
                     case R.id.allocateBeds:

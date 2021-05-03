@@ -81,6 +81,7 @@ protected void onCreate(Bundle savedInstanceState) {
     retrievePatientsWaiting();
 
     bottomnav = findViewById(R.id.viewNav);
+    bottomnav.getMenu().setGroupCheckable(0, false, true);
     bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {

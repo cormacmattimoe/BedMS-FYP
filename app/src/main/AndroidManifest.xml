@@ -66,7 +66,7 @@
         <activity android:name=".Bed.InventoryOfBedsAllocate" />
         <activity android:name=".Bed.InventoryOfBeds" />
         <activity android:name=".Bed.AllocateBedToWard" />
-        <activity android:name=".Bed.Managebeds" />
+        <activity android:name=".Bed.ManageBeds" />
         <activity android:name=".Auth.Login" />
         <activity android:name=".Employees.ManageEmployees" />
         <activity android:name=".Auth.Register" />

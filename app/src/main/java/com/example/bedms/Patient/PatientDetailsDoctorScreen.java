@@ -86,6 +86,7 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
                                    if (task.isSuccessful()) {
                                        for (QueryDocumentSnapshot document : task.getResult()) {
                                            timeWaitingTextView.setText(document.getString("dateAndTime"));
+
                                        }
                                    }
                                }
