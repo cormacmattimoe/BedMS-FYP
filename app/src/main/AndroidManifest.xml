@@ -58,6 +58,7 @@
         <activity android:name=".Nurse.nursehub" />
         <activity android:name=".Patient.InventoryOfPatients" />
         <activity android:name=".CleaningStaff.BedDetailsclean" />
+        <activity android:name=".CalculateScreenBedDetails" />
         <activity android:name=".bedDetails" />
         <activity android:name=".Employees.InventoryOfEmployees" />
         <activity android:name=".Doctor.DoctorHub" />
