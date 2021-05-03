@@ -19,10 +19,10 @@ public class BedHistoryEventHelper {
                 statusCode = 0;
                 break;
             case "Bed allocated - patient on way":
-                statusCode = 1;
+                statusCode = 2;
                 break;
             case "Patient in bed in ward":
-                statusCode = 2;
+                statusCode = 1;
                 break;
             case "Bed ready for cleaning":
                 statusCode = 3;
