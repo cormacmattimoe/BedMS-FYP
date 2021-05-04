@@ -151,13 +151,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
                 //Have the latest Event for that Day so now we work out the occupancy rate.
                 if (latestEvent!= null){
-                    if (bedId.equals("JOzWQGBlnsB4Ca2RZca6")){
-                        System.out.println("Here");
-                    }
                     int bedStatusCode = BedHistoryEventHelper.getBedStatusFromEvent(latestEvent);
-                if (bedStatusCode == 1){
-                        System.out.println("Here");
-                    }
                     //Change here to calculate occupancy rate.
                     SumTotals(bedStatusCode,GetWardIndex(bed.getBedWard()));
                 }
@@ -411,7 +405,6 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
     @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         int id = item.getItemId();
-        BedCache.ReloadCache();
         switch (id) {
             case R.id.item1:
                 Intent i = new Intent(BedStatusChartsForDate.this, HospitalManagerHub.class);

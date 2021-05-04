@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.bedms.Auth.Login;
+import com.example.bedms.BedCache;
 import com.example.bedms.BedInfo;
 import com.example.bedms.R;
 import com.google.android.material.navigation.NavigationView;
@@ -42,6 +43,7 @@ public class HospitalManagerHub extends AppCompatActivity implements NavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BedCache.ReloadCache();
         setContentView(R.layout.activity_hoshub);
         setTitle("Manager Hub");
 
