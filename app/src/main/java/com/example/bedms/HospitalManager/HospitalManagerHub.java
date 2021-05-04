@@ -2,6 +2,7 @@ package com.example.bedms.HospitalManager;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,15 +11,21 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.bedms.Auth.Login;
+import com.example.bedms.BedInfo;
 import com.example.bedms.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 
 public class HospitalManagerHub extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,10 +57,15 @@ public class HospitalManagerHub extends AppCompatActivity implements NavigationV
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void clickHospitalManager(View view) {
         imgStatsOfToday = findViewById(R.id.statsToday);
-        startActivity(new Intent(HospitalManagerHub.this, StatsAsOfToday.class));
-
+        Intent intent = new Intent(HospitalManagerHub.this, BedStatusChartsForDate.class);
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String today = dtf.format(LocalDateTime.now());
+                intent.putExtra("Date", today+ " " + "23" + ":" + "59" + ":" + "59");
+                intent.putExtra("titleDate", "Today");
+                startActivity(intent);
     }
 
     public void clickDate(View view) {
