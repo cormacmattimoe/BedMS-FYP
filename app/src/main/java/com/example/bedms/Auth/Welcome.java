@@ -19,48 +19,17 @@ public class Welcome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle("Welcome to BMS");
         setContentView(R.layout.welcomescreen);
-      //  mAdmin = findViewById(R.id.admin);
-      //  mPorter = findViewById(R.id.porter);
-        mCleaning = findViewById(R.id.cleaningBtn);
-        mHospitalManager = findViewById(R.id.hosManager);
         mRegister = findViewById(R.id.reg);
         mLogin = findViewById(R.id.loginBtn);
-        /*
-        mAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CreateNewPatient.class));
-            }
-        });
-        */
+
         mHospitalManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), HospitalManagerHub.class));
             }
         });
-                /*
-        mHospitalManager.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), hospitalmanagerhub.class));
-            }
-        });
 
-        mPorter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), PorterHub.class));
-            }
-        });
 
-*/
-        mCleaning.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Cleaningstaffhub.class));
-            }
-        });
 
 
 
