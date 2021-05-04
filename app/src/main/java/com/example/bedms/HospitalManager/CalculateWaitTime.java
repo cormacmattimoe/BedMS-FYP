@@ -123,10 +123,10 @@ public class CalculateWaitTime extends AppCompatActivity {
                         setTitle("Key Stats for...");
                         // set event == the event requested by user
                         switch (statsSelected){
-                            case "Bed - Cleaning" :
+                            case "Waiting time - Cleaning" :
                                 event = "Bed ready for cleaning";
                                 break;
-                            case  "Patient - from time admitted to bed":
+                            case  "Waiting time - from admission to bed":
                                 event = "Bed allocated - patient on way";
                                 break;
                             default:
@@ -217,21 +217,15 @@ public void returnTotalsToScreen(){
     totalNumberOfEventsf = (int) totalNumberOfEvents;
     totalWaitMinsf = (int) totalWaitMins;
     averageWait = (totalWaitMinsf / totalNumberOfEventsf);
-    avWaitHours = (int) averageWait/60;
 
     tvEvents.setText(String.valueOf(totalNumberOfEvents));
-    if(shortestTimeInMins < 60){
-        tvShortest.setText(String.valueOf(shortestTimeInMins));
-        tvShortTxt.setText(mins);
-    }
-    else{
-        tvShortest.setText(String.valueOf(shortestTimeInMins/60));
-        tvShortTxt.setText(hours);
-    }
+    tvShortest.setText(String.valueOf(shortestTimeInMins));
+    tvShortTxt.setText(mins);
+
     tvLongest.setText(String.valueOf(longestTimeInMins/60));
     tvShortId.setText(String.valueOf(shortestWaitID));
     tvlongId.setText(String.valueOf(longestWaitID));
-    tvAverage.setText(String.valueOf(avWaitHours));
+    tvAverage.setText(String.valueOf(averageWait));
 
     arrayOfStats[0] = totalNumberOfEvents;
     arrayOfStats[1] = totalWaitMins;
@@ -277,7 +271,7 @@ public void returnTotalsToScreen(){
                 if (event.equals(history.getString("eventType"))) {
                     timer = true;
                     totalNumberOfEvents = totalNumberOfEvents + 1;
-                    System.out.println("found an event - " + history.getString("eventType") + "  and totanNumberofEvents = " + totalNumberOfEvents);
+                    System.out.println("found an event - " + history.getString("eventType") + "  and totalNumberofEvents = " + totalNumberOfEvents);
 
                     eventDateString = history.getString("dateAndTime");
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

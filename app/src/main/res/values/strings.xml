@@ -45,7 +45,7 @@
     </string-array>
     <string-array name="statsWanted">
         <item> click here for stats wanted ....  </item>
-        <item> Bed - Cleaning </item>
-        <item> Patient - from time admitted to bed </item>
+        <item> Waiting time - Cleaning </item>
+        <item> Waiting time - from admission to bed </item>
     </string-array>
 </resources>
