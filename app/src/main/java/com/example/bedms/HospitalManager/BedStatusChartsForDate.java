@@ -219,6 +219,8 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
     public void buildPieChart(int open,int occupied, int allocated,  int cleaning ) {
         pieChart.getDescription().setEnabled(false);
+        Highlight h = new Highlight(0,0,0); // dataset index for piechart is always 0
+        pieChart.highlightValues(new Highlight[] { h });
         pieChart.setRotationEnabled(true);
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setCenterTextColor(Color.BLACK);
