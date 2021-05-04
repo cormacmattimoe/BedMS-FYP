@@ -139,31 +139,25 @@ public class BedDetailsclean extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
-                                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                                                    String eventTime = document.getString("dateAndTime");
-                                                SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                                                try {
-                                                    eventDateAndTime = dtf.parse(eventTime);
-                                                    System.out.println("This is start time " + ": " + eventDateAndTime);
-                                                } catch (ParseException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                Calendar cal = Calendar.getInstance();
-                                                currentDateAndTime = cal.getTime();
-                                                long difference = currentDateAndTime.getTime() - eventDateAndTime.getTime();
-                                                long minutes = TimeUnit.MILLISECONDS.toMinutes(difference);
-                                                long second = (minutes * 60);
-                                                long minute = (minutes/60 %2);
-                                                hour = (minutes / 60);
+                                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                String eventTime = document.getString("dateAndTime");
+                                                    try {
+                                                        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                        Date eventTimeAsDate = dtf.parse(eventTime);
+                                                        long time = now.getTime() - eventTimeAsDate.getTime();
+                                                        long second = (time / 1000) % 60;
+                                                        long minute = (time / (1000 * 60)) % 60;
+                                                        long hour = (time / (1000 * 60 * 60)) % 24;
+                                                        long day = (time / (1000*60*60*24));
 
-                                                if(minutes > ((24 * 60))){
-                                                    day = (minutes / (24 * 60));
-                                                }
-                                                if (day > 0){
-                                                    tvTime.setText(String.format("%02d day(s) %02d:%02d:%02d",day, hour, minute, second));
-                                                } else if (day == 0){
-                                                    tvTime.setText(String.format("%02d:%02d:%02d", hour, minute, second));
-                                                }
+                                                        if (day > 0){
+                                                            tvTime.setText(String.format("%02d day(s) %02d:%02d:%02d",day, hour, minute, second));
+                                                        } else if (day == 0){
+                                                            tvTime.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                                                        }
+                                                    } catch (ParseException e) {
+                                                        e.printStackTrace();
+                                                    }
                                             }
                                         }
                                     });
