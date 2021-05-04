@@ -232,10 +232,18 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
 
         Log.d(TAG, "addDataSet started");
         ArrayList<PieEntry> yEntrys = new ArrayList<>();
-        yEntrys.add(new PieEntry(open, "Open"));
-        yEntrys.add(new PieEntry(occupied, "Occupied"));
-        yEntrys.add(new PieEntry(allocated, "Allocated"));
-        yEntrys.add(new PieEntry(cleaning, "Cleaning"));
+        if (open != 0){
+            yEntrys.add(new PieEntry(open, "Open"));
+        }
+        if (occupied != 0){
+            yEntrys.add(new PieEntry(occupied, "Occupied"));
+        }
+        if (allocated != 0){
+            yEntrys.add(new PieEntry(allocated, "Allocated"));
+        }
+        if (cleaning != 0){
+            yEntrys.add(new PieEntry(cleaning, "Cleaning"));
+        }
         //Not Yet Created - not showing as it is deducted from total beds for that date.
 
         PieDataSet pieDataSet = new PieDataSet(yEntrys, "");
