@@ -95,6 +95,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
     bAdaptClean = new BedAdapterCleaning(bedList);
     //Add the divider line
+    rcvBedsForCleaning.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     bAdaptClean.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
     rcvBedsForCleaning.setHasFixedSize(true);
 

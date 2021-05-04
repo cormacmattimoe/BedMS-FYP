@@ -80,7 +80,8 @@ public class DischargePatient extends AppCompatActivity implements AdapterView.O
         btnDischarge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.collection("bed")
+
+          /*      db.collection("bed")
                         .whereEqualTo("PatientId", patientId)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -93,15 +94,15 @@ public class DischargePatient extends AppCompatActivity implements AdapterView.O
                                     task.getResult();
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         bedId = document.getId();
-                                        UpdateBedHistory ubh = new UpdateBedHistory();
-                                        db.collection("bed").document(bedId).update("Status", "Bed ready for cleaning"
-                                                ,"Doctor", user);
-                                        ubh.updateBedHistory(bedId, "Bed ready for cleaning");
+                                      //  UpdateBedHistory ubh = new UpdateBedHistory();
+                                      //  db.collection("bed").document(bedId).update("Status", "Patient Discharged"
+                                     //           ,"Doctor", user);
+                                      //  ubh.updateBedHistory(bedId, "Patient Discharged");
                                         startActivity(new Intent(getApplicationContext(), DischargePatient.class));
                                     }
                                 }
                             }
-                        });
+                        });*/
 
                 db.collection("patient")
                         .whereEqualTo("Name", str)

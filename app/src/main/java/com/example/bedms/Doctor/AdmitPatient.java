@@ -239,7 +239,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
                                 bedId = document.getId();
                                 UpdateBedHistory ubh = new UpdateBedHistory();
                                 db.collection("patient").document(paaId).update("Illness",illness);
-                                db.collection("patient").document(paaId).update("Status", "waiting for porter");
+                           //   db.collection("patient").document(paaId).update("Status", "waiting for porter");
                                 db.collection("patient").document(paaId).update("WardName", wardNameSelected);
                                 db.collection("bed").document(bedId).update("PatientID", paaId);
                                 db.collection("bed").document(bedId).update("Status", "Bed allocated - patient on way");
