@@ -24,6 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -87,7 +88,7 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
                             db.collection("patient")
                             .document(patientId)
                             .collection("patientHistory")
-                            .orderBy("dateAndTime")
+                            .orderBy("dateAndTime", Query.Direction.DESCENDING)
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                @Override
@@ -102,7 +103,7 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
                                                         long second = (time / 1000) % 60;
                                                         long minute = (time / (1000 * 60)) % 60;
                                                         long hour = (time / (1000 * 60 * 60)) % 24;
-                                                        long day = (time / ((1000 * 60 * 60)) % 24) % 365;
+                                                        long day = (time / (1000*60*60*24));
 
                                                         if (day > 0){
                                                             timeWaitingTextView.setText(String.format("%02d day(s) %02d:%02d:%02d",day, hour, minute, second));
