@@ -141,11 +141,14 @@ public class CalculateWaitTime extends AppCompatActivity {
                             System.out.println("OnClick: Bed ID = " + allBeds.get(b).getBedId());
                         }
                         totalNumberOfEvents = 0;
+                        totalWaitMins = 0;
+                        differenceInMins = 0;
                         shortestTimeInMins = 50000;
                         longestTimeInMins = 0;
                         shortestWaitID = "";
                         longestWaitID = "";
                         avWaitHours = 0;
+                        averageWait = 0;
                         count = 0;
                         System.out.println("beginning - event = " + event);
                         getBedHistory();
@@ -335,7 +338,7 @@ public void returnTotalsToScreen(){
         System.out.println("At end of Calc Wait Time for Bed ID = " + bedID);
         System.out.println("Total Number of events so far = " + totalNumberOfEvents);
         System.out.println("Current shortest time  =" + shortestTimeInMins);
-        System.out.println("Current shortest time (hrs)  =" + shortestTimeInMins/60);
+        System.out.println("Current shortest time (mins)  =" + shortestTimeInMins);
         System.out.println("Current longest time = " + longestTimeInMins);
         System.out.println("Current longest time (hrs) = " + longestTimeInMins/60);
         System.out.println("Current longest time ID = " + longestWaitID);
