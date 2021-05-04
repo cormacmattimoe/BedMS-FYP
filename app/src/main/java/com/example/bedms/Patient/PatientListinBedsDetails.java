@@ -102,7 +102,7 @@ public class PatientListinBedsDetails extends AppCompatActivity {
                                         bedId = document.getId();
                                         UpdateBedHistory ubh = new UpdateBedHistory();
                                         db.collection("bed").document(bedId).update("Status", "Bed ready for cleaning");
-                                        ubh.updateBedHistory(bedId, "Bed is ready for cleaning");
+                                        ubh.updateBedHistory(bedId, "Bed ready for cleaning");
                                     }
                                 }
                             }
