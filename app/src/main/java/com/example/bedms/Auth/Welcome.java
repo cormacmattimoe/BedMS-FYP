@@ -22,15 +22,6 @@ public class Welcome extends AppCompatActivity {
         mRegister = findViewById(R.id.reg);
         mLogin = findViewById(R.id.loginBtn);
 
-        mHospitalManager.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), HospitalManagerHub.class));
-            }
-        });
-
-
-
 
 
         mRegister.setOnClickListener(new View.OnClickListener() {
