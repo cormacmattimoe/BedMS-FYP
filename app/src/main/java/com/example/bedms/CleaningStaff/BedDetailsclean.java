@@ -23,7 +23,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -125,13 +127,13 @@ public class BedDetailsclean extends AppCompatActivity {
                             db.collection("bed")
                                     .document(bedId)
                                     .collection("bedHistory4")
-                                    .orderBy("dateAndTime")
+                                    .orderBy("dateAndTime", Query.Direction.DESCENDING)
                                     .get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
-                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
                                                     String eventTime = document.getString("dateAndTime");
                                                     try {
                                                         SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -140,11 +142,16 @@ public class BedDetailsclean extends AppCompatActivity {
                                                         long second = (time / 1000) % 60;
                                                         long minute = (time / (1000 * 60)) % 60;
                                                         long hour = (time / (1000 * 60 * 60)) % 24;
-                                                        tvTime.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                                                        long day = (time / ((1000 * 60 * 60)) % 24) % 365;
+
+                                                        if (day > 0){
+                                                            tvTime.setText(String.format("%02d day(s) %02d:%02d:%02d",day, hour, minute, second));
+                                                        } else if (day == 0){
+                                                            tvTime.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                                                        }
                                                     } catch (ParseException e) {
                                                         e.printStackTrace();
                                                     }
-                                                }
                                             }
                                         }
                                     });

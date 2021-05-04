@@ -114,7 +114,13 @@ public class PatientListPorterDetails extends AppCompatActivity {
                                                         long second = (time / 1000) % 60;
                                                         long minute = (time / (1000 * 60)) % 60;
                                                         long hour = (time / (1000 * 60 * 60)) % 24;
-                                                        tvTime.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                                                        long day = (time / ((1000 * 60 * 60)) % 24) % 365;
+
+                                                        if (day > 0){
+                                                            tvTime.setText(String.format("%02d day(s) %02d:%02d:%02d",day, hour, minute, second));
+                                                        } else if (day == 0){
+                                                            tvTime.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                                                        }
                                                     } catch (ParseException e) {
                                                         e.printStackTrace();
                                                     }

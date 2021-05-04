@@ -97,12 +97,18 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
                                            String eventTime = document.getString("dateAndTime");
                                            try {
                                                SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                                               Date eventTimeAsDate = dtf.parse(eventTime);
-                                                long time = now.getTime() - eventTimeAsDate.getTime();
-                                                    long second = (time / 1000) % 60;
-                                                    long minute = (time / (1000 * 60)) % 60;
-                                                    long hour = (time / (1000 * 60 * 60)) % 24;
-                                                    timeWaitingTextView.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                                                        Date eventTimeAsDate = dtf.parse(eventTime);
+                                                        long time = now.getTime() - eventTimeAsDate.getTime();
+                                                        long second = (time / 1000) % 60;
+                                                        long minute = (time / (1000 * 60)) % 60;
+                                                        long hour = (time / (1000 * 60 * 60)) % 24;
+                                                        long day = (time / ((1000 * 60 * 60)) % 24) % 365;
+
+                                                        if (day > 0){
+                                                            timeWaitingTextView.setText(String.format("%02d day(s) %02d:%02d:%02d",day, hour, minute, second));
+                                                        } else if (day == 0){
+                                                            timeWaitingTextView.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                                                        }
 
                                            } catch (ParseException e) {
                                                e.printStackTrace();
