@@ -131,19 +131,24 @@ public class ManageBeds extends AppCompatActivity implements AdapterView.OnItemS
         //Find out how many beds exist for requested bed type
         db.collection("bed").whereEqualTo("BedType", bedType).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    QuerySnapshot querySnapshot = task.getResult();
-                    int count = querySnapshot.size();
-                    System.out.println(count);
-                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+            public void onComplete(@NonNull Task<QuerySnapshot> bedResult) {
+                if (bedResult.isSuccessful()) {
+                    List<String> bedNames = new ArrayList<>();
 
+                    for (QueryDocumentSnapshot bed : bedResult.getResult()) {
+                        String existingBedName = bed.getString("BedName");
+                        bedNames.add(existingBedName);
                     }
-                    System.out.println("Show details of bed" + " this is bed type=" + bedType + "this is bed quan" + bedQuan + " this is bed number" + numberOfNewBeds);
-                    final Map<String, Object> bed = new HashMap<>();
-                    int startingPosition = count;
-                    for (int i = startingPosition; i < numberOfNewBeds + startingPosition; i++) {
-                        String bedName = bedType + i;
+
+                    int counter = 0;
+                    String nextAvailableBedName = bedType+counter;
+                     for (int i = 0; i < numberOfNewBeds; i++) {
+                         while (bedNames.contains(nextAvailableBedName)) {
+                             counter++;
+                             nextAvailableBedName = bedType + counter;
+                         }
+                         final Map<String, Object> bed = new HashMap<>();
+                         final String bedName = nextAvailableBedName;
                         Bed newBed = new Bed();
                         newBed.setBedType(bedType);
                         newBed.setBedStatus("Open");
@@ -154,8 +159,8 @@ public class ManageBeds extends AppCompatActivity implements AdapterView.OnItemS
                         bed.put("Ward", ward);
                         bed.put("PatientID", "");
                         bed.put("BedName", bedName);
-                        System.out.println("This is the bed" + bed);
-                        db.collection("bed")
+                        bedNames.add(bedName);
+                         db.collection("bed")
                             .add(bed)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -186,17 +191,10 @@ public class ManageBeds extends AppCompatActivity implements AdapterView.OnItemS
                                     Log.w(TAG, "Error adding document", e);
                                 }
                                 });
-
-                    }
+                     }
                 }
             }
         });
-
-
-
-
-
-
     }
 
 
