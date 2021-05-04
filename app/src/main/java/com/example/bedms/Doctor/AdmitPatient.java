@@ -67,7 +67,7 @@ public class AdmitPatient extends AppCompatActivity implements AdapterView.OnIte
         pName = findViewById(R.id.pNameEd);
         pDOB = findViewById(R.id.edDatePicker);
         pIllness = findViewById(R.id.illnessEd);
-        btnAdmit = findViewById(R.id.btnAdmit);
+        btnAdmit = findViewById(R.id.btnDischarge);
         spinnyBeds = findViewById(R.id.spinBeds);
         spinWards = findViewById(R.id.spinWards);
         spinnyBeds.setOnItemSelectedListener(this);

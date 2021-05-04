@@ -158,7 +158,7 @@
         app:layout_constraintVertical_bias="0.252" />
 
     <Button
-        android:id="@+id/btnAdmit"
+        android:id="@+id/btnDischarge"
         android:layout_width="160dp"
         android:layout_height="45dp"
         android:background="@drawable/rounded_button"

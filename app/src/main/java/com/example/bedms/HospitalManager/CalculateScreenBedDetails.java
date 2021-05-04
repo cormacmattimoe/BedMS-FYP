@@ -97,7 +97,7 @@ public class CalculateScreenBedDetails extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(CalculateScreenBedDetails.this, AdminHub.class);
+                Intent i = new Intent(CalculateScreenBedDetails.this, CalculateWaitTime.class);
                 startActivity(i);
                 return true;
             default:

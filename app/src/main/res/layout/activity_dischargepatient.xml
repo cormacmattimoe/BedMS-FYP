@@ -11,6 +11,7 @@
         android:layout_width="157dp"
         android:layout_height="25dp"
         android:text="DOB"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
@@ -23,6 +24,7 @@
         android:layout_width="130dp"
         android:layout_height="26dp"
         android:hint="Patient DOB"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.743"
@@ -37,6 +39,7 @@
         android:gravity="center_horizontal"
         android:text="Discharge Patient"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,6 +53,7 @@
         android:layout_width="157dp"
         android:layout_height="25dp"
         android:text="Name"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
@@ -62,6 +66,7 @@
         android:layout_width="130dp"
         android:layout_height="26dp"
         android:hint="Patient Name"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.743"
@@ -70,7 +75,7 @@
         app:layout_constraintVertical_bias="0.252" />
 
     <Button
-        android:id="@+id/btnAdmit"
+        android:id="@+id/btnDischarge"
         android:layout_width="160dp"
         android:layout_height="45dp"
         android:background="@drawable/rounded_button"

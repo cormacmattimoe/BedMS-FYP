@@ -44,6 +44,7 @@ public class BedDetailsclean extends AppCompatActivity {
     TextView tvTime;
     //Get Current Date
     Date now = new Date();
+    String bedName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +53,10 @@ public class BedDetailsclean extends AppCompatActivity {
         setTitle("Bed Details");
 
         Intent intent = getIntent();
-        String bedName;
         bedName = intent.getStringExtra("Name");
 
 
-        tvName = findViewById(R.id.tvName);
+        tvName = findViewById(R.id.tvBedIdCal);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
         cleanBtn = findViewById(R.id.cleanBtn);
@@ -107,7 +107,7 @@ public class BedDetailsclean extends AppCompatActivity {
 
     public void getBedsForCleaning() {
         db.collection("bed")
-                .whereEqualTo("Status", "waiting for cleaning")
+                .whereEqualTo("Status", "Bed ready for cleaning")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

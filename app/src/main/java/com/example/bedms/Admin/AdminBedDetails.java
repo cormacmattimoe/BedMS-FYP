@@ -44,7 +44,7 @@ public class AdminBedDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bed_details);
         setTitle("Bed Details");
-        tvType = findViewById(R.id.tvName);
+        tvType = findViewById(R.id.tvBedIdCal);
         tvPatientId = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);

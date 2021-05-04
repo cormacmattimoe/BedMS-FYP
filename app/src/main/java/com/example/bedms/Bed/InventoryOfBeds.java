@@ -97,10 +97,6 @@ public class InventoryOfBeds extends AppCompatActivity implements AdapterView.On
                         Intent a = new Intent(InventoryOfBeds.this, ManageBeds.class);
                         startActivity(a);
                         break;
-                    case R.id.allocateBeds:
-                        Intent b = new Intent(InventoryOfBeds.this, AllocateBedToWard.class);
-                        startActivity(b);
-                        break;
                 }
                 return false;
             }

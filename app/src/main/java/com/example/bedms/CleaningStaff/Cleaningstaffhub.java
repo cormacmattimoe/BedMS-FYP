@@ -86,7 +86,7 @@ protected void onCreate(Bundle savedInstanceState) {
         }
     });
 
-    rcvBedsForCleaning = findViewById(R.id.rcvPatientsDoctorScreen);
+    rcvBedsForCleaning = findViewById(R.id.rcvCleaning);
 
 
     LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -109,7 +109,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
     public ArrayList<Bed> retrieveBedsForCleaning(){
         db.collection("bed")
-                .whereEqualTo("Status", "waiting for cleaning")
+                .whereEqualTo("Status", "Bed ready for cleaning")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)

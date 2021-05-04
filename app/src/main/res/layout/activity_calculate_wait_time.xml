@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/orangeo"
-    tools:context=".CalculateWaitTimeaa">
+    tools:context=".CalculateWaitTime">
 
 
     <Spinner
@@ -17,7 +17,7 @@
         android:entries="@array/statsWanted"
         android:popupBackground="#C2CBD5"
         android:spinnerMode="dropdown"
-        android:textColor="@color/black"
+        android:textColor="#FFFFFF"
         android:textColorHint="#D3BEBE" />
 
 
@@ -71,7 +71,7 @@
 
         app:layout_constraintTop_toBottomOf="@id/tvEvents"
         app:layout_constraintLeft_toRightOf="@id/textView34"
-    />
+        />
     <TextView
         android:id="@+id/textView23"
         android:layout_width="200dp"

@@ -61,7 +61,7 @@ protected void onCreate(Bundle savedInstanceState) {
     String str;
     str = intent.getStringExtra("Welcome");
     title.setText(str);
-    rcvPatients = findViewById(R.id.rcvPatientsDoctorScreen);
+    rcvPatients = findViewById(R.id.rcvCleaning);
 
 
     LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);

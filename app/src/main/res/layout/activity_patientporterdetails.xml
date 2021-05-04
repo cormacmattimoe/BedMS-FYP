@@ -96,8 +96,8 @@
 
     <Button
         android:id="@+id/deliveredBtn"
-        android:layout_width="184dp"
-        android:layout_height="73dp"
+        android:layout_width="252dp"
+        android:layout_height="76dp"
         android:background="@drawable/rounded_button"
         android:text="Mark patient as delivered to bed"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -108,7 +108,7 @@
         app:layout_constraintVertical_bias="0.93" />
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvBedIdCal"
         android:layout_width="198dp"
         android:layout_height="42dp"
         android:textColor="#000000"

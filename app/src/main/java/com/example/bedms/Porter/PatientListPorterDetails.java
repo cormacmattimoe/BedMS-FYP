@@ -55,7 +55,7 @@ public class PatientListPorterDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patientporterdetails);
         setTitle("Patient Details");
-        tvName = findViewById(R.id.tvName);
+        tvName = findViewById(R.id.tvBedIdCal);
         tvDob = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWardPlace);

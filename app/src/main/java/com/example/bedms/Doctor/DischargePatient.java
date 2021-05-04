@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -48,6 +49,8 @@ public class DischargePatient extends AppCompatActivity implements AdapterView.O
     ArrayAdapter<String> bAdapter;
     ArrayList<String> bedList = new ArrayList<>();
 
+    FirebaseUser user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +59,12 @@ public class DischargePatient extends AppCompatActivity implements AdapterView.O
         pName = findViewById(R.id.pNameEd);
         pDOB = findViewById(R.id.edDatePicker);
         pIllness = findViewById(R.id.illnessEd);
-        btnDischarge = findViewById(R.id.btnAdmit);
+        btnDischarge = findViewById(R.id.btnDischarge);
         mAuth = FirebaseAuth.getInstance();
+
+        //get current user
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        user.getEmail().toString();
 
 
         Intent intent = getIntent();
@@ -87,7 +94,8 @@ public class DischargePatient extends AppCompatActivity implements AdapterView.O
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         bedId = document.getId();
                                         UpdateBedHistory ubh = new UpdateBedHistory();
-                                        db.collection("bed").document(bedId).update("Status", "Bed ready for cleaning");
+                                        db.collection("bed").document(bedId).update("Status", "Bed ready for cleaning"
+                                                ,"Doctor", user);
                                         ubh.updateBedHistory(bedId, "Bed ready for cleaning");
                                         startActivity(new Intent(getApplicationContext(), DischargePatient.class));
                                     }
@@ -111,7 +119,7 @@ public class DischargePatient extends AppCompatActivity implements AdapterView.O
                                         UpdatePatientHistory uph = new UpdatePatientHistory();
                                         db.collection("patient").document(patientId).update("Status", "Discharged");
                                         uph.updatePatientHistory(patientId, "Patient discharged");
-                                        startActivity(new Intent(getApplicationContext(), AdmitPatient.class));
+                                        startActivity(new Intent(getApplicationContext(), DischargePatient.class));
                                     }
                                 }
                             }

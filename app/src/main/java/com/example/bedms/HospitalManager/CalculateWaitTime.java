@@ -73,7 +73,6 @@ public class CalculateWaitTime extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_calculate_wait_time);
-            tvEvents = findViewById(R.id.tvEvents);
 
             tvShortTxt = findViewById(R.id.tvShortTxt);
             tvLongest = findViewById(R.id.tvLong);
@@ -81,6 +80,7 @@ public class CalculateWaitTime extends AppCompatActivity {
             tvlongId = findViewById(R.id.tvLongIdd);
             tvShortId = findViewById(R.id.tvShorttid);
             tvAverage = findViewById(R.id.tvAverage);
+            tvEvents = findViewById(R.id.tvEvents);
 
             statsWanted = findViewById(R.id.statsWanted);
             adapter = new ArrayAdapter<CharSequence>(

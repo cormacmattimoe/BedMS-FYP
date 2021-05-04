@@ -95,10 +95,6 @@ public class ManageBeds extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.allocateBed:
-                        Intent b = new Intent(ManageBeds.this, AllocateBedToWard.class);
-                        startActivity(b);
-                        break;
                     case R.id.viewBedsByWard:
                         Intent c = new Intent(ManageBeds.this, InventoryOfBeds.class);
                         startActivity(c);
@@ -181,7 +177,7 @@ public class ManageBeds extends AppCompatActivity implements AdapterView.OnItemS
 
                                     UpdateBedHistory ubh = new UpdateBedHistory();
                                     ubh.updateBedHistory(bedId, "Added bed",eventDate);
-                                  //  ubh.updateBedHistory(bedId, "Bed allocated to ward", eventDate);
+                                    ubh.updateBedHistory(bedId, "Bed allocated to ward", eventDate);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

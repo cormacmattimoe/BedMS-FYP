@@ -21,7 +21,6 @@ import com.example.bedms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.common.base.Stopwatch;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,10 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Timer;
 
 public class PatientDetailsDoctorScreen extends AppCompatActivity {
     TextView tvName, tvDob, tvStatus, tvWard;
@@ -51,7 +47,7 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patientdetailsdoctorscreen);
         setTitle("Patient Details");
-        tvName = findViewById(R.id.tvName);
+        tvName = findViewById(R.id.tvBedIdCal);
         tvDob = findViewById(R.id.tvPatientId);
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
@@ -122,6 +118,7 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
                     }
                 });
         bottomnav = findViewById(R.id.viewNav);
+        bottomnav.getMenu().setGroupCheckable(0, false, true);
         bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

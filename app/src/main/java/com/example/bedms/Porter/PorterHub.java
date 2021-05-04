@@ -56,7 +56,7 @@ protected void onCreate(Bundle savedInstanceState) {
     user = FirebaseAuth.getInstance().getCurrentUser();
     user.getEmail().toString();
 
-    rcvPatientsWaiting = findViewById(R.id.rcvPatientsDoctorScreen);
+    rcvPatientsWaiting = findViewById(R.id.rcvCleaning);
 
 
     LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);

@@ -48,7 +48,7 @@ public class InventoryOfPatientsInBeds extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setTitle("Doctors Home");
 
-        rcvPatients = findViewById(R.id.rcvPatientsDoctorScreen);
+        rcvPatients = findViewById(R.id.rcvCleaning);
 
 
 

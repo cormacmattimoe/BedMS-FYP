@@ -1,5 +1,6 @@
 package com.example.bedms.Model;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bedms.Admin.AdminBedDetails;
 import com.example.bedms.R;
 
 import java.util.ArrayList;
@@ -77,6 +79,15 @@ public class BedAdapterCleaning extends RecyclerView.Adapter<BedAdapterCleaning.
         holder.tvViewName.setText(name);
         holder.tvViewWard.setText(ward);
         holder.tvViewStatus.setText(status);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), AdminBedDetails.class);
+                intent.putExtra("Name", name);
+                view.getContext().startActivity(intent); //start activity from another activity, here we are in MyAdapter class,
+                // need to call start from the activity within that viewholder
+            }
+        });
 
     }
 
