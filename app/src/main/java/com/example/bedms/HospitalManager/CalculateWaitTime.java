@@ -303,7 +303,8 @@ public void returnTotalsToScreen(){
                         System.out.println("For loop: changing shortest for Bed ID = " + bedID);
                         shortestTimeInMins = differenceInMins;
                         shortestWaitID = bedID;
-                    } else if (differenceInMins > longestTimeInMins) {
+                    }
+                    if (differenceInMins > longestTimeInMins) {
                         System.out.println("For loop: changing longest for Bed ID = " + bedID);
                         longestTimeInMins = differenceInMins;
                         longestWaitID = bedID;
@@ -328,7 +329,8 @@ public void returnTotalsToScreen(){
                     System.out.println("If timer: changing shortest for Bed ID = " + bedID);
                     shortestTimeInMins = differenceInMins;
                     shortestWaitID = bedID;
-                } else if (differenceInMins > longestTimeInMins) {
+                }
+                if (differenceInMins > longestTimeInMins) {
                     System.out.println("If Timer: changing longest for Bed ID = " + bedID);
                     longestTimeInMins = differenceInMins;
                     longestWaitID = bedID;
