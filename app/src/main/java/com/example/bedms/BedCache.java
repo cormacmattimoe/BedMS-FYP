@@ -25,6 +25,12 @@ public class BedCache {
         return bedCache;
     }
 
+    public static void ReloadCache(){
+        bedCache = new Hashtable<>();
+        loadBeds();
+    }
+
+
     private static void loadBeds(){
         //Load in all beds
         db.collection("bed")

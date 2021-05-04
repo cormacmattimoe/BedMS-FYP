@@ -411,6 +411,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
     @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         int id = item.getItemId();
+        BedCache.ReloadCache();
         switch (id) {
             case R.id.item1:
                 Intent i = new Intent(BedStatusChartsForDate.this, HospitalManagerHub.class);
