@@ -33,7 +33,7 @@ import java.util.Date;
 
 public class BedDetailsclean extends AppCompatActivity {
     private static final String TAG = "updateobs";
-    TextView tvName, tvPatientId, tvStatus, tvWard;
+    TextView tvName, tvPatientId, tvStatus, tvWard, tvTime;
     BottomNavigationView bottomnav;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     Button cleanBtn;
@@ -41,7 +41,6 @@ public class BedDetailsclean extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String str, str2, str3;
     FirebaseUser user;
-    TextView tvTime;
     //Get Current Date
     Date now = new Date();
     String bedName;
@@ -60,7 +59,7 @@ public class BedDetailsclean extends AppCompatActivity {
         tvStatus = findViewById(R.id.tvStatus);
         tvWard = findViewById(R.id.tvWard);
         cleanBtn = findViewById(R.id.cleanBtn);
-        tvTime = findViewById(R.id.timeWaitingTextView);
+        tvTime = findViewById(R.id.tvTime);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         getBedsForCleaning();
@@ -90,7 +89,7 @@ public class BedDetailsclean extends AppCompatActivity {
                 db.collection("bed").document(bedId).update("PatientID", "");
                 db.collection("bed").document(bedId).update("Status", "Bed Cleaned ready for next patient");
                 db.collection("bed").document(bedId).update("Status", "Open");
-                db.collection("bed").document(bedId).update("CleanedBy: ",user);
+//                db.collection("bed").document(bedId).update("CleanedBy: ",user);
 
                 UpdateBedHistory ubh = new UpdateBedHistory();
                 ubh.updateBedHistory(bedId, "Bed is cleaned and ready for next patient");
@@ -107,7 +106,7 @@ public class BedDetailsclean extends AppCompatActivity {
 
     public void getBedsForCleaning() {
         db.collection("bed")
-                .whereEqualTo("Status", "Bed ready for cleaning")
+                .whereEqualTo("BedName" , bedName)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -123,7 +122,6 @@ public class BedDetailsclean extends AppCompatActivity {
                                 tvStatus.setText(document.getString("Status"));
                                 tvWard.setText(document.getString("Ward"));
                             }
-
                             db.collection("bed")
                                     .document(bedId)
                                     .collection("bedHistory4")
@@ -163,7 +161,7 @@ public class BedDetailsclean extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.adminhospital_menu, menu);
         return true;
     }
 
@@ -173,7 +171,7 @@ public class BedDetailsclean extends AppCompatActivity {
         switch (id) {
             case R.id.item1:
                 Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(BedDetailsclean.this, AdminHub.class);
+                Intent i = new Intent(BedDetailsclean.this, Cleaningstaffhub.class);
                 startActivity(i);
                 return true;
             default:

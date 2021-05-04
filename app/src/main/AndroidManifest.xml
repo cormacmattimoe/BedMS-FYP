@@ -46,6 +46,7 @@
         <activity android:name=".HospitalManager.BedStatusChartsForDate" />
         <activity android:name=".HospitalManager.CalculateWaitTime" />
         <activity android:name=".HospitalManager.HospitalManagerHub" />
+        <activity android:name=".Admin.AdminBedDetails" />
         <activity android:name=".Doctor.DischargePatient" />
         <activity android:name=".Doctor.InventoryOfPatientsInBeds" />
         <activity android:name=".Patient.InventoryOfPatientsAdmin" />
