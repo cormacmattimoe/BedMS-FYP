@@ -39,6 +39,7 @@ public class CalculateWaitTime extends AppCompatActivity {
      int totalNumberOfEvents = 0;
      TextView tvEvents, tvMins, tvShortest, tvLongest, tvlongId, tvShortId, tvAverage, tvShortTxt;
      int totalWaitMins = 0;
+     int averageWaitInt = 0;
      String longestWaitID;
      String shortestWaitID;
      float averageWait = 0;
@@ -221,6 +222,8 @@ public void returnTotalsToScreen(){
     totalWaitMinsf = (int) totalWaitMins;
     averageWait = (totalWaitMinsf / totalNumberOfEventsf);
 
+    averageWaitInt = (int) averageWait;
+
     tvEvents.setText(String.valueOf(totalNumberOfEvents));
     tvShortest.setText(String.valueOf(shortestTimeInMins));
     tvShortTxt.setText(mins);
@@ -228,7 +231,7 @@ public void returnTotalsToScreen(){
     tvLongest.setText(String.valueOf(longestTimeInMins/60));
     tvShortId.setText(String.valueOf(shortestWaitID));
     tvlongId.setText(String.valueOf(longestWaitID));
-    tvAverage.setText(String.valueOf(averageWait));
+    tvAverage.setText(String.valueOf(averageWaitInt));
 
     arrayOfStats[0] = totalNumberOfEvents;
     arrayOfStats[1] = totalWaitMins;

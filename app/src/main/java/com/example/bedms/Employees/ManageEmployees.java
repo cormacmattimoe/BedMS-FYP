@@ -98,6 +98,7 @@ public class ManageEmployees extends AppCompatActivity {
               //  String str = mFullName.getText().toString();
                 String str2 = mEmail.getText().toString();
                 Toast.makeText(getApplicationContext(), "Employee awaiting registery", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(), ManageEmployees.class));
 
             }
 

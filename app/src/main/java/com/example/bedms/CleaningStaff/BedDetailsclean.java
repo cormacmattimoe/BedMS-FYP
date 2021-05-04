@@ -31,7 +31,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class BedDetailsclean extends AppCompatActivity {
     private static final String TAG = "updateobs";
@@ -46,6 +48,10 @@ public class BedDetailsclean extends AppCompatActivity {
     //Get Current Date
     Date now = new Date();
     String bedName;
+    long day;
+    long hour;
+    Date eventDateAndTime;
+    Date currentDateAndTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,23 +141,29 @@ public class BedDetailsclean extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                     DocumentSnapshot document = task.getResult().getDocuments().get(0);
                                                     String eventTime = document.getString("dateAndTime");
-                                                    try {
-                                                        SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                                                        Date eventTimeAsDate = dtf.parse(eventTime);
-                                                        long time = now.getTime() - eventTimeAsDate.getTime();
-                                                        long second = (time / 1000) % 60;
-                                                        long minute = (time / (1000 * 60)) % 60;
-                                                        long hour = (time / (1000 * 60 * 60)) % 24;
-                                                        long day = (time / ((1000 * 60 * 60)) % 24) % 365;
+                                                SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                                try {
+                                                    eventDateAndTime = dtf.parse(eventTime);
+                                                    System.out.println("This is start time " + ": " + eventDateAndTime);
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                Calendar cal = Calendar.getInstance();
+                                                currentDateAndTime = cal.getTime();
+                                                long difference = currentDateAndTime.getTime() - eventDateAndTime.getTime();
+                                                long minutes = TimeUnit.MILLISECONDS.toMinutes(difference);
+                                                long second = (minutes * 60);
+                                                long minute = (minutes/60 %2);
+                                                hour = (minutes / 60);
 
-                                                        if (day > 0){
-                                                            tvTime.setText(String.format("%02d day(s) %02d:%02d:%02d",day, hour, minute, second));
-                                                        } else if (day == 0){
-                                                            tvTime.setText(String.format("%02d:%02d:%02d", hour, minute, second));
-                                                        }
-                                                    } catch (ParseException e) {
-                                                        e.printStackTrace();
-                                                    }
+                                                if(minutes > ((24 * 60))){
+                                                    day = (minutes / (24 * 60));
+                                                }
+                                                if (day > 0){
+                                                    tvTime.setText(String.format("%02d day(s) %02d:%02d:%02d",day, hour, minute, second));
+                                                } else if (day == 0){
+                                                    tvTime.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                                                }
                                             }
                                         }
                                     });
