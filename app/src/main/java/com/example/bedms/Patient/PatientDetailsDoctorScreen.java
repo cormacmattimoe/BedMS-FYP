@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class PatientDetailsDoctorScreen extends AppCompatActivity {
@@ -98,13 +99,11 @@ public class PatientDetailsDoctorScreen extends AppCompatActivity {
                                                SimpleDateFormat dtf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                                Date eventTimeAsDate = dtf.parse(eventTime);
                                                 long time = now.getTime() - eventTimeAsDate.getTime();
-                                                Date elapsedTime = new Date(time);
-                                                if (time > 86400000) {
-                                                    timeWaitingTextView.setText(dtf.format(elapsedTime));
-                                                } else {
-                                                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                                                    timeWaitingTextView.setText(sdf.format(elapsedTime));
-                                                }
+                                                    long second = (time / 1000) % 60;
+                                                    long minute = (time / (1000 * 60)) % 60;
+                                                    long hour = (time / (1000 * 60 * 60)) % 24;
+                                                    timeWaitingTextView.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+
                                            } catch (ParseException e) {
                                                e.printStackTrace();
                                            }
