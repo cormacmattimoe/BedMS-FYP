@@ -78,46 +78,7 @@ public class AdminHub extends AppCompatActivity {
         AutoCompleteTextView textView = (AutoCompleteTextView)
                 findViewById(R.id.pIllnessEd);
         textView.setAdapter(adapter);
-        /*
-        et_date1 = (TextView) findViewById(R.id.et_date1);
 
-        et_date1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                Date date;
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(
-                        CreateNewPatient.this,
-                        android.R.style.Theme_DeviceDefault_Light_Dialog,
-                        mDateSetListner1,
-                        year, month, day);
-                dialog.show();
-            }
-        });
-        mDateSetListner1 = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month + 1;
-                String dob = dayOfMonth + "/" + month + "/" + year;
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/yyyy");
-                Date tmpDate = null;
-                try {
-                    tmpDate = simpleDateFormat.parse(dob);
-                    SimpleDateFormat simpleDateFormatNew = new SimpleDateFormat("dd/MM/yyyy");
-                    String finalDate = simpleDateFormatNew.format(tmpDate);
-                    et_date1.setText(finalDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                //et_date1.setText(dob);
-
-            }
-        };
-
-         */
 
         bottomnav = findViewById(R.id.viewNav);
         //bottomnav.setOnNavigationItemSelectedListener(navListener);
