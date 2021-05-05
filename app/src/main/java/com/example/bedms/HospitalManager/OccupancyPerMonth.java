@@ -292,7 +292,7 @@ public class OccupancyPerMonth extends AppCompatActivity implements
         chart.getAxisLeft().setAxisMaximum(100);
         chart.getAxisRight().setAxisMinimum(0);
         chart.getAxisRight().setAxisMaximum(100);
-        chart.getXAxis().setAxisMinimum(0);
+        chart.getXAxis().setAxisMinimum(1);
         chart.getXAxis().setAxisMaximum(numberOfDays);
 
         chart.setData(dataLine);
