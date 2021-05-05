@@ -74,7 +74,6 @@ public class CalculateWaitTime extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_calculate_wait_time);
-
             tvShortTxt = findViewById(R.id.tvShortTxt);
             tvLongest = findViewById(R.id.tvLong);
             tvShortest = findViewById(R.id.tvShort);
@@ -82,6 +81,8 @@ public class CalculateWaitTime extends AppCompatActivity {
             tvShortId = findViewById(R.id.tvShorttid);
             tvAverage = findViewById(R.id.tvAverage);
             tvEvents = findViewById(R.id.tvEvents);
+            ClearStats();
+
 
             statsWanted = findViewById(R.id.statsWanted);
             adapter = new ArrayAdapter<CharSequence>(
@@ -162,6 +163,16 @@ public class CalculateWaitTime extends AppCompatActivity {
                 });
 
             }
+
+    private void ClearStats() {
+            tvShortTxt.setText("");
+            tvLongest.setText("");
+            tvShortest.setText("");
+            tvlongId.setText("");
+            tvShortId.setText("");
+            tvAverage.setText("");
+            tvEvents.setText("");
+    }
 
 
     public void getAllBeds(){
