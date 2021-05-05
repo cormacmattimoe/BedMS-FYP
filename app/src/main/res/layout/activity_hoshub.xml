@@ -178,7 +178,7 @@
                             android:layout_width="67dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="Stats"
+                            android:text="Waiting Times"
                             android:textAlignment="center"
                             android:textSize="13sp"
                             android:textStyle="bold" />
@@ -217,7 +217,7 @@
                             android:layout_width="117dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="Occupancy rate"
+                            android:text="Occupancy By Month"
                             android:textAlignment="center"
                             android:textSize="13sp"
                             android:textStyle="bold" />
