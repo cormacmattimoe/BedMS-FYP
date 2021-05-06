@@ -67,7 +67,7 @@ public class BedStatusChartsForDate extends AppCompatActivity  {
     ArrayList<BedInfo> allBedsWithoutStatus = new ArrayList<BedInfo>();
     ArrayList<BedInfo> allBedsWithStatus = new ArrayList<BedInfo>();
     String bedIdString;
-    String wardIdString;
+    //String wardIdString;
     String wardId;
     int statusCode;
     BedInfo bedDetails =  new BedInfo();
